@@ -8,9 +8,9 @@ namespace JTO_Models
 {
     public class User
     {
-        public string UserName { get; set; }
         public string Password { get; set; }
         public string? Role { get; set; }
+        public string UserName { get; set; }
 
         public User(string UserName, string Password)
         {
@@ -18,6 +18,9 @@ namespace JTO_Models
             this.Password = Password;
             this.Role = null;
         }
+
+        public User()
+        { }
 
         public override string ToString()
         {

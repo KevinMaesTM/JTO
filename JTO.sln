@@ -5,7 +5,9 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JTO_WPF", "JTO_WPF\JTO_WPF.csproj", "{D6110F6F-B706-48B5-833E-01CC53560ECA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JTO_Models", "JTO_Models\JTO_Models.csproj", "{54F3DE29-2C7C-467D-8AD1-51F0E75C130A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JTO_Models", "JTO_Models\JTO_Models.csproj", "{54F3DE29-2C7C-467D-8AD1-51F0E75C130A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{FCDA66A8-E2EE-41E4-9F3B-BCCE1567519C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{54F3DE29-2C7C-467D-8AD1-51F0E75C130A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54F3DE29-2C7C-467D-8AD1-51F0E75C130A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54F3DE29-2C7C-467D-8AD1-51F0E75C130A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCDA66A8-E2EE-41E4-9F3B-BCCE1567519C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCDA66A8-E2EE-41E4-9F3B-BCCE1567519C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCDA66A8-E2EE-41E4-9F3B-BCCE1567519C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCDA66A8-E2EE-41E4-9F3B-BCCE1567519C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
