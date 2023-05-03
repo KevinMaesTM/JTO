@@ -20,10 +20,12 @@ namespace JTO_WPF.ViewModels
         public bool ErrorMessageIsShown { get; set; }
         public string? Password { get; set; }
         public string? UserName { get; set; }
-        public ObservableCollection<User> Users { get; set; }
-
+        public User? User { get; set; }
         public LoginViewModel()
         {
+            //This is here solely to speed up first query
+            unit.UserRepo.Retrieve();
+
             ErrorMessageIsShown = false;
         }
 
@@ -66,34 +68,19 @@ namespace JTO_WPF.ViewModels
                 return;
             }
 
+            User = unit.UserRepo.Retrieve().FirstOrDefault(x => x.UserName == UserName);
             string hashedPassword = ComputeSha256Hash(Password);
 
-            Users = new ObservableCollection<User>(unit.UserRepo.Retrieve());
-            User loggedUser = Users.FirstOrDefault(x => x.UserName == UserName);
-            if (loggedUser != null && loggedUser.Password == hashedPassword)
+            if (User != null && User.Password == hashedPassword)
             {
-                var vm = new DashboardViewModel(loggedUser);
+                var vm = new DashboardViewModel(User);
                 var view = new DashboardView();
                 view.DataContext = vm;
                 view.Show();
                 App.Current.Windows[0].Close();
-
-                //TODO: Implement this
-                //User user = GetUserByUserName(UserName);
-
-                //Voor testing purposes: Admin als SHA256 encrypted password
-                /*User user = new User("Admin", "c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f");
-
-                string hashedPassword = ComputeSha256Hash(Password);
-
-                if (user.Password == hashedPassword) {
-                    var vm = new DashboardViewModel(user);
-                    var view = new DashboardView();
-                    view.DataContext = vm;
-                    view.Show();
-                    App.Current.Windows[0].Close();
-                */
+                return;
             }
+
             ErrorMessageIsShown = true;
             return;
         }
