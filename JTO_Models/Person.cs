@@ -25,7 +25,7 @@ namespace JTO_MODELS
         public bool CourseResponsible { get; set; }
 
         [Required]
-        public DateOnly DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         [Required]
         public string Email { get; set; }

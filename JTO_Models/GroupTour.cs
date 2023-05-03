@@ -13,22 +13,20 @@ namespace JTO_MODELS
     public class GroupTour
     {
         [ForeignKey("AgeCategoryID")]
-        public AgeCategory AgeCategory { get; set; }
+        public AgeCategory? AgeCategory { get; set; }
 
-        [Required]
-        public int AgeCategoryID { get; set; }
+        public int? AgeCategoryID { get; set; }
 
         [Required]
         public decimal Budget { get; set; }
 
         [ForeignKey("DestinationID")]
-        public Destination Destination { get; set; }
+        public Destination? Destination { get; set; }
+
+        public int? DestinationID { get; set; }
 
         [Required]
-        public int DestinationID { get; set; }
-
-        [Required]
-        public DateOnly Enddate { get; set; }
+        public DateTime Enddate { get; set; }
 
         [Key]
         public int GroupTourID { get; set; }
@@ -45,18 +43,16 @@ namespace JTO_MODELS
         public decimal Price { get; set; }
 
         [ForeignKey("ResponsibleID")]
-        public Person Responsible { get; set; }
+        public Person? Responsible { get; set; }
+
+        public int? ResponsibleID { get; set; }
 
         [Required]
-        public int ResponsibleID { get; set; }
-
-        [Required]
-        public DateOnly Startdate { get; set; }
+        public DateTime Startdate { get; set; }
 
         [ForeignKey("ThemeID")]
-        public Theme Theme { get; set; }
+        public Theme? Theme { get; set; }
 
-        [Required]
-        public int ThemeID { get; set; }
+        public int? ThemeID { get; set; }
     }
 }
