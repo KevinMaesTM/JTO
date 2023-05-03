@@ -25,74 +25,146 @@ namespace DAL.Data.UnitOfWork
 
         public IRepository<AgeCategory> AgeCategoryRepo
         {
-            get { return _ageCategoryRepo; }
-            set { _ageCategoryRepo = value; }
+            get
+            {
+                if (_ageCategoryRepo == null)
+                {
+                    _ageCategoryRepo = new Repository<AgeCategory>(Context);
+                }
+                return _ageCategoryRepo;
+            }
         }
 
         public IRepository<Country> CountryRepo
         {
-            get { return _countryRepo; }
-            set { _countryRepo = value; }
+            get
+            {
+                if (_countryRepo == null)
+                {
+                    _countryRepo = new Repository<Country>(Context);
+                }
+                return _countryRepo;
+            }
         }
 
         public IRepository<Course> CourseRepo
         {
-            get { return _courseRepo; }
-            set { _courseRepo = value; }
+            get
+            {
+                if (_courseRepo == null)
+                {
+                    _courseRepo = new Repository<Course>(Context);
+                }
+                return _courseRepo;
+            }
         }
 
         public IRepository<Destination> DestinationRepo
         {
-            get { return _destinationRepo; }
-            set { _destinationRepo = value; }
+            get
+            {
+                if (_destinationRepo == null)
+                {
+                    _destinationRepo = new Repository<Destination>(Context);
+                }
+                return _destinationRepo;
+            }
         }
 
         public IRepository<GroupTour> GroupTourRepo
         {
-            get { return _groupTourRepo; }
-            set { _groupTourRepo = value; }
+            get
+            {
+                if (_groupTourRepo == null)
+                {
+                    _groupTourRepo = new Repository<GroupTour>(Context);
+                }
+                return _groupTourRepo;
+            }
         }
 
         public IRepository<MedicalSheet> MedicalSheetRepo
         {
-            get { return _medicalSheetRepo; }
-            set { _medicalSheetRepo = value; }
+            get
+            {
+                if (_medicalSheetRepo == null)
+                {
+                    _medicalSheetRepo = new Repository<MedicalSheet>(Context);
+                }
+                return _medicalSheetRepo;
+            }
         }
 
         public IRepository<Participant> ParticipantRepo
         {
-            get { return _participantRepo; }
-            set { _participantRepo = value; }
+            get
+            {
+                if (_participantRepo == null)
+                {
+                    _participantRepo = new Repository<Participant>(Context);
+                }
+                return _participantRepo;
+            }
         }
 
         public IRepository<Person> PersonRepo
         {
-            get { return _personRepo; }
-            set { _personRepo = value; }
+            get
+            {
+                if (_personRepo == null)
+                {
+                    _personRepo = new Repository<Person>(Context);
+                }
+                return _personRepo;
+            }
         }
 
         public IRepository<Role> RoleRepo
         {
-            get { return _roleRepo; }
-            set { _roleRepo = value; }
+            get
+            {
+                if (_roleRepo == null)
+                {
+                    _roleRepo = new Repository<Role>(Context);
+                }
+                return _roleRepo;
+            }
         }
 
         public IRepository<Theme> ThemeRepo
         {
-            get { return _themeRepo; }
-            set { _themeRepo = value; }
+            get
+            {
+                if (_themeRepo == null)
+                {
+                    _themeRepo = new Repository<Theme>(Context);
+                }
+                return _themeRepo;
+            }
         }
 
         public IRepository<Training> TrainingRepo
         {
-            get { return _trainingRepo; }
-            set { _trainingRepo = value; }
+            get
+            {
+                if (_trainingRepo == null)
+                {
+                    _trainingRepo = new Repository<Training>(Context);
+                }
+                return _trainingRepo;
+            }
         }
 
         public IRepository<User> UserRepo
         {
-            get { return _userRepo; }
-            set { _userRepo = value; }
+            get
+            {
+                if (_userRepo == null)
+                {
+                    _userRepo = new Repository<User>(Context);
+                }
+                return _userRepo;
+            }
         }
 
         private JTOContext Context { get; }
