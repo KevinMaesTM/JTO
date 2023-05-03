@@ -13,7 +13,7 @@ namespace DAL.Data.UnitOfWork
         IRepository<AgeCategory> AgeCategoryRepo { get; }
         IRepository<Country> CountryRepo { get; }
         IRepository<Course> CourseRepo { get; }
-        IRepository<Destination> DestionationRepo { get; }
+        IRepository<Destination> DestinationRepo { get; }
         IRepository<GroupTour> GroupTourRepo { get; }
         IRepository<MedicalSheet> MedicalSheetRepo { get; }
         IRepository<Participant> ParticipantRepo { get; }
