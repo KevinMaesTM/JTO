@@ -14,18 +14,16 @@ using System.Collections.ObjectModel;
 
 namespace JTO_WPF.ViewModels
 {
-    public class LoginViewModel : BaseViewModel
+    public class RegisterViewModel : BaseViewModel
     {
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
-        public bool ErrorMessageIsShown { get; set; }
-        public string? Password { get; set; }
         public string? UserName { get; set; }
+        public string? Password { get; set; }
+        public string? RepeatPassword { get; set; }
+        public bool ErrorMessageIsShown { get; set; }
         public User? User { get; set; }
-        public LoginViewModel()
+        public RegisterViewModel()
         {
-            //This is here solely to speed up first query
-            unit.UserRepo.Retrieve();
-
             ErrorMessageIsShown = false;
         }
 
@@ -38,45 +36,10 @@ namespace JTO_WPF.ViewModels
         {
             switch (parameter.ToString())
             {
-                case "Login": Login(); break;
-                case "Register": ShowRegistrationView(); break;
+                case "Register": Register(); break;
             }
         }
 
-        private void ShowRegistrationView()
-        {
-            var vm = new RegisterViewModel();
-            var view = new RegisterView();
-            view.DataContext = vm;
-            view.Show();
-            App.Current.Windows[0].Close();
-            return;
-        }
-
-        private void Login()
-        {
-            if (UserName == null || Password == null)
-            {
-                ErrorMessageIsShown = true;
-                return;
-            }
-
-            User = unit.UserRepo.Retrieve().FirstOrDefault(x => x.UserName == UserName);
-            string hashedPassword = ComputeSha256Hash(Password);
-
-            if (User != null && User.Password == hashedPassword)
-            {
-                var vm = new DashboardViewModel(User);
-                var view = new DashboardView();
-                view.DataContext = vm;
-                view.Show();
-                App.Current.Windows[0].Close();
-                return;
-            }
-
-            ErrorMessageIsShown = true;
-            return;
-        }
         private string ComputeSha256Hash(string plainData)
         {
             // Create a SHA256
@@ -93,6 +56,29 @@ namespace JTO_WPF.ViewModels
                 }
                 return builder.ToString();
             }
+        }
+
+        private void Register()
+        {
+            User = unit.UserRepo.Retrieve().FirstOrDefault(x => x.UserName == UserName);
+
+            if (User != null || UserName == null || Password == null || RepeatPassword == null || Password != RepeatPassword)
+            {
+                ErrorMessageIsShown = true;
+                return;
+            }
+
+            string hashedPassword = ComputeSha256Hash(Password);
+            User newUser = new User(UserName, hashedPassword);
+            unit.UserRepo.Create(newUser);
+            unit.Save();
+
+            var vm = new LoginViewModel();
+            var view = new LoginView();
+            view.DataContext = vm;
+            view.Show();
+            App.Current.Windows[0].Close();
+            return;
         }
     }
 }
