@@ -28,7 +28,7 @@ namespace JTO_MODELS
         public int DestinationID { get; set; }
 
         [Required]
-        public DateOnly Enddate { get; set; }
+        public DateTime Enddate { get; set; }
 
         [Key]
         public int GroupTourID { get; set; }
@@ -51,7 +51,7 @@ namespace JTO_MODELS
         public int ResponsibleID { get; set; }
 
         [Required]
-        public DateOnly Startdate { get; set; }
+        public DateTime Startdate { get; set; }
 
         [ForeignKey("ThemeID")]
         public Theme Theme { get; set; }

@@ -18,7 +18,7 @@ namespace JTO_MODELS
         public int CourseID { get; set; }
 
         [Required]
-        public DateOnly Date { get; set; }
+        public DateTime Date { get; set; }
 
         [ForeignKey("PersonID")]
         public Person Person { get; set; }
