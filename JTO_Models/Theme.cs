@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace JTO_MODELS
 {
     [Table("Themes")]
-    public class Theme
+    public partial class Theme
     {
         public ObservableCollection<GroupTour> GroupTours { get; set; }
 

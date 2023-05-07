@@ -1,4 +1,5 @@
 ﻿using JTO_Models;
+using JTO_WPF.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,10 @@ namespace JTO_WPF.ViewModels
         public User User { get; set; }
         public DashboardViewModel(User user) {
             User = user;
-            Content = new Views.GroupTripView();
+            var gtvm = new GroupTourViewModel();
+            var gtview = new GroupTripView();
+            gtview.DataContext = gtvm;
+            Content = gtview;
         }
         public override bool CanExecute(object parameter)
         {

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace JTO_MODELS
 {
     [Table("AgeCategories")]
-    public class AgeCategory
+    public partial class AgeCategory
     {
         [Key]
         public int AgeCategoryID { get; set; }
