@@ -37,7 +37,10 @@ namespace JTO_WPF.ViewModels
 
         private void ShowGroupTrips()
         {
-            Content = new Views.GroupTripView();
+            var gtvm = new GroupTourViewModel();
+            var gtview = new GroupTripView();
+            gtview.DataContext = gtvm;
+            Content = gtview;
         }
 
         private void ShowPersons()
