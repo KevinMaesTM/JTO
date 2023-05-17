@@ -13,13 +13,36 @@ namespace JTO_WPF.ViewModels
     {
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
         public IEnumerable<AgeCategory> AgeCategories { get; set; }
+        public AgeCategory SelectedAgeCategory { get; set; }
         public AgeCategoryViewModel()
         {
             AgeCategories = unit.AgeCategoryRepo.Retrieve();
         }
         public override bool CanExecute(object parameter)
         {
-            return true;
+            switch (parameter.ToString())
+            {
+                case "ShowDetail":
+                    if (SelectedAgeCategory == null)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                case "Delete":
+                    if (SelectedAgeCategory == null)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                default:
+                    return true;
+            }
         }
 
         public override void Execute(object parameter)
