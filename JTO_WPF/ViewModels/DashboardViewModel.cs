@@ -14,13 +14,16 @@ namespace JTO_WPF.ViewModels
     {
         public UserControl Content { get; set; }
         public User User { get; set; }
-        public DashboardViewModel(User user) {
+
+        public DashboardViewModel(User user)
+        {
             User = user;
-            var gtvm = new GroupTourViewModel();
+            var gtvm = new GroupTourViewModel(this);
             var gtview = new GroupTripView();
             gtview.DataContext = gtvm;
             Content = gtview;
         }
+
         public override bool CanExecute(object parameter)
         {
             return true;
@@ -35,18 +38,18 @@ namespace JTO_WPF.ViewModels
             }
         }
 
-        private void ShowGroupTrips()
+        private void ShowAgeCategories()
         {
-            var gtvm = new GroupTourViewModel();
-            var gtview = new GroupTripView();
+            var gtvm = new AgeCategoryViewModel(this);
+            var gtview = new AgeCategoryView();
             gtview.DataContext = gtvm;
             Content = gtview;
         }
 
-        private void ShowAgeCategories()
+        private void ShowGroupTrips()
         {
-            var gtvm = new AgeCategoryViewModel();
-            var gtview = new AgeCategoryView();
+            var gtvm = new GroupTourViewModel(this);
+            var gtview = new GroupTripView();
             gtview.DataContext = gtvm;
             Content = gtview;
         }
