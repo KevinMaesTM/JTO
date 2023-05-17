@@ -31,7 +31,7 @@ namespace JTO_WPF.ViewModels
             switch (parameter.ToString())
             {
                 case "ShowGroupTrips": ShowGroupTrips(); break;
-                case "ShowPersons": ShowPersons(); break;
+                case "ShowAgeCategories": ShowAgeCategories(); break;
             }
         }
 
@@ -43,9 +43,12 @@ namespace JTO_WPF.ViewModels
             Content = gtview;
         }
 
-        private void ShowPersons()
+        private void ShowAgeCategories()
         {
-            Content = new Views.PersonView();
+            var gtvm = new AgeCategoryViewModel();
+            var gtview = new AgeCategoryView();
+            gtview.DataContext = gtvm;
+            Content = gtview;
         }
     }
 }
