@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:JTO_WPF.Views" 
+        xmlns:local="clr-namespace:JTO_WPF.Views"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="Dashboard"
@@ -16,38 +16,37 @@
     <Window.Resources>
         <Storyboard x:Key="OpenMenu">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
-                <EasingDoubleKeyFrame KeyTime="0" Value="70"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="200"/>
+                <EasingDoubleKeyFrame KeyTime="0" Value="70" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="200" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="CloseMenu">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
-                <EasingDoubleKeyFrame KeyTime="0" Value="200"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="70"/>
+                <EasingDoubleKeyFrame KeyTime="0" Value="200" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="70" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Window.Resources>
     <Window.Triggers>
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpenMenu">
-            <BeginStoryboard Storyboard="{StaticResource OpenMenu}"/>
+            <BeginStoryboard Storyboard="{StaticResource OpenMenu}" />
         </EventTrigger>
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu">
-            <BeginStoryboard Storyboard="{StaticResource CloseMenu}"/>
+            <BeginStoryboard Storyboard="{StaticResource CloseMenu}" />
         </EventTrigger>
     </Window.Triggers>
     <materialDesign:Card UniformCornerRadius="5" Background="White" Margin="25">
         <Grid Background="White">
 
             <UserControl x:Name="MainContent" Content="{Binding Content}">
-
             </UserControl>
 
             <Grid Height="60" VerticalAlignment="Top" Background="#FF673AB7">
                 <Grid.Effect>
-                    <DropShadowEffect BlurRadius="1" ShadowDepth="1" Color="#FFACACAC"/>
+                    <DropShadowEffect BlurRadius="1" ShadowDepth="1" Color="#FFACACAC" />
                 </Grid.Effect>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <TextBlock Text="{Binding User}" VerticalAlignment="Center" FontSize="16"/>
+                    <TextBlock Text="{Binding User}" VerticalAlignment="Center" FontSize="16" />
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5">
                         <Button Margin="5,5,0,0" x:Name="btnMinimize" Style="{StaticResource MaterialDesignFlatLightButton}" Click="btnMinimize_Click">
                             <Image Source="../Assets/minimize.png" Height="15" Width="15"></Image>
@@ -61,37 +60,43 @@
             </Grid>
             <Grid x:Name="GridMenu" Width="70" HorizontalAlignment="Left" Background="#FF673AB7">
                 <Grid.Effect>
-                    <DropShadowEffect BlurRadius="2" ShadowDepth="1" Color="#FFAEAEAE"/>
+                    <DropShadowEffect BlurRadius="2" ShadowDepth="1" Color="#FFAEAEAE" />
                 </Grid.Effect>
                 <StackPanel>
                     <Grid Height="60" Background="White" RenderTransformOrigin="0.5,0.5">
                         <Grid.RenderTransform>
                             <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform/>
-                                <TranslateTransform/>
+                                <ScaleTransform />
+                                <SkewTransform />
+                                <RotateTransform />
+                                <TranslateTransform />
                             </TransformGroup>
                         </Grid.RenderTransform>
                         <Button x:Name="ButtonOpenMenu" Height="60" Width="60" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF31577E" Click="ButtonOpenMenu_Click">
-                            <materialDesign:PackIcon Kind="Menu" Width="25" Height="25"/>
+                            <materialDesign:PackIcon Kind="Menu" Width="25" Height="25" />
                         </Button>
                         <Button x:Name="ButtonCloseMenu" Visibility="Collapsed" Height="60" Width="60" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF31577E" Click="ButtonCloseMenu_Click">
-                            <materialDesign:PackIcon Kind="ArrowLeft" Width="25" Height="25"/>
+                            <materialDesign:PackIcon Kind="ArrowLeft" Width="25" Height="25" />
                         </Button>
                     </Grid>
                     <Button Height="60" Command="{Binding}" CommandParameter="ShowGroupTrips" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="ViewDashboard" Height="25" Width="25" Margin="10"/>
-                            <TextBlock Text="Home" VerticalAlignment="Center" Margin="20 10"/>
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="ViewDashboard" Height="25" Width="25" Margin="10" />
+                            <TextBlock Text="Home" VerticalAlignment="Center" Margin="20 10" />
                         </StackPanel>
                     </Button>
                     <Button Height="60" Command="{Binding}" CommandParameter="ShowAgeCategories" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
                         <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="Pencil" Height="25" Width="25" Margin="10"/>
-                        <TextBlock Text="Create" VerticalAlignment="Center" Margin="20 10"/>
-                </StackPanel>
-                </Button>
+                            <materialDesign:PackIcon Kind="Pencil" Height="25" Width="25" Margin="10" />
+                            <TextBlock Text="Create" VerticalAlignment="Center" Margin="20 10" />
+                        </StackPanel>
+                    </Button>
+                    <Button Height="60" Command="{Binding}" CommandParameter="ShowPersons" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Person" Height="25" Width="25" Margin="10" />
+                            <TextBlock Text="Create" VerticalAlignment="Center" Margin="20 10" />
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
             </Grid>
         </Grid>
