@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace JTO_WPF.ViewModels
@@ -17,11 +18,11 @@ namespace JTO_WPF.ViewModels
             remove { CommandManager.RequerySuggested -= value; }
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public abstract bool CanExecute(object parameter);
 
         public abstract void Execute(object parameter);
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChanged([CallerMemberName] string propertyname = "")
         {

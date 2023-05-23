@@ -14,20 +14,26 @@ namespace JTO_WPF.ViewModels
     internal class GroupTourViewModel : BaseViewModel
     {
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
-        public GroupTour SelectedGroupTour { get; set; }
+        public DashboardViewModel DVM { get; set; }
         public IEnumerable<GroupTour> GroupTours { get; set; }
-        public GroupTourViewModel() {
+        public GroupTour SelectedGroupTour { get; set; }
+
+        public GroupTourViewModel(DashboardViewModel dVM)
+        {
+            this.DVM = dVM;
             GroupTours = unit.GroupTourRepo.Retrieve(x => x.AgeCategory, x => x.Theme);
         }
+
         public override bool CanExecute(object parameter)
         {
             switch (parameter.ToString())
             {
                 case "ShowDetail":
-                    if(SelectedGroupTour == null)
+                    if (SelectedGroupTour == null)
                     {
                         return false;
-                    } else
+                    }
+                    else
                     {
                         return true;
                     }
@@ -49,7 +55,6 @@ namespace JTO_WPF.ViewModels
         {
             switch (parameter.ToString())
             {
-                
             }
         }
     }
