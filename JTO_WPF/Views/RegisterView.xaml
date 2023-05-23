@@ -19,14 +19,20 @@
 
     <materialDesign:Card UniformCornerRadius="5" Background="White" Margin="25">
         <StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5">
-                <Button Margin="5,5,0,0" x:Name="btnMinimize" Style="{StaticResource MaterialDesignFlatButton}" Click="btnMinimize_Click">
-                    <Image Source="../Assets/minimize.png" Height="15" Width="15"></Image>
+            <DockPanel>
+                <Button Command="{Binding}" CommandParameter="GoBack" Margin="5">
+                    <materialDesign:PackIcon Kind="ArrowBack"/>
                 </Button>
-                <Button Margin="0,5,5,0" x:Name="btnClose" Style="{StaticResource MaterialDesignFlatButton}" Click="btnClose_Click">
-                    <Image Source="../Assets/close.png" Height="15" Width="15"></Image>
-                </Button>
-            </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5">
+                    <Button Margin="5,5,0,0" x:Name="btnMinimize" Style="{StaticResource MaterialDesignFlatButton}" Click="btnMinimize_Click">
+                        <Image Source="../Assets/minimize.png" Height="15" Width="15"></Image>
+                    </Button>
+                    <Button Margin="0,5,5,0" x:Name="btnClose" Style="{StaticResource MaterialDesignFlatButton}" Click="btnClose_Click">
+                        <Image Source="../Assets/close.png" Height="15" Width="15"></Image>
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+
             <Image Margin="0,-5,0,-5" Source="../Assets/Logo.png" Height="200"></Image>
             <TextBlock Margin="0,-15,0,5" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Text="Registreer je nu!" />
             <TextBox Margin="0,10,0,0" x:Name="txtUsername" Width="300" FontSize="18" materialDesign:HintAssist.Hint="Gebruikersnaam" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}"  Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding UserName}"/>

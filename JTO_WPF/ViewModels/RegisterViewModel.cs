@@ -37,7 +37,41 @@ namespace JTO_WPF.ViewModels
             switch (parameter.ToString())
             {
                 case "Register": Register(); break;
+                case "GoBack": Back(); break;
             }
+        }
+
+        private void Back()
+        {
+            var vm = new LoginViewModel();
+            var view = new LoginView();
+            view.DataContext = vm;
+            view.Show();
+            App.Current.Windows[0].Close();
+            return;
+        }
+
+        private void Register()
+        {
+            User = unit.UserRepo.Retrieve().FirstOrDefault(x => x.UserName == UserName);
+
+            if (User != null || UserName == null || Password == null || RepeatPassword == null || Password != RepeatPassword)
+            {
+                ErrorMessageIsShown = true;
+                return;
+            }
+
+            string hashedPassword = ComputeSha256Hash(Password);
+            User newUser = new User(UserName, hashedPassword);
+            unit.UserRepo.Create(newUser);
+            unit.Save();
+
+            var vm = new DashboardViewModel(newUser);
+            var view = new DashboardView();
+            view.DataContext = vm;
+            view.Show();
+            App.Current.Windows[0].Close();
+            return;
         }
 
         private string ComputeSha256Hash(string plainData)
@@ -56,29 +90,6 @@ namespace JTO_WPF.ViewModels
                 }
                 return builder.ToString();
             }
-        }
-
-        private void Register()
-        {
-            User = unit.UserRepo.Retrieve().FirstOrDefault(x => x.UserName == UserName);
-
-            if (User != null || UserName == null || Password == null || RepeatPassword == null || Password != RepeatPassword)
-            {
-                ErrorMessageIsShown = true;
-                return;
-            }
-
-            string hashedPassword = ComputeSha256Hash(Password);
-            User newUser = new User(UserName, hashedPassword);
-            unit.UserRepo.Create(newUser);
-            unit.Save();
-
-            var vm = new LoginViewModel();
-            var view = new LoginView();
-            view.DataContext = vm;
-            view.Show();
-            App.Current.Windows[0].Close();
-            return;
         }
     }
 }

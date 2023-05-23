@@ -48,13 +48,16 @@
                 </Grid.Effect>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <TextBlock Text="{Binding User}" VerticalAlignment="Center" FontSize="16"/>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5">
-                        <Button Margin="5,5,0,0" x:Name="btnMinimize" Style="{StaticResource MaterialDesignFlatLightButton}" Click="btnMinimize_Click">
-                            <Image Source="../Assets/minimize.png" Height="15" Width="15"></Image>
-                        </Button>
-                        <Button Margin="0,5,5,0" x:Name="btnClose" Style="{StaticResource MaterialDesignFlatLightButton}" Click="btnClose_Click">
-                            <Image Source="../Assets/close.png" Height="15" Width="15"></Image>
-                        </Button>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Margin="5">
+                            <StackPanel Width="150">
+                                <Button Content="Settings"/>
+                                <Button Content="Account"/>
+                                <Button Content="Help"/>
+                                <Separator/>
+                                <Button Content="Logout" Command="{Binding}" CommandParameter="Logout"/>
+                            </StackPanel>
+                        </materialDesign:PopupBox>
                     </StackPanel>
                 </StackPanel>
                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">JTO</TextBlock>
