@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JTO_DAL.Migrations
 {
     [DbContext(typeof(JTOContext))]
-    [Migration("20230503184914_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230524190159_initialCreateAfterModelAdaptations")]
+    partial class initialCreateAfterModelAdaptations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,32 +32,15 @@ namespace JTO_DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AgeCategoryID"), 1L, 1);
 
-                    b.Property<int>("MaxAge")
+                    b.Property<int?>("MaxAge")
                         .HasColumnType("int");
 
-                    b.Property<int>("MinAge")
+                    b.Property<int?>("MinAge")
                         .HasColumnType("int");
 
                     b.HasKey("AgeCategoryID");
 
                     b.ToTable("AgeCategories");
-                });
-
-            modelBuilder.Entity("JTO_MODELS.Country", b =>
-                {
-                    b.Property<int>("CountryID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CountryID"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CountryID");
-
-                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("JTO_MODELS.Course", b =>
@@ -89,8 +72,9 @@ namespace JTO_DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CountryID")
-                        .HasColumnType("int");
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -109,8 +93,6 @@ namespace JTO_DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("DestinationID");
-
-                    b.HasIndex("CountryID");
 
                     b.ToTable("Destinations");
                 });
@@ -167,28 +149,6 @@ namespace JTO_DAL.Migrations
                     b.ToTable("GroupTours");
                 });
 
-            modelBuilder.Entity("JTO_MODELS.MedicalSheet", b =>
-                {
-                    b.Property<int>("MedicalSheetID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MedicalSheetID"), 1L, 1);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PersonID")
-                        .HasColumnType("int");
-
-                    b.HasKey("MedicalSheetID");
-
-                    b.HasIndex("PersonID");
-
-                    b.ToTable("MedicalSheets");
-                });
-
             modelBuilder.Entity("JTO_MODELS.Participant", b =>
                 {
                     b.Property<int>("ParticipantID")
@@ -229,8 +189,9 @@ namespace JTO_DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CountryID")
-                        .HasColumnType("int");
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("CourseResponsible")
                         .HasColumnType("bit");
@@ -278,8 +239,6 @@ namespace JTO_DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PersonID");
-
-                    b.HasIndex("CountryID");
 
                     b.ToTable("Persons");
                 });
@@ -373,17 +332,6 @@ namespace JTO_DAL.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("JTO_MODELS.Destination", b =>
-                {
-                    b.HasOne("JTO_MODELS.Country", "Country")
-                        .WithMany("Destinations")
-                        .HasForeignKey("CountryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Country");
-                });
-
             modelBuilder.Entity("JTO_MODELS.GroupTour", b =>
                 {
                     b.HasOne("JTO_MODELS.AgeCategory", "AgeCategory")
@@ -411,17 +359,6 @@ namespace JTO_DAL.Migrations
                     b.Navigation("Theme");
                 });
 
-            modelBuilder.Entity("JTO_MODELS.MedicalSheet", b =>
-                {
-                    b.HasOne("JTO_MODELS.Person", "Person")
-                        .WithMany()
-                        .HasForeignKey("PersonID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Person");
-                });
-
             modelBuilder.Entity("JTO_MODELS.Participant", b =>
                 {
                     b.HasOne("JTO_MODELS.GroupTour", "GroupTour")
@@ -447,17 +384,6 @@ namespace JTO_DAL.Migrations
                     b.Navigation("Person");
 
                     b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("JTO_MODELS.Person", b =>
-                {
-                    b.HasOne("JTO_MODELS.Country", "Country")
-                        .WithMany("Persons")
-                        .HasForeignKey("CountryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("JTO_MODELS.Training", b =>
@@ -490,13 +416,6 @@ namespace JTO_DAL.Migrations
             modelBuilder.Entity("JTO_MODELS.AgeCategory", b =>
                 {
                     b.Navigation("GroupTours");
-                });
-
-            modelBuilder.Entity("JTO_MODELS.Country", b =>
-                {
-                    b.Navigation("Destinations");
-
-                    b.Navigation("Persons");
                 });
 
             modelBuilder.Entity("JTO_MODELS.Course", b =>
