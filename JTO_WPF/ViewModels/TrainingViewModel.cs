@@ -14,7 +14,6 @@ namespace JTO_WPF.ViewModels
     {
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
         public DashboardViewModel DVM { get; set; }
-        public Trainee Trainer { get; set; }
         public IEnumerable<Training> Trainings { get; set; }
 
         public TrainingViewModel(DashboardViewModel dvm)

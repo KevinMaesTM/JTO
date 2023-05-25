@@ -3,9 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:JTO_WPF.Views"
+             xmlns:local="clr-namespace:JTO_WPF.Views" 
+             xmlns:converters="clr-namespace:JTO_WPF.Converters"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:TraineesCollectionToTrainerConverter x:Key="TraineesCollectionToTrainerConverter" />
+    </UserControl.Resources>
     <Grid x:Name="GridMain" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="585" Width="955">
         <StackPanel>
             <DataGrid Height="500" Margin="5" IsReadOnly="True"
@@ -18,7 +22,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="25*" Binding="{Binding Name}" Header="Naam"></DataGridTextColumn>
                     <DataGridTextColumn Width="25*" Binding="{Binding Date, StringFormat=\{0:dd.MM.yyyy HH:mm\}}" Header="Datum"></DataGridTextColumn>
-                    <DataGridTextColumn Width="25*" Binding="{Binding Trainees}" Header="Trainer"></DataGridTextColumn>
+                    <DataGridTextColumn Width="25*" Binding="{Binding Trainees, Converter={StaticResource TraineesCollectionToTrainerConverter}}" Header="Trainer"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
             <Grid>
