@@ -12,7 +12,6 @@ namespace DAL.Data.UnitOfWork
     {
         private IRepository<AgeCategory> _ageCategoryRepo;
         private IRepository<Country> _countryRepo;
-        private IRepository<Course> _courseRepo;
         private IRepository<Destination> _destinationRepo;
         private IRepository<GroupTour> _groupTourRepo;
         private IRepository<MedicalSheet> _medicalSheetRepo;
@@ -20,6 +19,7 @@ namespace DAL.Data.UnitOfWork
         private IRepository<Person> _personRepo;
         private IRepository<Role> _roleRepo;
         private IRepository<Theme> _themeRepo;
+        private IRepository<Trainee> _traineeRepo;
         private IRepository<Training> _trainingRepo;
         private IRepository<User> _userRepo;
 
@@ -44,18 +44,6 @@ namespace DAL.Data.UnitOfWork
                     _countryRepo = new Repository<Country>(Context);
                 }
                 return _countryRepo;
-            }
-        }
-
-        public IRepository<Course> CourseRepo
-        {
-            get
-            {
-                if (_courseRepo == null)
-                {
-                    _courseRepo = new Repository<Course>(Context);
-                }
-                return _courseRepo;
             }
         }
 
@@ -140,6 +128,18 @@ namespace DAL.Data.UnitOfWork
                     _themeRepo = new Repository<Theme>(Context);
                 }
                 return _themeRepo;
+            }
+        }
+
+        public IRepository<Trainee> TraineeRepo
+        {
+            get
+            {
+                if (_traineeRepo == null)
+                {
+                    _traineeRepo = new Repository<Trainee>(Context);
+                }
+                return _traineeRepo;
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using DAL.Data;
 using DAL.Data.UnitOfWork;
+using JTO_Models;
 using JTO_MODELS;
 using System;
 using System.Collections.Generic;
@@ -9,18 +10,17 @@ using System.Threading.Tasks;
 
 namespace JTO_WPF.ViewModels
 {
-    internal class CourseViewModel : BaseViewModel
+    internal class TrainingViewModel : BaseViewModel
     {
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
-        public IEnumerable<Course> Courses { get; set; }
         public DashboardViewModel DVM { get; set; }
-        public IEnumerable<Person> Persons { get; set; }
-        public Course SelectedCourse { get; set; }
+        public Trainee Trainer { get; set; }
+        public IEnumerable<Training> Trainings { get; set; }
 
-        public CourseViewModel(DashboardViewModel dvm)
+        public TrainingViewModel(DashboardViewModel dvm)
         {
             DVM = dvm;
-            Courses = unit.CourseRepo.Retrieve();
+            Trainings = unit.TrainingRepo.Retrieve(x => x.Trainees);
         }
 
         public override bool CanExecute(object parameter)

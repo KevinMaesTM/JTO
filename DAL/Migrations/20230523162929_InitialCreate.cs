@@ -15,8 +15,8 @@ namespace JTO_DAL.Migrations
                 {
                     AgeCategoryID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MaxAge = table.Column<int>(type: "int", nullable: false),
-                    MinAge = table.Column<int>(type: "int", nullable: false)
+                    MaxAge = table.Column<int>(type: "int", nullable: true),
+                    MinAge = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -34,19 +34,6 @@ namespace JTO_DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Countries", x => x.CountryID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Courses",
-                columns: table => new
-                {
-                    CourseID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Courses", x => x.CourseID);
                 });
 
             migrationBuilder.CreateTable(
@@ -73,6 +60,21 @@ namespace JTO_DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Themes", x => x.ThemeID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Trainings",
+                columns: table => new
+                {
+                    TrainingID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TraineeID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Trainings", x => x.TrainingID);
                 });
 
             migrationBuilder.CreateTable(
@@ -210,36 +212,36 @@ namespace JTO_DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Trainings",
+                name: "Trainees",
                 columns: table => new
                 {
-                    TrainingID = table.Column<int>(type: "int", nullable: false)
+                    TraineeID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CourseID = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FinishedTraining = table.Column<bool>(type: "bit", nullable: false),
                     PersonID = table.Column<int>(type: "int", nullable: false),
-                    RoleID = table.Column<int>(type: "int", nullable: false)
+                    RoleID = table.Column<int>(type: "int", nullable: false),
+                    TrainingID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Trainings", x => x.TrainingID);
+                    table.PrimaryKey("PK_Trainees", x => x.TraineeID);
                     table.ForeignKey(
-                        name: "FK_Trainings_Courses_CourseID",
-                        column: x => x.CourseID,
-                        principalTable: "Courses",
-                        principalColumn: "CourseID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Trainings_Persons_PersonID",
+                        name: "FK_Trainees_Persons_PersonID",
                         column: x => x.PersonID,
                         principalTable: "Persons",
                         principalColumn: "PersonID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Trainings_Roles_RoleID",
+                        name: "FK_Trainees_Roles_RoleID",
                         column: x => x.RoleID,
                         principalTable: "Roles",
                         principalColumn: "RoleID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Trainees_Trainings_TrainingID",
+                        column: x => x.TrainingID,
+                        principalTable: "Trainings",
+                        principalColumn: "TrainingID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -327,19 +329,19 @@ namespace JTO_DAL.Migrations
                 column: "CountryID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Trainings_CourseID",
-                table: "Trainings",
-                column: "CourseID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Trainings_PersonID",
-                table: "Trainings",
+                name: "IX_Trainees_PersonID",
+                table: "Trainees",
                 column: "PersonID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Trainings_RoleID",
-                table: "Trainings",
+                name: "IX_Trainees_RoleID",
+                table: "Trainees",
                 column: "RoleID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Trainees_TrainingID",
+                table: "Trainees",
+                column: "TrainingID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -351,7 +353,7 @@ namespace JTO_DAL.Migrations
                 name: "Participants");
 
             migrationBuilder.DropTable(
-                name: "Trainings");
+                name: "Trainees");
 
             migrationBuilder.DropTable(
                 name: "Users");
@@ -360,10 +362,10 @@ namespace JTO_DAL.Migrations
                 name: "GroupTours");
 
             migrationBuilder.DropTable(
-                name: "Courses");
+                name: "Roles");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "Trainings");
 
             migrationBuilder.DropTable(
                 name: "AgeCategories");

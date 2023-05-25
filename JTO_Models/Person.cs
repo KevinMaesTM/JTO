@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JTO_Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -59,6 +60,8 @@ namespace JTO_MODELS
 
         [Required]
         public string Surname { get; set; }
+
+        public ObservableCollection<Trainee> Trainees { get; set; }
 
         [Required]
         public string Zip { get; set; }

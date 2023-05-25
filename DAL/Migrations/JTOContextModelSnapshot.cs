@@ -30,10 +30,10 @@ namespace JTO_DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AgeCategoryID"), 1L, 1);
 
-                    b.Property<int>("MaxAge")
+                    b.Property<int?>("MaxAge")
                         .HasColumnType("int");
 
-                    b.Property<int>("MinAge")
+                    b.Property<int?>("MinAge")
                         .HasColumnType("int");
 
                     b.HasKey("AgeCategoryID");
@@ -56,23 +56,6 @@ namespace JTO_DAL.Migrations
                     b.HasKey("CountryID");
 
                     b.ToTable("Countries");
-                });
-
-            modelBuilder.Entity("JTO_MODELS.Course", b =>
-                {
-                    b.Property<int>("CourseID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CourseID"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CourseID");
-
-                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("JTO_MODELS.Destination", b =>
@@ -316,6 +299,37 @@ namespace JTO_DAL.Migrations
                     b.ToTable("Themes");
                 });
 
+            modelBuilder.Entity("JTO_Models.Trainee", b =>
+                {
+                    b.Property<int>("TraineeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TraineeID"), 1L, 1);
+
+                    b.Property<bool>("FinishedTraining")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("PersonID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TrainingID")
+                        .HasColumnType("int");
+
+                    b.HasKey("TraineeID");
+
+                    b.HasIndex("PersonID");
+
+                    b.HasIndex("RoleID");
+
+                    b.HasIndex("TrainingID");
+
+                    b.ToTable("Trainees");
+                });
+
             modelBuilder.Entity("JTO_MODELS.Training", b =>
                 {
                     b.Property<int>("TrainingID")
@@ -324,25 +338,17 @@ namespace JTO_DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TrainingID"), 1L, 1);
 
-                    b.Property<int>("CourseID")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PersonID")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoleID")
+                    b.Property<int>("TraineeID")
                         .HasColumnType("int");
 
                     b.HasKey("TrainingID");
-
-                    b.HasIndex("CourseID");
-
-                    b.HasIndex("PersonID");
-
-                    b.HasIndex("RoleID");
 
                     b.ToTable("Trainings");
                 });
@@ -458,31 +464,31 @@ namespace JTO_DAL.Migrations
                     b.Navigation("Country");
                 });
 
-            modelBuilder.Entity("JTO_MODELS.Training", b =>
+            modelBuilder.Entity("JTO_Models.Trainee", b =>
                 {
-                    b.HasOne("JTO_MODELS.Course", "Course")
-                        .WithMany("Trainings")
-                        .HasForeignKey("CourseID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("JTO_MODELS.Person", "Person")
-                        .WithMany()
+                        .WithMany("Trainees")
                         .HasForeignKey("PersonID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("JTO_MODELS.Role", "Role")
-                        .WithMany("Trainings")
+                        .WithMany("Trainees")
                         .HasForeignKey("RoleID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Course");
+                    b.HasOne("JTO_MODELS.Training", "Training")
+                        .WithMany("Trainees")
+                        .HasForeignKey("TrainingID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Person");
 
                     b.Navigation("Role");
+
+                    b.Navigation("Training");
                 });
 
             modelBuilder.Entity("JTO_MODELS.AgeCategory", b =>
@@ -495,11 +501,6 @@ namespace JTO_DAL.Migrations
                     b.Navigation("Destinations");
 
                     b.Navigation("Persons");
-                });
-
-            modelBuilder.Entity("JTO_MODELS.Course", b =>
-                {
-                    b.Navigation("Trainings");
                 });
 
             modelBuilder.Entity("JTO_MODELS.Destination", b =>
@@ -515,18 +516,25 @@ namespace JTO_DAL.Migrations
             modelBuilder.Entity("JTO_MODELS.Person", b =>
                 {
                     b.Navigation("Participants");
+
+                    b.Navigation("Trainees");
                 });
 
             modelBuilder.Entity("JTO_MODELS.Role", b =>
                 {
                     b.Navigation("Participants");
 
-                    b.Navigation("Trainings");
+                    b.Navigation("Trainees");
                 });
 
             modelBuilder.Entity("JTO_MODELS.Theme", b =>
                 {
                     b.Navigation("GroupTours");
+                });
+
+            modelBuilder.Entity("JTO_MODELS.Training", b =>
+                {
+                    b.Navigation("Trainees");
                 });
 #pragma warning restore 612, 618
         }

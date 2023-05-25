@@ -13,7 +13,6 @@ namespace DAL.Data
     {
         public DbSet<AgeCategory> AgeCategories { get; set; }
         public DbSet<Country> Countries { get; set; }
-        public DbSet<Course> Courses { get; set; }
         public DbSet<Destination> Destinations { get; set; }
         public DbSet<GroupTour> GroupTours { get; set; }
         public DbSet<MedicalSheet> MedeicalSheets { get; set; }
@@ -21,6 +20,7 @@ namespace DAL.Data
         public DbSet<Person> Persons { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Theme> Themes { get; set; }
+        public DbSet<Trainee> Trainees { get; set; }
         public DbSet<Training> Trainings { get; set; }
         public DbSet<User> Users { get; set; }
 

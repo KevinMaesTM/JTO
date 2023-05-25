@@ -18,9 +18,9 @@ namespace JTO_WPF.Views
     /// <summary>
     /// Interaction logic for CourseView.xaml
     /// </summary>
-    public partial class CourseView : UserControl
+    public partial class TrainingView : UserControl
     {
-        public CourseView()
+        public TrainingView()
         {
             InitializeComponent();
         }
