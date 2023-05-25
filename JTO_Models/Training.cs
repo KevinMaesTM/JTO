@@ -19,9 +19,6 @@ namespace JTO_MODELS
         [Required]
         public string Name { get; set; }
 
-        [ForeignKey("TraineeID")]
-        public int TraineeID { get; set; }
-
         public ObservableCollection<Trainee> Trainees { get; set; }
 
         [Key]

@@ -345,9 +345,6 @@ namespace JTO_DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TraineeID")
-                        .HasColumnType("int");
-
                     b.HasKey("TrainingID");
 
                     b.ToTable("Trainings");

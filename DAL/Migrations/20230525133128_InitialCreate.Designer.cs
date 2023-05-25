@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JTO_DAL.Migrations
 {
     [DbContext(typeof(JTOContext))]
-    [Migration("20230523162929_InitialCreate")]
+    [Migration("20230525133128_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -346,9 +346,6 @@ namespace JTO_DAL.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TraineeID")
-                        .HasColumnType("int");
 
                     b.HasKey("TrainingID");
 

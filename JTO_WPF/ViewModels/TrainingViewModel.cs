@@ -14,6 +14,7 @@ namespace JTO_WPF.ViewModels
     {
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
         public DashboardViewModel DVM { get; set; }
+        public Training SelectedTraining { get; set; }
         public IEnumerable<Training> Trainings { get; set; }
 
         public TrainingViewModel(DashboardViewModel dvm)
@@ -24,7 +25,23 @@ namespace JTO_WPF.ViewModels
 
         public override bool CanExecute(object parameter)
         {
-            return true;
+            switch (parameter.ToString())
+            {
+                case "ShowDetail":
+                    if (SelectedTraining == null)
+                        return false;
+                    else
+                        return true;
+
+                case "Delete":
+                    if (SelectedTraining == null)
+                        return false;
+                    else
+                        return true;
+
+                default:
+                    return true;
+            }
         }
 
         public override void Execute(object parameter)
