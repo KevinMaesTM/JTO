@@ -11,20 +11,62 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid x:Name="GridMain" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="585" Width="955">
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition Height="1.5*"></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="2*"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.2*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="0.2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TextBox Margin="0,10,0, 0" x:Name="txtMinAge" Width="450" FontSize="18" materialDesign:HintAssist.Hint="Naam" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding AgeCategory.MinAge}" Grid.Row="1" Grid.ColumnSpan="2" Background="Transparent" />
-        <TextBox Margin="0,10,0, 0" x:Name="txtMaxAge" Width="450" FontSize="18" materialDesign:HintAssist.Hint="Datum" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding AgeCategory.MaxAge}" Grid.Row="2" Grid.ColumnSpan="2" Background="Transparent" />
-        <Button Grid.Column="0" Margin="80, 5, 80, 5" Command="{Binding}" CommandParameter="" Grid.Row="4">Opslaan</Button>
-        <Button Grid.Column="1" Margin="100, 5, 100, 5" Command="{Binding}" CommandParameter="" Grid.Row="4" >Annuleren</Button>
+        <CheckBox x:Name="cbIsTrainer" Grid.Row="7" Grid.Column="3" HorizontalAlignment="Center">Is Trainer?</CheckBox>
+        <TextBox Margin="0,10,0, 0" x:Name="txtNameTraining" FontSize="18" materialDesign:HintAssist.Hint="Naam" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Training.Name}" Grid.Row="1" Grid.Column="1" Background="Transparent" />
+        <TextBox Margin="0,10,0, 0" x:Name="txtDateTraining" FontSize="18" materialDesign:HintAssist.Hint="Datum" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Training.Date}" Grid.Row="1" Grid.Column="3" Background="Transparent" />
+        <DataGrid IsReadOnly="True" Grid.Column="1" Grid.Row="3" Grid.RowSpan="4"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      Name="dtAvailableTrainees"
+                      AutoGenerateColumns="False"
+                      ItemsSource="{Binding AvailableTrainees}"
+                      SelectedItem="{Binding SelectedAvailableTrainee}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="25*" Binding="{Binding Name}" Header="Voornaam"></DataGridTextColumn>
+                <DataGridTextColumn Width="25*" Binding="{Binding Surname}" Header="Achternaam"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid IsReadOnly="True" Grid.Column="3" Grid.Row="3" Grid.RowSpan="4"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      Name="dtSubsribedTrainees"
+                      AutoGenerateColumns="False"
+                      ItemsSource="{Binding SubscribedTrainees}"
+                      SelectedItem="{Binding SelectedSubscribedTrainee}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="25*" Binding="{Binding Name}" Header="Voornaam"></DataGridTextColumn>
+                <DataGridTextColumn Width="25*" Binding="{Binding Surname}" Header="Achternaam"></DataGridTextColumn>
+                <DataGridTextColumn Width="15*" Binding="{Binding }" Header="Is trainer"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Grid.Column="2" Grid.Row="4" Margin="25, 5, 25, 5" Command="{Binding}" CommandParameter="AddTrainee" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="ArrowRight" Height="25" Width="25" />
+            </StackPanel>
+        </Button>
+        <Button Grid.Column="2" Grid.Row="5" Margin="25, 5, 25, 5" Command="{Binding}" CommandParameter="RemoveTrainne" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="ArrowLeft" Height="25" Width="25" />
+            </StackPanel>
+        </Button>
+        <Button Grid.Column="1" Margin="80, 5, 80, 5" Command="{Binding}" CommandParameter="" Grid.Row="8">Opslaan</Button>
+        <Button Grid.Column="3" Margin="100, 5, 100, 5" Command="{Binding}" CommandParameter="" Grid.Row="8" >Annuleren</Button>
     </Grid>
 </UserControl>

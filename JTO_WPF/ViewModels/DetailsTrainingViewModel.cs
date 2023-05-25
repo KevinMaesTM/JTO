@@ -13,6 +13,7 @@ namespace JTO_WPF.ViewModels
     internal class DetailsTrainingViewModel : BaseViewModel
     {
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
+        public IEnumerable<Person> AvailableTrainees { get; set; }
         public IEnumerable<Trainee> ListTrainees { get; set; }
         public Training Training { get; set; }
 
@@ -20,12 +21,14 @@ namespace JTO_WPF.ViewModels
         {
             this.Training = selectedTraining;
             ListTrainees = unit.TraineeRepo.Retrieve(x => x.Training.TrainingID == Training.TrainingID);
+            AvailableTrainees = unit.PersonRepo.Retrieve();
         }
 
         public DetailsTrainingViewModel()
         {
             Training = new Training();
             ListTrainees = new List<Trainee>();
+            AvailableTrainees = unit.PersonRepo.Retrieve();
             Training.Name = null;
             Training.Date = null;
         }
