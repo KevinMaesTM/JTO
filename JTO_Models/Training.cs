@@ -14,10 +14,10 @@ namespace JTO_MODELS
     public partial class Training
     {
         [Required]
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public ObservableCollection<Trainee> Trainees { get; set; }
 

@@ -2,6 +2,7 @@
 using DAL.Data.UnitOfWork;
 using JTO_Models;
 using JTO_MODELS;
+using JTO_WPF.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,16 @@ namespace JTO_WPF.ViewModels
         }
 
         public override void Execute(object parameter)
-        { }
+        {
+            switch (parameter.ToString())
+            {
+                case "ShowDetail":
+                    DetailsTrainingViewModel dtVM = new DetailsTrainingViewModel(this.SelectedTraining);
+                    DetailsTrainingView dtV = new DetailsTrainingView();
+                    dtV.DataContext = dtVM;
+                    DVM.Content = dtV;
+                    break;
+            }
+        }
     }
 }
