@@ -15,6 +15,7 @@ namespace JTO_WPF.ViewModels
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
         public IEnumerable<Person> AvailableTrainees { get; set; }
         public IEnumerable<Trainee> ListTrainees { get; set; }
+        public Person SelectedAvailableTrainee { get; set; }
         public Training Training { get; set; }
 
         public DetailsTrainingViewModel(Training selectedTraining)
@@ -35,7 +36,18 @@ namespace JTO_WPF.ViewModels
 
         public override bool CanExecute(object parameter)
         {
-            return true;
+            switch (parameter.ToString())
+            {
+                case "AddTrainee":
+                    if (SelectedAvailableTrainee == null)
+                        return false;
+                    else
+                        return true;
+                    break;
+
+                default:
+                    return true;
+            }
         }
 
         public override void Execute(object parameter)
