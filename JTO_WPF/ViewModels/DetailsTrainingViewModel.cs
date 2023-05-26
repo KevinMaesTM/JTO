@@ -4,6 +4,7 @@ using JTO_Models;
 using JTO_MODELS;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,16 +44,43 @@ namespace JTO_WPF.ViewModels
                         return false;
                     else
                         return true;
-                    break;
 
                 default:
                     return true;
             }
         }
 
+        public string Errors()
+        {
+            string error = "";
+            Training training = new Training
+            {
+                Name = Training.Name,
+                Date = Training.Date,
+                TrainingID = Training.TrainingID
+            };
+            if (training.Name == null)
+                error += "Training naam is verplicht!" + Environment.NewLine;
+            if (DateTime.TryParse(training.Date, DateTime dateTraining) == false)
+                error += "Datum heeft een ongeldig formaat: dd/MM/yyy" + Environment.NewLine;
+            return error;
+        }
+
         public override void Execute(object parameter)
         {
-            throw new NotImplementedException();
+            switch (parameter.ToString())
+            {
+                case "SaveTraining":
+                    if (string.IsNullOrEmpty(Errors())
+                    {
+                        return;
+                    }
+                    else
+                        break;
+
+                default:
+                    break;
+            }
         }
     }
 }
