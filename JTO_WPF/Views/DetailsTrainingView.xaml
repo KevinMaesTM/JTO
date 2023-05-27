@@ -4,11 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:JTO_WPF.Converters"
              xmlns:local="clr-namespace:JTO_WPF.Views"
              mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{x:Null}"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:PersonIDToPersonConverter x:Key="PersonIDToPersonConverter" />
+        <converters:RoleIDToBooleanTrainerConverter x:Key="RoleIDToBooleanTrainerConverter" />
+    </UserControl.Resources>
     <Grid x:Name="GridMain" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="585" Width="955">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*"></RowDefinition>
@@ -51,9 +56,8 @@
                       ItemsSource="{Binding SubscribedTrainees}"
                       SelectedItem="{Binding SelectedSubscribedTrainee}">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="25*" Binding="{Binding Name}" Header="Voornaam"></DataGridTextColumn>
-                <DataGridTextColumn Width="25*" Binding="{Binding Surname}" Header="Achternaam"></DataGridTextColumn>
-                <DataGridTextColumn Width="15*" Binding="{Binding }" Header="Is trainer"></DataGridTextColumn>
+                <DataGridTextColumn Width="25*" Binding="{Binding PersonID,  Converter={StaticResource PersonIDToPersonConverter}}"  Header="Naam deelnemer"></DataGridTextColumn>
+                <DataGridTextColumn Width="15*" Binding="{Binding RoleID, Converter={StaticResource RoleIDToBooleanTrainerConverter}}" Header="Is trainer"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
         <Button Grid.Column="2" Grid.Row="4" Margin="25, 5, 25, 5" Command="{Binding}" CommandParameter="AddTrainee" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
