@@ -15,8 +15,18 @@ namespace JTO_WPF.ViewModels
     {
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
         public DashboardViewModel DVM { get; set; }
-        public IEnumerable<GroupTour> GroupTours { get; set; }
+        private IEnumerable<GroupTour> _groupTours;
+        public IEnumerable<GroupTour> GroupTours
+        {
+            get
+            { return _groupTours; }
+            set
+            { _groupTours = value;
+              NotifyPropertyChanged();
+            }
+        }
         public GroupTour SelectedGroupTour { get; set; }
+        public bool ShowOnlyFutureTrips { get; set; }
 
         public GroupTourViewModel(DashboardViewModel dVM)
         {
@@ -55,6 +65,15 @@ namespace JTO_WPF.ViewModels
         {
             switch (parameter.ToString())
             {
+                case "Filter":
+                    if(ShowOnlyFutureTrips)
+                    {
+                        GroupTours = unit.GroupTourRepo.Retrieve(x => x.Startdate > DateTime.Now, x => x.AgeCategory, x => x.Theme);
+                    } else
+                    {
+                        GroupTours = unit.GroupTourRepo.Retrieve(x => x.AgeCategory, x => x.Theme);
+                    }
+                    break;
             }
         }
     }

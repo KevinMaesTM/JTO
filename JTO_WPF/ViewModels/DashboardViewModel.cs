@@ -1,5 +1,6 @@
 ﻿using JTO_Models;
 using JTO_WPF.Views;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,18 @@ namespace JTO_WPF.ViewModels
                 case "ShowGroupTrips": ShowGroupTrips(); break;
                 case "ShowAgeCategories": ShowAgeCategories(); break;
                 case "ShowTrainings": ShowTrainings(); break;
+                case "Logout": Logout(); break;
             }
+        }
+
+        private void Logout()
+        {
+            var lvm = new LoginViewModel();
+            var lview = new LoginView();
+            lview.DataContext = lvm;
+            lview.Show();
+            App.Current.Windows[0].Close();
+            return;
         }
 
         private void ShowAgeCategories()
