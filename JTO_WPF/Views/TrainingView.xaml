@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="JTO_WPF.Views.TrainingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:JTO_WPF.Views"
+             xmlns:converters="clr-namespace:JTO_WPF.Converters"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:TraineesCollectionToTrainerConverter x:Key="TraineesCollectionToTrainerConverter" />
+    </UserControl.Resources>
+    <Grid x:Name="GridMain" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="585" Width="955">
+        <StackPanel>
+            <DataGrid Height="500" Margin="5" IsReadOnly="True"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      Name="dtgGroupTours"
+                      AutoGenerateColumns="False"
+                      ItemsSource="{Binding Trainings}"
+                      SelectedItem="{Binding SelectedTraining}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="25*" Binding="{Binding Name}" Header="Naam"></DataGridTextColumn>
+                    <DataGridTextColumn Width="25*" Binding="{Binding Date, StringFormat=\{0:dd.MM.yyyy HH:mm\}}" Header="Datum"></DataGridTextColumn>
+                    <DataGridTextColumn Width="25*" Binding="{Binding Trainees, Converter={StaticResource TraineesCollectionToTrainerConverter}}" Header="Trainer"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Margin="100, 5, 100, 5" Command="{Binding}" CommandParameter="Add">Toevoegen</Button>
+                <Button Grid.Column="1" Margin="80, 5, 80, 5" Command="{Binding}" CommandParameter="ShowDetail">Bekijk in detail</Button>
+                <Button Grid.Column="2" Margin="100, 5, 100, 5" Command="{Binding}" CommandParameter="Delete">Verwijderen</Button>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

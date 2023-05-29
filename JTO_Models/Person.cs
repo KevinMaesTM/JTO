@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JTO_Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace JTO_MODELS
 {
     [Table("Persons")]
-    public class Person
+    public partial class Person
     {
         [Required]
         public string City { get; set; }
@@ -59,6 +60,8 @@ namespace JTO_MODELS
 
         [Required]
         public string Surname { get; set; }
+
+        public ObservableCollection<Trainee> Trainees { get; set; }
 
         [Required]
         public string Zip { get; set; }

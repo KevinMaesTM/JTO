@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JTO_Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -20,6 +21,6 @@ namespace JTO_MODELS
         [Key]
         public int RoleID { get; set; }
 
-        public ObservableCollection<Training>? Trainings { get; set; }
+        public ObservableCollection<Trainee> Trainees { get; set; }
     }
 }

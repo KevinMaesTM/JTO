@@ -36,6 +36,7 @@ namespace JTO_WPF.ViewModels
             {
                 case "ShowGroupTrips": ShowGroupTrips(); break;
                 case "ShowAgeCategories": ShowAgeCategories(); break;
+                case "ShowTrainings": ShowTrainings(); break;
                 case "Logout": Logout(); break;
             }
         }
@@ -64,6 +65,14 @@ namespace JTO_WPF.ViewModels
             var gtview = new GroupTripView();
             gtview.DataContext = gtvm;
             Content = gtview;
+        }
+
+        private void ShowTrainings()
+        {
+            var cvm = new TrainingViewModel(this);
+            var tview = new TrainingView();
+            tview.DataContext = cvm;
+            Content = tview;
         }
     }
 }
