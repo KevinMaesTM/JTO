@@ -83,21 +83,33 @@
                         </Button>
                     </Grid>
                     <Button Height="60" Command="{Binding}" CommandParameter="ShowGroupTrips" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="ViewDashboard" Height="25" Width="25" Margin="10" />
-                            <TextBlock Text="Home" VerticalAlignment="Center" Margin="20 10" />
+                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="PalmTree" Height="25" Width="25" Margin="10" />
+                            <TextBlock Text="Reizen" VerticalAlignment="Center" Margin="20 10" />
                         </StackPanel>
                     </Button>
                     <Button Height="60" Command="{Binding}" CommandParameter="ShowAgeCategories" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Pencil" Height="25" Width="25" Margin="10" />
-                            <TextBlock Text="Create" VerticalAlignment="Center" Margin="20 10" />
+                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Numeric" Height="25" Width="25" Margin="10" />
+                            <TextBlock Text="Leeftijden" VerticalAlignment="Center" Margin="20 10" />
                         </StackPanel>
                     </Button>
                     <Button Height="60" Command="{Binding}" CommandParameter="ShowTrainings" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Book" Height="25" Width="25" Margin="10" />
                             <TextBlock Text="Opleidingen" VerticalAlignment="Center" Margin="20 10" />
+                        </StackPanel>
+                    </Button>
+                    <Button Height="60" Command="{Binding}" CommandParameter="ShowDestinations" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
+                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="MapMarker" Height="25" Width="25" Margin="10" />
+                            <TextBlock Text="Bestemmingen" VerticalAlignment="Center" Margin="20 10" />
+                        </StackPanel>
+                    </Button>
+                    <Button Height="60" Command="{Binding}" CommandParameter="ShowThemes" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
+                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="QuestionMark" Height="25" Width="25" Margin="10" />
+                            <TextBlock Text="Themas" VerticalAlignment="Center" Margin="20 10" />
                         </StackPanel>
                     </Button>
                 </StackPanel>

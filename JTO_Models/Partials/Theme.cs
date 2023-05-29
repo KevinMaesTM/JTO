@@ -12,5 +12,10 @@ namespace JTO_MODELS
         {
             return Name;
         }
+
+        public Theme() { }
+        public Theme(string name) { 
+            Name = name;
+        }
     }
 }

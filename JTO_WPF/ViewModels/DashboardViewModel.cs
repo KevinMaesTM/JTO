@@ -37,6 +37,7 @@ namespace JTO_WPF.ViewModels
                 case "ShowGroupTrips": ShowGroupTrips(); break;
                 case "ShowAgeCategories": ShowAgeCategories(); break;
                 case "ShowTrainings": ShowTrainings(); break;
+                case "ShowThemes": ShowThemes(); break;
                 case "Logout": Logout(); break;
             }
         }
@@ -74,5 +75,14 @@ namespace JTO_WPF.ViewModels
             tview.DataContext = cvm;
             Content = tview;
         }
+
+        private void ShowThemes()
+        {
+            var tvm = new ThemeViewModel(this);
+            var tv = new ThemeView();
+            tv.DataContext = tvm;
+            Content = tv;
+        }
+
     }
 }

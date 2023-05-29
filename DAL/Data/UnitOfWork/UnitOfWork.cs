@@ -179,6 +179,11 @@ namespace DAL.Data.UnitOfWork
             Context.Dispose();
         }
 
+        public void Reload(Object obj)
+        {
+            Context.Entry(obj).Reload();
+        }
+
         public int Save()
         {
             return Context.SaveChanges();
