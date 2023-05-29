@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="JTO_WPF.Views.AddParticipantsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:JTO_WPF.Views"
+             xmlns:converters="clr-namespace:JTO_WPF.Converters"
+             mc:Ignorable="d"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             Background="{x:Null}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:PersonIDToPersonConverter x:Key="PersonIDToPersonConverter" />
+    </UserControl.Resources>
+    <Grid x:Name="GridMain" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="585" Width="955">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition Height="1.5*"></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.2*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="0.2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <DataGrid IsReadOnly="True" Grid.Column="1" Grid.Row="1" Grid.RowSpan="6"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      AutoGenerateColumns="False"
+                      ItemsSource="{Binding AvailablePersons}"
+                      SelectedItem="{Binding SelectedPerson}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="25*" Binding="{Binding}" Header="Mogelijke deelnemer"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid IsReadOnly="True" Grid.Column="3" Grid.Row="1" Grid.RowSpan="6"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      AutoGenerateColumns="False"
+                      ItemsSource="{Binding GroupTour.Participants}"
+                      SelectedItem="{Binding SelectedParticipant}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="25*" Binding="{Binding PersonID,  Converter={StaticResource PersonIDToPersonConverter}}"  Header="Huidige deelnemer"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Grid.Column="2" Grid.Row="4" Margin="25, 5, 25, 5" Command="{Binding}" CommandParameter="AddParticipant" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="ArrowRight" Height="25" Width="25" />
+            </StackPanel>
+        </Button>
+        <Button Grid.Column="2" Grid.Row="5" Margin="25, 5, 25, 5" Command="{Binding}" CommandParameter="RemoveParticipant" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="ArrowLeft" Height="25" Width="25" />
+            </StackPanel>
+        </Button>
+        <Button Grid.Column="2" Grid.Row="8" Command="{Binding}" CommandParameter="Cancel">Ga terug</Button>
+    </Grid>
+</UserControl>

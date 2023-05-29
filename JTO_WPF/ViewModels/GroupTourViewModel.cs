@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using JTO_MODELS;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
+using JTO_WPF.Views;
 
 namespace JTO_WPF.ViewModels
 {
@@ -31,7 +32,7 @@ namespace JTO_WPF.ViewModels
         public GroupTourViewModel(DashboardViewModel dVM)
         {
             this.DVM = dVM;
-            GroupTours = unit.GroupTourRepo.Retrieve(x => x.AgeCategory, x => x.Theme);
+            GroupTours = unit.GroupTourRepo.Retrieve(x => x.AgeCategory, x => x.Theme, x => x.Participants);
         }
 
         public override bool CanExecute(object parameter)
@@ -68,11 +69,22 @@ namespace JTO_WPF.ViewModels
                 case "Filter":
                     if(ShowOnlyFutureTrips)
                     {
-                        GroupTours = unit.GroupTourRepo.Retrieve(x => x.Startdate > DateTime.Now, x => x.AgeCategory, x => x.Theme);
+                        GroupTours = unit.GroupTourRepo.Retrieve(x => x.Startdate > DateTime.Now, x => x.AgeCategory, x => x.Theme, x => x.Participants);
                     } else
                     {
-                        GroupTours = unit.GroupTourRepo.Retrieve(x => x.AgeCategory, x => x.Theme);
+                        GroupTours = unit.GroupTourRepo.Retrieve(x => x.AgeCategory, x => x.Theme, x => x.Participants);
                     }
+                    break;
+                case "ShowDetail":
+                    GroupTourDetailViewModel gtdVm = new GroupTourDetailViewModel(SelectedGroupTour, DVM);
+                    GroupTourDetailView gtdv = new GroupTourDetailView();
+                    gtdv.DataContext = gtdVm;
+                    DVM.Content = gtdv;
+                    break;
+                case "Delete":
+                    unit.GroupTourRepo.Delete(SelectedGroupTour);
+                    unit.Save();
+                    GroupTours = unit.GroupTourRepo.Retrieve(x => x.AgeCategory, x => x.Theme, x => x.Participants);
                     break;
             }
         }
