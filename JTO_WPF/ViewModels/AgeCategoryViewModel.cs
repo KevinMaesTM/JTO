@@ -55,14 +55,14 @@ namespace JTO_WPF.ViewModels
             switch (parameter.ToString())
             {
                 case "ShowDetail":
-                    DetailsAgeCategoryViewModel acVM = new DetailsAgeCategoryViewModel(SelectedAgeCategory);
+                    DetailsAgeCategoryViewModel acVM = new DetailsAgeCategoryViewModel(DVM, SelectedAgeCategory);
                     DetailsAgeCategoryView daV = new DetailsAgeCategoryView();
                     daV.DataContext = acVM;
                     DVM.Content = daV;
                     break;
 
                 case "Add":
-                    DetailsAgeCategoryViewModel acVM2 = new DetailsAgeCategoryViewModel();
+                    DetailsAgeCategoryViewModel acVM2 = new DetailsAgeCategoryViewModel(DVM);
                     DetailsAgeCategoryView daV2 = new DetailsAgeCategoryView();
                     daV2.DataContext = acVM2;
                     DVM.Content = daV2;

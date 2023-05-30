@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JTO_WPF.Views;
 
 namespace JTO_WPF.ViewModels
 {
@@ -13,27 +14,95 @@ namespace JTO_WPF.ViewModels
     {
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
         public AgeCategory AgeCategory { get; set; }
+        public string OutputResult { get; set; }
+        private DashboardViewModel DVM { get; set; }
 
-        public DetailsAgeCategoryViewModel()
+        public DetailsAgeCategoryViewModel(DashboardViewModel dVM)
         {
             AgeCategory = new AgeCategory();
+            DVM = dVM;
             AgeCategory.MinAge = null;
             AgeCategory.MaxAge = null;
         }
 
-        public DetailsAgeCategoryViewModel(AgeCategory ageCategory)
+        public DetailsAgeCategoryViewModel(DashboardViewModel dVM, AgeCategory ageCategory)
         {
             this.AgeCategory = ageCategory;
+            DVM = dVM;
         }
 
         public override bool CanExecute(object parameter)
         {
-            return true;
+            switch (parameter.ToString())
+            {
+                case "Save":
+                    return true;
+
+                case "Cancel":
+                    return true;
+
+                default:
+                    return false;
+            }
         }
 
         public override void Execute(object parameter)
         {
-            throw new NotImplementedException();
+            // Reset errors with each CRUD operation
+            string errors = "";
+            switch (parameter.ToString())
+            {
+                case "Save":
+                    errors = ValidateInput();
+                    if (string.IsNullOrEmpty(errors))
+                    {
+                        // Check if it's a new AgeCategory
+                        if (AgeCategory.AgeCategoryID == 0)
+                        {
+                            unit.AgeCategoryRepo.Create(AgeCategory);
+                            unit.Save();
+                            OutputResult = "Leeftijdscategorie is toegevoegd!";
+                        }
+                        else
+                        {
+                            unit.AgeCategoryRepo.Update(AgeCategory);
+                            unit.Save();
+                            OutputResult = "Leeftijdscategorie is geupdate!";
+                        }
+                        break;
+                    }
+                    else
+                        OutputResult = errors;
+                    break;
+
+                case "Cancel":
+                    var avm2 = new AgeCategoryViewModel(DVM);
+                    var av2 = new AgeCategoryView();
+                    av2.DataContext = avm2;
+                    DVM.Content = av2;
+                    break;
+            }
+        }
+
+        public string ValidateInput()
+        {
+            string result = "";
+            // Check input value of MinAge
+            if (AgeCategory.MinAge == null)
+                result += "Minimum leeftijd is een verplicht veld." + Environment.NewLine;
+            else if (!int.TryParse(AgeCategory.MinAge.ToString(), out int minAge))
+                result += "Minimum leeftijd is geen geldig getal!" + Environment.NewLine;
+            // Check input value of MaxAge
+            if (AgeCategory.MaxAge == null)
+                result += "Maximum leeftijd is een verplicht veld." + Environment.NewLine;
+            else if (!int.TryParse(AgeCategory.MaxAge.ToString(), out int maxAge))
+                result += "Maximum leeftijd is geen geldig getal!" + Environment.NewLine;
+
+            // Check if MinAge < MaxAge
+            if (AgeCategory.MinAge >= AgeCategory.MaxAge)
+                result += "Minimum leeftijd moet kleiner zijn dan de maxium leeftijd!" + Environment.NewLine;
+
+            return result;
         }
     }
 }
