@@ -1,6 +1,7 @@
 ﻿using DAL.Data;
 using DAL.Data.UnitOfWork;
 using JTO_MODELS;
+using JTO_WPF.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace JTO_WPF.ViewModels
         public DashboardViewModel DVM { get; set; }
         public string HouseNumber { get; set; }
         public string Name { get; set; }
+        public string OutputResult { get; set; }
         public string Streetname { get; set; }
         public string Zipcode { get; set; }
 
@@ -40,16 +42,56 @@ namespace JTO_WPF.ViewModels
 
         public override void Execute(object parameter)
         {
+            string errors = "";
             switch (parameter.ToString())
             {
                 case "SaveDestination":
-                    if (Destination.DestinationID == 0)
+                    errors = ValidateInput();
+                    if (string.IsNullOrEmpty(errors))
                     {
-                        unit.DestinationRepo.Create(Destination);
-                        unit.Save();
+                        if (Destination.DestinationID == 0)
+                        {
+                            unit.DestinationRepo.Create(Destination);
+                            unit.Save();
+                            OutputResult = "Nieuwe bestemming is toegevoegd!";
+                        }
+                        else
+                        {
+                            unit.DestinationRepo.Update(Destination);
+                            unit.Save();
+                            OutputResult = "Bestemming is aangepast!";
+                        }
                     }
+                    else
+                        OutputResult = errors;
+                    break;
+
+                case "Cancel":
+                    var dVM = new DestinationViewModel(DVM);
+                    var dV = new DestinationView();
+                    dV.DataContext = dVM;
+                    DVM.Content = dV;
                     break;
             }
+        }
+
+        public string ValidateInput()
+        {
+            string result = "";
+            if (string.IsNullOrEmpty(Destination.Name))
+                result += "Naam van de bestemming is een verplicht veld!" + Environment.NewLine;
+            if (string.IsNullOrEmpty(Destination.Street))
+                result += "Straatnaam is een verplicht veld!" + Environment.NewLine;
+            if (string.IsNullOrEmpty(Destination.Number))
+                result += "Huisnummer is een verplicht veld!" + Environment.NewLine;
+            if (string.IsNullOrEmpty(Destination.Zip))
+                result += "Postcode is een verplicht veld!" + Environment.NewLine;
+            if (string.IsNullOrEmpty(Destination.City))
+                result += "Stad is een verplicht veld!" + Environment.NewLine;
+            if (string.IsNullOrEmpty(Destination.Country))
+                result += "Land is een verplicht veld!" + Environment.NewLine;
+
+            return result;
         }
     }
 }
