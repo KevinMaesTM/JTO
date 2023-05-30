@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace JTO_WPF.ViewModels
 {
@@ -53,6 +54,20 @@ namespace JTO_WPF.ViewModels
                     DestinationDetailView ddV2 = new DestinationDetailView();
                     ddV2.DataContext = ddVM2;
                     DVM.Content = ddV2;
+                    break;
+
+                case "Delete":
+                    try
+                    {
+                        unit.DestinationRepo.Delete(SelectedDestination);
+                        unit.Save();
+                        Destinations = unit.DestinationRepo.Retrieve();
+                    }
+                    catch (Exception ex)
+                    {
+                        unit.Reload(SelectedDestination);
+                        MessageBox.Show("Er ging iets fout. Mogelijk wordt de geselecteerde bestemming nog gebruikt.");
+                    }
                     break;
             }
         }
