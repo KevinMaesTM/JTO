@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JTO_WPF.Views;
+using System.Windows;
 
 namespace JTO_WPF.ViewModels
 {
@@ -69,10 +70,17 @@ namespace JTO_WPF.ViewModels
                     break;
 
                 case "Delete":
-                    unit.GroupTourRepo.Update(x => x.AgeCategoryID)
-                    unit.AgeCategoryRepo.Delete(SelectedAgeCategory);
-                    unit.Save();
-                    AgeCategories = unit.AgeCategoryRepo.Retrieve();
+                    try
+                    {
+                        unit.AgeCategoryRepo.Delete(SelectedAgeCategory);
+                        unit.Save();
+                        AgeCategories = unit.AgeCategoryRepo.Retrieve();
+                    }
+                    catch (Exception ex)
+                    {
+                        unit.Reload(SelectedAgeCategory);
+                        MessageBox.Show("Er ging iets fout. Mogelijk wordt de geselecteerde leeftijdscategorie nog gebruikt.");
+                    }
                     break;
             }
         }
