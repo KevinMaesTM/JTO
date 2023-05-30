@@ -24,16 +24,48 @@ namespace JTO_DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Countries",
+                name: "Destinations",
                 columns: table => new
                 {
-                    CountryID = table.Column<int>(type: "int", nullable: false)
+                    DestinationID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Number = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Zip = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Countries", x => x.CountryID);
+                    table.PrimaryKey("PK_Destinations", x => x.DestinationID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Persons",
+                columns: table => new
+                {
+                    PersonID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CourseResponsible = table.Column<bool>(type: "bit", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GroupTourResponsible = table.Column<bool>(type: "bit", nullable: false),
+                    medicalSheet = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MemberHealthInsurance = table.Column<bool>(type: "bit", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Number = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Sex = table.Column<bool>(type: "bit", nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Zip = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Persons", x => x.PersonID);
                 });
 
             migrationBuilder.CreateTable(
@@ -92,63 +124,6 @@ namespace JTO_DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Destinations",
-                columns: table => new
-                {
-                    DestinationID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CountryID = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Number = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Zip = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Destinations", x => x.DestinationID);
-                    table.ForeignKey(
-                        name: "FK_Destinations_Countries_CountryID",
-                        column: x => x.CountryID,
-                        principalTable: "Countries",
-                        principalColumn: "CountryID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Persons",
-                columns: table => new
-                {
-                    PersonID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CountryID = table.Column<int>(type: "int", nullable: false),
-                    CourseResponsible = table.Column<bool>(type: "bit", nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    GroupTourResponsible = table.Column<bool>(type: "bit", nullable: false),
-                    medicalSheet = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MemberHealthInsurance = table.Column<bool>(type: "bit", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Number = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Sex = table.Column<bool>(type: "bit", nullable: false),
-                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Zip = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Persons", x => x.PersonID);
-                    table.ForeignKey(
-                        name: "FK_Persons_Countries_CountryID",
-                        column: x => x.CountryID,
-                        principalTable: "Countries",
-                        principalColumn: "CountryID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "GroupTours",
                 columns: table => new
                 {
@@ -188,26 +163,6 @@ namespace JTO_DAL.Migrations
                         column: x => x.ThemeID,
                         principalTable: "Themes",
                         principalColumn: "ThemeID");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MedicalSheets",
-                columns: table => new
-                {
-                    MedicalSheetID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PersonID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MedicalSheets", x => x.MedicalSheetID);
-                    table.ForeignKey(
-                        name: "FK_MedicalSheets_Persons_PersonID",
-                        column: x => x.PersonID,
-                        principalTable: "Persons",
-                        principalColumn: "PersonID",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -278,11 +233,6 @@ namespace JTO_DAL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Destinations_CountryID",
-                table: "Destinations",
-                column: "CountryID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_GroupTours_AgeCategoryID",
                 table: "GroupTours",
                 column: "AgeCategoryID");
@@ -303,11 +253,6 @@ namespace JTO_DAL.Migrations
                 column: "ThemeID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MedicalSheets_PersonID",
-                table: "MedicalSheets",
-                column: "PersonID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Participants_GroupTourID",
                 table: "Participants",
                 column: "GroupTourID");
@@ -321,11 +266,6 @@ namespace JTO_DAL.Migrations
                 name: "IX_Participants_RoleID",
                 table: "Participants",
                 column: "RoleID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Persons_CountryID",
-                table: "Persons",
-                column: "CountryID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Trainees_PersonID",
@@ -345,9 +285,6 @@ namespace JTO_DAL.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "MedicalSheets");
-
             migrationBuilder.DropTable(
                 name: "Participants");
 
@@ -377,9 +314,6 @@ namespace JTO_DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Themes");
-
-            migrationBuilder.DropTable(
-                name: "Countries");
         }
     }
 }

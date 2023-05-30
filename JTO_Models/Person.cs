@@ -15,12 +15,7 @@ namespace JTO_MODELS
     {
         [Required]
         public string City { get; set; }
-
-        [ForeignKey("CountryID")]
-        public Country Country { get; set; }
-
-        [Required]
-        public int CountryID { get; set; }
+        public string Country { get; set; }
 
         [Required]
         public bool CourseResponsible { get; set; }

@@ -12,10 +12,8 @@ namespace DAL.Data
     public class JTOContext : DbContext
     {
         public DbSet<AgeCategory> AgeCategories { get; set; }
-        public DbSet<Country> Countries { get; set; }
         public DbSet<Destination> Destinations { get; set; }
         public DbSet<GroupTour> GroupTours { get; set; }
-        public DbSet<MedicalSheet> MedeicalSheets { get; set; }
         public DbSet<Participant> Participants { get; set; }
         public DbSet<Person> Persons { get; set; }
         public DbSet<Role> Roles { get; set; }

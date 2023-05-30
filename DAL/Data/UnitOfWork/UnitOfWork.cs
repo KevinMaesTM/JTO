@@ -11,10 +11,8 @@ namespace DAL.Data.UnitOfWork
     public class UnitOfWork : IUnitOfWork
     {
         private IRepository<AgeCategory> _ageCategoryRepo;
-        private IRepository<Country> _countryRepo;
         private IRepository<Destination> _destinationRepo;
         private IRepository<GroupTour> _groupTourRepo;
-        private IRepository<MedicalSheet> _medicalSheetRepo;
         private IRepository<Participant> _participantRepo;
         private IRepository<Person> _personRepo;
         private IRepository<Role> _roleRepo;
@@ -32,18 +30,6 @@ namespace DAL.Data.UnitOfWork
                     _ageCategoryRepo = new Repository<AgeCategory>(Context);
                 }
                 return _ageCategoryRepo;
-            }
-        }
-
-        public IRepository<Country> CountryRepo
-        {
-            get
-            {
-                if (_countryRepo == null)
-                {
-                    _countryRepo = new Repository<Country>(Context);
-                }
-                return _countryRepo;
             }
         }
 
@@ -68,18 +54,6 @@ namespace DAL.Data.UnitOfWork
                     _groupTourRepo = new Repository<GroupTour>(Context);
                 }
                 return _groupTourRepo;
-            }
-        }
-
-        public IRepository<MedicalSheet> MedicalSheetRepo
-        {
-            get
-            {
-                if (_medicalSheetRepo == null)
-                {
-                    _medicalSheetRepo = new Repository<MedicalSheet>(Context);
-                }
-                return _medicalSheetRepo;
             }
         }
 

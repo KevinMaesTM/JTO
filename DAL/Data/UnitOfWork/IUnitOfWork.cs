@@ -11,10 +11,8 @@ namespace DAL.Data.UnitOfWork
     public interface IUnitOfWork : IDisposable
     {
         IRepository<AgeCategory> AgeCategoryRepo { get; }
-        IRepository<Country> CountryRepo { get; }
         IRepository<Destination> DestinationRepo { get; }
         IRepository<GroupTour> GroupTourRepo { get; }
-        IRepository<MedicalSheet> MedicalSheetRepo { get; }
         IRepository<Participant> ParticipantRepo { get; }
         IRepository<Person> PersonRepo { get; }
         IRepository<Role> RoleRepo { get; }
