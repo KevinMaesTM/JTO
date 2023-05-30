@@ -14,9 +14,9 @@ namespace JTO_WPF.ViewModels
     internal class ThemeViewModel : BaseViewModel
     {
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
-        public IEnumerable<Theme> Themes { get; set; }
         public DashboardViewModel DVM { get; set; }
         public Theme SelectedTheme { get; set; }
+        public IEnumerable<Theme> Themes { get; set; }
 
         public ThemeViewModel(DashboardViewModel dvm)
         {
@@ -77,13 +77,15 @@ namespace JTO_WPF.ViewModels
                     tdv2.DataContext = tdvm2;
                     DVM.Content = tdv2;
                     break;
+
                 case "Delete":
                     try
                     {
                         unit.ThemeRepo.Delete(SelectedTheme);
                         unit.Save();
                         Themes = unit.ThemeRepo.Retrieve();
-                    } catch (Exception ex)
+                    }
+                    catch (Exception ex)
                     {
                         unit.Reload(SelectedTheme);
                         MessageBox.Show("Er ging iets fout. Mogelijk wordt het geselecteerde thema nog gebruikt.");

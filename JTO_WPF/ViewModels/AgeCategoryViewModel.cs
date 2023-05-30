@@ -67,6 +67,13 @@ namespace JTO_WPF.ViewModels
                     daV2.DataContext = acVM2;
                     DVM.Content = daV2;
                     break;
+
+                case "Delete":
+                    unit.GroupTourRepo.Update(x => x.AgeCategoryID)
+                    unit.AgeCategoryRepo.Delete(SelectedAgeCategory);
+                    unit.Save();
+                    AgeCategories = unit.AgeCategoryRepo.Retrieve();
+                    break;
             }
         }
     }
