@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JTO_Models.Partials
+namespace JTO_MODELS
 {
-    internal class Destination
+    public partial class Destination
     {
+        public override string ToString()
+        {
+            return $"{Name} - {City} ({Country})";
+        }
     }
 }
