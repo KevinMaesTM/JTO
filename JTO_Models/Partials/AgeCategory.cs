@@ -8,6 +8,12 @@ namespace JTO_MODELS
 {
     public partial class AgeCategory
     {
+        public AgeCategory() { }    
+        public AgeCategory(int minAge, int maxAge) 
+        {
+            MinAge = minAge;
+            MaxAge = maxAge;
+        }
         public override string ToString()
         {
             return $"({MinAge} - {MaxAge})";
