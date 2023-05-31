@@ -12,7 +12,7 @@ namespace JTO_Tests.Views
         [Test]
         public void RegistrationShouldFailForExistingUserName()
         {
-            var app = Application.Launch("C:\\Users\\Kevin\\Desktop\\JTO\\JTO_WPF\\bin\\Debug\\net6.0-windows\\JTO_WPF");
+            var app = Application.Launch("..\\..\\..\\..\\JTO_WPF\\bin\\Debug\\net6.0-windows\\JTO_WPF");
 
             using (var automation = new UIA3Automation())
             {
@@ -44,7 +44,7 @@ namespace JTO_Tests.Views
         [Test]
         public void RegistrationShouldFaiIfPasswordsDontMatch()
         {
-            var app = Application.Launch("C:\\Users\\Kevin\\Desktop\\JTO\\JTO_WPF\\bin\\Debug\\net6.0-windows\\JTO_WPF");
+            var app = Application.Launch("..\\..\\..\\..\\JTO_WPF\\bin\\Debug\\net6.0-windows\\JTO_WPF");
 
             using (var automation = new UIA3Automation())
             {
@@ -76,7 +76,7 @@ namespace JTO_Tests.Views
         [Test]
         public void RegistrationShouldPassForNewUsers()
         {
-            var app = Application.Launch("C:\\Users\\Kevin\\Desktop\\JTO\\JTO_WPF\\bin\\Debug\\net6.0-windows\\JTO_WPF");
+            var app = Application.Launch("..\\..\\..\\..\\JTO_WPF\\bin\\Debug\\net6.0-windows\\JTO_WPF");
 
             using (var automation = new UIA3Automation())
             {

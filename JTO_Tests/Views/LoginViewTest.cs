@@ -12,7 +12,7 @@ namespace JTO_Tests.Views
         [Test]
         public void LoginShouldFailWhenUsingIncorrectCredentials()
         {
-            var app = Application.Launch("C:\\Users\\Kevin\\Desktop\\JTO\\JTO_WPF\\bin\\Debug\\net6.0-windows\\JTO_WPF");
+            var app = Application.Launch("..\\..\\..\\..\\JTO_WPF\\bin\\Debug\\net6.0-windows\\JTO_WPF");
 
             using (var automation = new UIA3Automation())
             {
@@ -38,7 +38,7 @@ namespace JTO_Tests.Views
         [Test]
         public void LoginShouldPassWhenUsingCorrectCredentials()
         {
-            var app = Application.Launch("C:\\Users\\Kevin\\Desktop\\JTO\\JTO_WPF\\bin\\Debug\\net6.0-windows\\JTO_WPF");
+            var app = Application.Launch("..\\..\\..\\..\\JTO_WPF\\bin\\Debug\\net6.0-windows\\JTO_WPF");
 
             using (var automation = new UIA3Automation())
             {
