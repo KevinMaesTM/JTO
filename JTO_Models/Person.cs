@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace JTO_MODELS
 {
     [Table("Persons")]
-    public class Person
+    public partial class Person
     {
         [Required]
         public string City { get; set; }
