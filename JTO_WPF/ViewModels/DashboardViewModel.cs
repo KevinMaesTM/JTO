@@ -38,6 +38,7 @@ namespace JTO_WPF.ViewModels
                 case "ShowAgeCategories": ShowAgeCategories(); break;
                 case "ShowTrainings": ShowTrainings(); break;
                 case "ShowThemes": ShowThemes(); break;
+                case "ShowDestinations": ShowDestinations(); break;
                 case "Logout": Logout(); break;
             }
         }
@@ -60,20 +61,20 @@ namespace JTO_WPF.ViewModels
             Content = gtview;
         }
 
+        private void ShowDestinations()
+        {
+            var dvm = new DestinationViewModel(this);
+            var dv = new DestinationView();
+            dv.DataContext = dvm;
+            Content = dv;
+        }
+
         private void ShowGroupTrips()
         {
             var gtvm = new GroupTourViewModel(this);
             var gtview = new GroupTripView();
             gtview.DataContext = gtvm;
             Content = gtview;
-        }
-
-        private void ShowTrainings()
-        {
-            var cvm = new TrainingViewModel(this);
-            var tview = new TrainingView();
-            tview.DataContext = cvm;
-            Content = tview;
         }
 
         private void ShowThemes()
@@ -84,5 +85,12 @@ namespace JTO_WPF.ViewModels
             Content = tv;
         }
 
+        private void ShowTrainings()
+        {
+            var cvm = new TrainingViewModel(this);
+            var tview = new TrainingView();
+            tview.DataContext = cvm;
+            Content = tview;
+        }
     }
 }

@@ -10,10 +10,11 @@ using System.Threading.Tasks;
 namespace JTO_MODELS
 {
     [Table("Destinations")]
-    public class Destination
+    public partial class Destination
     {
         [Required]
         public string City { get; set; }
+
         public string Country { get; set; }
 
         [Key]
