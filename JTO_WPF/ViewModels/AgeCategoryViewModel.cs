@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JTO_WPF.Views;
+using System.Windows;
 
 namespace JTO_WPF.ViewModels
 {
@@ -55,17 +56,31 @@ namespace JTO_WPF.ViewModels
             switch (parameter.ToString())
             {
                 case "ShowDetail":
-                    DetailsAgeCategoryViewModel acVM = new DetailsAgeCategoryViewModel(SelectedAgeCategory);
+                    DetailsAgeCategoryViewModel acVM = new DetailsAgeCategoryViewModel(DVM, SelectedAgeCategory);
                     DetailsAgeCategoryView daV = new DetailsAgeCategoryView();
                     daV.DataContext = acVM;
                     DVM.Content = daV;
                     break;
 
                 case "Add":
-                    DetailsAgeCategoryViewModel acVM2 = new DetailsAgeCategoryViewModel();
+                    DetailsAgeCategoryViewModel acVM2 = new DetailsAgeCategoryViewModel(DVM);
                     DetailsAgeCategoryView daV2 = new DetailsAgeCategoryView();
                     daV2.DataContext = acVM2;
                     DVM.Content = daV2;
+                    break;
+
+                case "Delete":
+                    try
+                    {
+                        unit.AgeCategoryRepo.Delete(SelectedAgeCategory);
+                        unit.Save();
+                        AgeCategories = unit.AgeCategoryRepo.Retrieve();
+                    }
+                    catch (Exception ex)
+                    {
+                        unit.Reload(SelectedAgeCategory);
+                        MessageBox.Show("Er ging iets fout. Mogelijk wordt de geselecteerde leeftijdscategorie nog gebruikt.");
+                    }
                     break;
             }
         }
