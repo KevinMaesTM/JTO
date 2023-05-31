@@ -18,7 +18,7 @@ namespace JTO_Models
 
         public override string ToString()
         {
-            return this.UserName + $" ({Role})";
+            return UserName;
         }
     }
 }

@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JTO_Models", "JTO_Models\JT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JTO_DAL", "DAL\JTO_DAL.csproj", "{FCDA66A8-E2EE-41E4-9F3B-BCCE1567519C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JTO_Tests", "JTO_Tests\JTO_Tests.csproj", "{141C02E9-EB30-4A2F-AFB1-E87082714D57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FCDA66A8-E2EE-41E4-9F3B-BCCE1567519C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCDA66A8-E2EE-41E4-9F3B-BCCE1567519C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCDA66A8-E2EE-41E4-9F3B-BCCE1567519C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{141C02E9-EB30-4A2F-AFB1-E87082714D57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{141C02E9-EB30-4A2F-AFB1-E87082714D57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{141C02E9-EB30-4A2F-AFB1-E87082714D57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{141C02E9-EB30-4A2F-AFB1-E87082714D57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

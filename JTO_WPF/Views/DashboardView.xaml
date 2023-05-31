@@ -46,7 +46,7 @@
                     <DropShadowEffect BlurRadius="1" ShadowDepth="1" Color="#FFACACAC" />
                 </Grid.Effect>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <TextBlock Text="{Binding User}" VerticalAlignment="Center" FontSize="16"/>
+                    <TextBlock AutomationProperties.AutomationId="UserName" Text="{Binding User}" VerticalAlignment="Center" FontSize="16"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Margin="5">
                             <StackPanel Width="150">
