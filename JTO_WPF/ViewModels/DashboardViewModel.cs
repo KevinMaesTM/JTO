@@ -40,6 +40,7 @@ namespace JTO_WPF.ViewModels
                 case "ShowThemes": ShowThemes(); break;
                 case "ShowDestinations": ShowDestinations(); break;
                 case "Logout": Logout(); break;
+                case "ShowPersons": ShowPersons(); break;
             }
         }
 
@@ -75,6 +76,14 @@ namespace JTO_WPF.ViewModels
             var gtview = new GroupTripView();
             gtview.DataContext = gtvm;
             Content = gtview;
+        }
+
+        private void ShowPersons()
+        {
+            var pvm = new PersonViewModel(this);
+            var pv = new PersonView();
+            pv.DataContext = pvm;
+            Content = pv;
         }
 
         private void ShowThemes()
