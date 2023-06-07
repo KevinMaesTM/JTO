@@ -4,8 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:JTO_WPF.Views"
+             xmlns:converters="clr-namespace:JTO_WPF.Converters"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:BoolToGeslachtConverter x:Key="BoolToGeslachtConverter" />
+    </UserControl.Resources>
     <Grid x:Name="GridMain" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="585" Width="955">
         <StackPanel>
             <DataGrid Height="500" Margin="5" IsReadOnly="True"
@@ -20,7 +24,7 @@
                     <DataGridTextColumn Width="25*" Binding="{Binding Surname}" Header="Voornaam"></DataGridTextColumn>
                     <DataGridTextColumn Width="25*" Binding="{Binding DateOfBirth, StringFormat=\{0:dd.MM.yyyy\}}" Header="Geboortedatum"></DataGridTextColumn>
                     <DataGridTextColumn Width="25*" Binding="{Binding Email}" Header="Email"></DataGridTextColumn>
-                    <DataGridTextColumn Width="25*" Binding="{Binding Sex}" Header="Geslacht"></DataGridTextColumn>
+                    <DataGridTextColumn Width="25*" Binding="{Binding Sex, Converter={StaticResource BoolToGeslachtConverter}}" Header="Geslacht"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
             <Grid>
