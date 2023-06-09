@@ -22,6 +22,8 @@ namespace JTO_MODELS
 
         public ObservableCollection<GroupTour>? GroupTours { get; set; }
 
+        public bool? IsActive { get; set; } = true;
+
         [Required]
         public string Name { get; set; }
 

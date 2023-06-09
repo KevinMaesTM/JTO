@@ -13,6 +13,8 @@ namespace JTO_MODELS
     [Table("Roles")]
     public class Role
     {
+        public bool? IsActive { get; set; } = true;
+
         [Required]
         public string Name { get; set; }
 

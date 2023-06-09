@@ -17,6 +17,7 @@ namespace JTO_MODELS
 
         public ObservableCollection<GroupTour>? GroupTours { get; set; }
 
+        public bool? IsActive { get; set; } = true;
         public int? MaxAge { get; set; }
 
         public int? MinAge { get; set; }
