@@ -53,24 +53,26 @@ namespace JTO_WPF.ViewModels
                         {
                             unit.DestinationRepo.Create(Destination);
                             unit.Save();
-                            OutputResult = "Nieuwe bestemming is toegevoegd!";
                         }
                         else
                         {
                             unit.DestinationRepo.Update(Destination);
                             unit.Save();
-                            OutputResult = "Bestemming is aangepast!";
                         }
+                        var dVM = new DestinationViewModel(DVM);
+                        var dV = new DestinationView();
+                        dV.DataContext = dVM;
+                        DVM.Content = dV;
                     }
                     else
                         OutputResult = errors;
                     break;
 
                 case "Cancel":
-                    var dVM = new DestinationViewModel(DVM);
-                    var dV = new DestinationView();
-                    dV.DataContext = dVM;
-                    DVM.Content = dV;
+                    var dVM2 = new DestinationViewModel(DVM);
+                    var dV2 = new DestinationView();
+                    dV2.DataContext = dVM2;
+                    DVM.Content = dV2;
                     break;
             }
         }
