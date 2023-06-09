@@ -21,7 +21,7 @@ namespace JTO_WPF.ViewModels
         public DestinationViewModel(DashboardViewModel dVM)
         {
             this.DVM = dVM;
-            Destinations = unit.DestinationRepo.Retrieve();
+            Destinations = unit.DestinationRepo.Retrieve(d => d.IsActive == true || d.IsActive == null);
         }
 
         public override bool CanExecute(object parameter)
@@ -59,14 +59,15 @@ namespace JTO_WPF.ViewModels
                 case "Delete":
                     try
                     {
-                        unit.DestinationRepo.Delete(SelectedDestination);
+                        SelectedDestination.IsActive = false;
+                        unit.DestinationRepo.Update(SelectedDestination);
                         unit.Save();
-                        Destinations = unit.DestinationRepo.Retrieve();
+                        Destinations = unit.DestinationRepo.Retrieve(d => d.IsActive == true || d.IsActive == null);
                     }
                     catch (Exception ex)
                     {
                         unit.Reload(SelectedDestination);
-                        MessageBox.Show("Er ging iets fout. Mogelijk wordt de geselecteerde bestemming nog gebruikt.");
+                        MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.");
                     }
                     break;
             }
