@@ -21,7 +21,7 @@ namespace JTO_WPF.ViewModels
         public TrainingViewModel(DashboardViewModel dvm)
         {
             DVM = dvm;
-            Trainings = unit.TrainingRepo.Retrieve(x => x.Trainees);
+            Trainings = unit.TrainingRepo.Retrieve(x => x.Trainees).Where(t => t.IsActive == true || t.IsActive == null);
         }
 
         public override bool CanExecute(object parameter)
@@ -54,6 +54,13 @@ namespace JTO_WPF.ViewModels
                     DetailsTrainingView dtV = new DetailsTrainingView();
                     dtV.DataContext = dtVM;
                     DVM.Content = dtV;
+                    break;
+
+                case "Delete":
+                    SelectedTraining.IsActive = false;
+                    unit.TrainingRepo.Update(SelectedTraining);
+                    unit.Save();
+                    Trainings = unit.TrainingRepo.Retrieve(x => x.Trainees).Where(t => t.IsActive == true || t.IsActive == null);
                     break;
             }
         }
