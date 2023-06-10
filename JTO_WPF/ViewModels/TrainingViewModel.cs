@@ -50,7 +50,7 @@ namespace JTO_WPF.ViewModels
             switch (parameter.ToString())
             {
                 case "ShowDetail":
-                    DetailsTrainingViewModel dtVM = new DetailsTrainingViewModel(this.SelectedTraining);
+                    DetailsTrainingViewModel dtVM = new DetailsTrainingViewModel(this.SelectedTraining, DVM);
                     DetailsTrainingView dtV = new DetailsTrainingView();
                     dtV.DataContext = dtVM;
                     DVM.Content = dtV;

@@ -3,6 +3,8 @@ using DAL.Data.UnitOfWork;
 using JTO_Models;
 using JTO_MODELS;
 using JTO_WPF.Converters;
+using JTO_WPF.Views;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,9 +18,12 @@ namespace JTO_WPF.ViewModels
     internal class DetailsTrainingViewModel : BaseViewModel
     {
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
+        private Snackbar _snackbar = new Snackbar();
         public IEnumerable<Role> AvailableRoles { get; set; }
         public IEnumerable<Person> AvailableTrainees { get; set; }
+        public DashboardViewModel DVM { get; set; }
         public Training NewTraining { get; set; }
+        public string ResultOutput { get; set; }
         public Person SelectedAvailableTrainee { get; set; }
         public Role SelectedRole { get; set; }
         public Trainee SelectedSubscribedTrainee { get; set; }
@@ -27,8 +32,9 @@ namespace JTO_WPF.ViewModels
         public Training Training { get; set; }
 
         // Constructor is called when a Training object is passed from TrainingView
-        public DetailsTrainingViewModel(Training selectedTraining)
+        public DetailsTrainingViewModel(Training selectedTraining, DashboardViewModel dvm)
         {
+            DVM = dvm;
             this.Training = selectedTraining;
             // Get list of (subscribed) Trainee objects through TrainingID, based on ID of current
             // Training object
@@ -47,9 +53,10 @@ namespace JTO_WPF.ViewModels
 
         // Constructor is called when no Training object is passed from TrainingView (= new training
         // is created)
-        public DetailsTrainingViewModel()
+        public DetailsTrainingViewModel(DashboardViewModel dvm)
         {
             Training = new Training();
+            DVM = dvm;
             AvailableTrainees = unit.PersonRepo.Retrieve();
             SubscribedTrainees = new ObservableCollection<Trainee>();
             SubscribedTraineesCollection = new ObservableCollection<Person>();
@@ -65,7 +72,7 @@ namespace JTO_WPF.ViewModels
                 // Enables/Disable AddTraineeButton based on if Person object in AvailableTrainee
                 // datagrid is selected
                 case "AddTrainee":
-                    if (SelectedAvailableTrainee == null && SelectedRole == null)
+                    if (SelectedAvailableTrainee == null || SelectedRole == null)
                         return false;
                     else
                         return true;
@@ -100,8 +107,6 @@ namespace JTO_WPF.ViewModels
             // more or less than 1 trainnee
             if (SubscribedTrainees.Where(x => x.RoleID == 2).Count() <= 0)
                 error += "Er moet teminste 1 persoon als trainer aangeduid worden" + Environment.NewLine;
-            if (SubscribedTrainees.Where(x => x.RoleID == 2).Count() > 1)
-                error += "Er mag maximum 1 trainer per opleiding toegewezen worden" + Environment.NewLine;
 
             return error;
         }
@@ -113,7 +118,21 @@ namespace JTO_WPF.ViewModels
                 case "SaveTraining":
                     if (string.IsNullOrEmpty(Errors()))
                     {
-                        return;
+                        if (Training.TrainingID == 0)
+                        {
+                            unit.TrainingRepo.Create(Training);
+                            unit.Save();
+                        }
+                        else
+                        {
+                            unit.TrainingRepo.Update(Training);
+                            unit.Save();
+                        }
+                        var tVM = new TrainingViewModel(DVM);
+                        var tV = new TrainingView();
+                        tV.DataContext = tVM;
+                        DVM.Content = tV;
+                        break;
                     }
                     else
                         break;
@@ -124,13 +143,19 @@ namespace JTO_WPF.ViewModels
                     trainee.PersonID = SelectedAvailableTrainee.PersonID;
                     trainee.RoleID = SelectedRole.RoleID;
                     trainee.TrainingID = Training.TrainingID;
+                    if (SubscribedTrainees.Where(x => x.RoleID == 2).Count() >= 1 && trainee.RoleID == 2)
+                    {
+                        ResultOutput = "Er mag maximum 1 trainer per opleiding toegewezen worden";
+                        _snackbar.MessageQueue.Enqueue(ResultOutput);
+                        break;
+                    }
                     SubscribedTrainees.Add(trainee);
-
                     unit.TraineeRepo.Create(trainee);
                     unit.Save();
 
                     SubscribedTraineesCollection.Add(unit.PersonRepo.Retrieve(p => p.PersonID == trainee.PersonID).FirstOrDefault());
                     AvailableTrainees = AvailableTrainees.Except(SubscribedTraineesCollection);
+                    ResultOutput = "Cursist/Trainer is toegevoegd.";
                     break;
 
                 case "RemoveTrainee":
@@ -141,6 +166,8 @@ namespace JTO_WPF.ViewModels
 
                     SubscribedTraineesCollection.Remove(unit.PersonRepo.Retrieve(p => p.PersonID == deletedTrainee.PersonID).FirstOrDefault());
                     AvailableTrainees = AvailableTrainees.Except(SubscribedTraineesCollection);
+                    ResultOutput = $"Cursist is verwijderd.";
+
                     break;
 
                 default:
