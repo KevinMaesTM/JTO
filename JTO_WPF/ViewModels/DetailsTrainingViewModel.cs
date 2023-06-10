@@ -5,6 +5,7 @@ using JTO_MODELS;
 using JTO_WPF.Converters;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -15,11 +16,14 @@ namespace JTO_WPF.ViewModels
     internal class DetailsTrainingViewModel : BaseViewModel
     {
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
+        public IEnumerable<Role> AvailableRoles { get; set; }
         public IEnumerable<Person> AvailableTrainees { get; set; }
         public Training NewTraining { get; set; }
         public Person SelectedAvailableTrainee { get; set; }
-        public Trainee SelectedTrainee { get; set; }
-        public IEnumerable<Trainee> SubscribedTrainees { get; set; }
+        public Role SelectedRole { get; set; }
+        public Trainee SelectedSubscribedTrainee { get; set; }
+        public ObservableCollection<Trainee> SubscribedTrainees { get; set; }
+        public ObservableCollection<Person> SubscribedTraineesCollection { get; set; } = new ObservableCollection<Person> { };
         public Training Training { get; set; }
 
         // Constructor is called when a Training object is passed from TrainingView
@@ -28,9 +32,17 @@ namespace JTO_WPF.ViewModels
             this.Training = selectedTraining;
             // Get list of (subscribed) Trainee objects through TrainingID, based on ID of current
             // Training object
-            SubscribedTrainees = unit.TraineeRepo.Retrieve(x => x.Training.TrainingID == selectedTraining.TrainingID);
-            // Retrieve list of all Person objects
-            AvailableTrainees = unit.PersonRepo.Retrieve();
+            SubscribedTrainees = selectedTraining.Trainees;
+            // Generate list of person objects from subscribed trainees collection (are originally
+            // Trainee objects)
+            foreach (Trainee t in SubscribedTrainees)
+            {
+                Person p = unit.PersonRepo.Retrieve(p => p.PersonID == t.PersonID).FirstOrDefault();
+                SubscribedTraineesCollection.Add(p);
+            }
+            // Retrieve list of all Person objects except subscribed trainees
+            AvailableTrainees = unit.PersonRepo.Retrieve().Except(SubscribedTraineesCollection);
+            AvailableRoles = unit.RoleRepo.Retrieve(ar => ar.AssignedObject == "Training").ToList();
         }
 
         // Constructor is called when no Training object is passed from TrainingView (= new training
@@ -39,9 +51,11 @@ namespace JTO_WPF.ViewModels
         {
             Training = new Training();
             AvailableTrainees = unit.PersonRepo.Retrieve();
-            SubscribedTrainees = new List<Trainee>();
+            SubscribedTrainees = new ObservableCollection<Trainee>();
+            SubscribedTraineesCollection = new ObservableCollection<Person>();
             Training.Name = null;
             Training.Date = null;
+            AvailableRoles = unit.RoleRepo.Retrieve(ar => ar.AssignedObject == "Training").ToList();
         }
 
         public override bool CanExecute(object parameter)
@@ -51,7 +65,13 @@ namespace JTO_WPF.ViewModels
                 // Enables/Disable AddTraineeButton based on if Person object in AvailableTrainee
                 // datagrid is selected
                 case "AddTrainee":
-                    if (SelectedAvailableTrainee == null)
+                    if (SelectedAvailableTrainee == null && SelectedRole == null)
+                        return false;
+                    else
+                        return true;
+
+                case "RemoveTrainee":
+                    if (SelectedSubscribedTrainee == null)
                         return false;
                     else
                         return true;
@@ -70,7 +90,7 @@ namespace JTO_WPF.ViewModels
                 Name = Training.Name,
                 Date = Training.Date,
                 TrainingID = Training.TrainingID,
-                Trainees = (System.Collections.ObjectModel.ObservableCollection<Trainee>)SubscribedTrainees
+                Trainees = SubscribedTrainees
             };
             if (NewTraining.Name == null)
                 error += "Training naam is verplicht!" + Environment.NewLine;
@@ -97,6 +117,31 @@ namespace JTO_WPF.ViewModels
                     }
                     else
                         break;
+
+                case "AddTrainee":
+                    Trainee trainee = new Trainee();
+
+                    trainee.PersonID = SelectedAvailableTrainee.PersonID;
+                    trainee.RoleID = SelectedRole.RoleID;
+                    trainee.TrainingID = Training.TrainingID;
+                    SubscribedTrainees.Add(trainee);
+
+                    unit.TraineeRepo.Create(trainee);
+                    unit.Save();
+
+                    SubscribedTraineesCollection.Add(unit.PersonRepo.Retrieve(p => p.PersonID == trainee.PersonID).FirstOrDefault());
+                    AvailableTrainees = AvailableTrainees.Except(SubscribedTraineesCollection);
+                    break;
+
+                case "RemoveTrainee":
+                    Trainee deletedTrainee = SelectedSubscribedTrainee;
+                    SubscribedTrainees.Remove(deletedTrainee);
+                    unit.TraineeRepo.Delete(deletedTrainee);
+                    unit.Save();
+
+                    SubscribedTraineesCollection.Remove(unit.PersonRepo.Retrieve(p => p.PersonID == deletedTrainee.PersonID).FirstOrDefault());
+                    AvailableTrainees = AvailableTrainees.Except(SubscribedTraineesCollection);
+                    break;
 
                 default:
                     break;

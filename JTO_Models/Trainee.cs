@@ -29,5 +29,7 @@ namespace JTO_Models
         public int TraineeID { get; set; }
 
         public Training Training { get; set; }
+
+        public int TrainingID { get; set; }
     }
 }

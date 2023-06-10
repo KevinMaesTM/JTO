@@ -11,8 +11,11 @@ using System.Threading.Tasks;
 namespace JTO_MODELS
 {
     [Table("Roles")]
-    public class Role
+    public partial class Role
     {
+        [Required]
+        public string AssignedObject { get; set; }
+
         public bool? IsActive { get; set; } = true;
 
         [Required]
