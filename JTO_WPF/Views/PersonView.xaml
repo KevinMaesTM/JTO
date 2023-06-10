@@ -32,7 +32,7 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Margin="100, 5, 100, 5">Toevoegen</Button>
+                <Button Grid.Column="0" Margin="100, 5, 100, 5" Command="{Binding}" CommandParameter="Add">Toevoegen</Button>
                 <Button Grid.Column="1" Margin="80, 5, 80, 5" Command="{Binding}" CommandParameter="ShowDetail">Bekijk in detail</Button>
                 <Button Grid.Column="2" Margin="100, 5, 100, 5" Command="{Binding}" CommandParameter="Delete">Verwijderen</Button>
             </Grid>
