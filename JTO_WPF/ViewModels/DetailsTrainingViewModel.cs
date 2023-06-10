@@ -22,7 +22,6 @@ namespace JTO_WPF.ViewModels
         public IEnumerable<Role> AvailableRoles { get; set; }
         public IEnumerable<Person> AvailableTrainees { get; set; }
         public DashboardViewModel DVM { get; set; }
-        public Training NewTraining { get; set; }
         public string ResultOutput { get; set; }
         public Person SelectedAvailableTrainee { get; set; }
         public Role SelectedRole { get; set; }
@@ -92,22 +91,10 @@ namespace JTO_WPF.ViewModels
         public string Errors()
         {
             string error = "";
-            NewTraining = new Training
-            {
-                Name = Training.Name,
-                Date = Training.Date,
-                TrainingID = Training.TrainingID,
-                Trainees = SubscribedTrainees
-            };
-            if (NewTraining.Name == null)
+            if (Training.Name == null)
                 error += "Training naam is verplicht!" + Environment.NewLine;
-            if (DateTime.TryParse(NewTraining.Date.ToString(), out DateTime dateTraining) == false)
+            if (DateTime.TryParse(Training.Date.ToString(), out DateTime dateTraining) == false)
                 error += "Datum heeft een ongeldig formaat: dd/MM/yyy" + Environment.NewLine;
-            // Checks the amount of trainees marked as trainer. Throw an error if the list contains
-            // more or less than 1 trainnee
-            if (SubscribedTrainees.Where(x => x.RoleID == 2).Count() <= 0)
-                error += "Er moet teminste 1 persoon als trainer aangeduid worden" + Environment.NewLine;
-
             return error;
         }
 
@@ -116,33 +103,43 @@ namespace JTO_WPF.ViewModels
             switch (parameter.ToString())
             {
                 case "SaveTraining":
-                    if (string.IsNullOrEmpty(Errors()))
+                    // Checks the amount of trainees marked as trainer. Throw an error if the list
+                    // contains less than 1 trainer
+                    if (SubscribedTrainees.Where(x => x.RoleID == 2).Count() <= 0)
                     {
-                        if (Training.TrainingID == 0)
-                        {
-                            unit.TrainingRepo.Create(Training);
-                            unit.Save();
-                        }
-                        else
-                        {
-                            unit.TrainingRepo.Update(Training);
-                            unit.Save();
-                        }
-                        var tVM = new TrainingViewModel(DVM);
-                        var tV = new TrainingView();
-                        tV.DataContext = tVM;
-                        DVM.Content = tV;
+                        ResultOutput = "Er moet teminste 1 persoon als trainer aangeduid worden";
                         break;
                     }
-                    else
-                        break;
+                    unit.TrainingRepo.Update(Training);
+                    unit.Save();
+
+                    var tVM = new TrainingViewModel(DVM);
+                    var tV = new TrainingView();
+                    tV.DataContext = tVM;
+                    DVM.Content = tV;
+                    break;
 
                 case "AddTrainee":
                     Trainee trainee = new Trainee();
 
                     trainee.PersonID = SelectedAvailableTrainee.PersonID;
                     trainee.RoleID = SelectedRole.RoleID;
-                    trainee.TrainingID = Training.TrainingID;
+                    if (Training.TrainingID != 0)
+                        trainee.TrainingID = Training.TrainingID;
+                    else
+                    {
+                        if (string.IsNullOrEmpty(Errors()))
+                        {
+                            unit.TrainingRepo.Create(Training);
+                            unit.Save();
+                        }
+                        else
+                        {
+                            ResultOutput = Errors();
+                            break;
+                        }
+                    }
+
                     if (SubscribedTrainees.Where(x => x.RoleID == 2).Count() >= 1 && trainee.RoleID == 2)
                     {
                         ResultOutput = "Er mag maximum 1 trainer per opleiding toegewezen worden";

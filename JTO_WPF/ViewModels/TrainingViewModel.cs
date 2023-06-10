@@ -56,6 +56,13 @@ namespace JTO_WPF.ViewModels
                     DVM.Content = dtV;
                     break;
 
+                case "Add":
+                    CreateTrainingViewModel ctVM = new CreateTrainingViewModel(DVM);
+                    CreateTrainingView ctV = new CreateTrainingView();
+                    ctV.DataContext = ctVM;
+                    DVM.Content = ctV;
+                    break;
+
                 case "Delete":
                     SelectedTraining.IsActive = false;
                     unit.TrainingRepo.Update(SelectedTraining);
