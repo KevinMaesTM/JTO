@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JTO_MODELS;
+using JTO_WPF.Views;
 
 namespace JTO_WPF.ViewModels
 {
@@ -51,6 +52,10 @@ namespace JTO_WPF.ViewModels
             switch (parameter.ToString())
             {
                 case "Add":
+                    RoleDetailsViewModel rdVM = new RoleDetailsViewModel(DVM);
+                    RoleDetailsView rdV = new RoleDetailsView();
+                    rdV.DataContext = rdVM;
+                    DVM.Content = rdV;
                     break;
             }
         }
