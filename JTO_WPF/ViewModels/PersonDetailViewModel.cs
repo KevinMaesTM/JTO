@@ -116,6 +116,11 @@ namespace JTO_WPF.ViewModels
             else if (!Person.Zip.Any(char.IsDigit))
                 result += "Postcode moet een nummer (0-9) bevatten!" + Environment.NewLine;
 
+            if (string.IsNullOrEmpty(Person.DateOfBirth.ToString()))
+                result += "Geboortedatum is een verplicht veld!" + Environment.NewLine;
+            else if (!DateTime.TryParse(Person.DateOfBirth.ToString(), out DateTime dateBirth))
+                result += "Geboortedatum heeft een ongeldig formaat: dd/MM/yyy" + Environment.NewLine;
+
             if (string.IsNullOrEmpty(Person.City))
                 result += "Gemeente is een verplicht veld!" + Environment.NewLine;
             if (string.IsNullOrEmpty(Person.Country))
