@@ -1,4 +1,4 @@
-﻿using JTO_Models;
+using JTO_Models;
 using JTO_WPF.Views;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
@@ -41,6 +41,7 @@ namespace JTO_WPF.ViewModels
                 case "ShowDestinations": ShowDestinations(); break;
                 case "ShowRoles": ShowRoles(); break;
                 case "Logout": Logout(); break;
+                case "ShowPersons": ShowPersons(); break;
             }
         }
 
@@ -78,12 +79,21 @@ namespace JTO_WPF.ViewModels
             Content = gtview;
         }
 
+
         private void ShowRoles()
         {
             var roVM = new RoleOverviewViewModel(this);
             var roV = new RoleOverviewView();
             roV.DataContext = roVM;
             Content = roV;
+
+        private void ShowPersons()
+        {
+            var pvm = new PersonViewModel(this);
+            var pv = new PersonView();
+            pv.DataContext = pvm;
+            Content = pv;
+
         }
 
         private void ShowThemes()
