@@ -19,9 +19,9 @@ namespace JTO_WPF.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is string assigneObject)
+            if (value is string assignedObject)
             {
-                if (assigneObject == "GroupTour")
+                if (assignedObject == "GroupTour")
                     return "Groepsreizen";
                 else
                     return "Training";
