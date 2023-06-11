@@ -18,6 +18,8 @@ namespace JTO_WPF.ViewModels
         public string Mode { get; set; }
         public string Name { get; set; }
         public Person Person { get; set; }
+        public string SelectedSex { get; set; }
+        public List<string> SexOptions { get; set; } = new List<string>() { "Man", "Vrouw" };
 
         public PersonDetailViewModel(DashboardViewModel dvm)
         {
@@ -33,6 +35,10 @@ namespace JTO_WPF.ViewModels
             Person = person;
             Mode = "Wijzig";
             Name = Person.Name;
+            if (Person.Sex == true)
+                SelectedSex = "Man";
+            else
+                SelectedSex = "Vrouw";
         }
 
         public override bool CanExecute(object parameter)

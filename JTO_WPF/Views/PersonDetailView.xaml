@@ -42,21 +42,21 @@
         <TextBox Margin="0,10,0, 0" FontSize="14" materialDesign:HintAssist.Hint="Famillienaam" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.Surname}" Background="Transparent" Grid.Column="3" Grid.Row="1" />
         <ComboBox x:Name="cbRole" Grid.Row="1" Grid.Column="5" Width="150" Margin="0,10,0, 0" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14"
                   BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Geslacht"
-                  ItemsSource="{Binding Sex, Converter={StaticResource BoolToGeslachtConverter}}"
+                  ItemsSource="{Binding SexOptions}"
                   SelectedValue="{Binding SelectedSex}" />
         <TextBox Margin="0,10,0, 0" FontSize="14" materialDesign:HintAssist.Hint="Land" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.Country}" Background="Transparent" Grid.Column="1" Grid.Row="3" />
         <TextBox Margin="0,10,0, 0" FontSize="14" materialDesign:HintAssist.Hint="Straat" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.Street}" Background="Transparent" Grid.Column="3" Grid.Row="3" />
-        <TextBox Margin="0,10,0, 0" FontSize="14" materialDesign:HintAssist.Hint="Nummer" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.Number}" Background="Transparent" Grid.Column="5" Grid.Row="3" />
+        <TextBox Margin="0,10,0, 0" FontSize="14" Width="150" materialDesign:HintAssist.Hint="Nummer" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.Number}" Background="Transparent" Grid.Column="5" Grid.Row="3" />
         <TextBox Margin="0,10,0, 0" FontSize="14" materialDesign:HintAssist.Hint="Postcode" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.Zip}" Background="Transparent" Grid.Column="1" Grid.Row="5" />
         <TextBox Margin="0,10,0, 0" FontSize="14" materialDesign:HintAssist.Hint="Stad" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.City}" Background="Transparent" Grid.Column="3" Grid.Row="5" />
         <TextBox Margin="0,10,0, 0" FontSize="14" materialDesign:HintAssist.Hint="Email adres" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.Email}" Background="Transparent" Grid.Column="1" Grid.Row="7" />
         <TextBox Margin="0,10,0, 0" FontSize="14" materialDesign:HintAssist.Hint="Telefoonnummer" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.Phone}" Background="Transparent" Grid.Column="3" Grid.Row="7" />
-        <CheckBox x:Name="cbIsMember" HorizontalAlignment="Center" FlowDirection="RightToLeft" Command="{Binding}" CommandParameter="ChangeToMemeber" IsChecked="{Binding MemberHealthInsurance}" Grid.Column="5" Grid.Row="7">
+        <CheckBox x:Name="cbIsMember" HorizontalAlignment="Center" FlowDirection="RightToLeft" CommandParameter="ChangeToMemeber" IsChecked="{Binding Person.MemberHealthInsurance, Mode=TwoWay}" Grid.Column="5" Grid.Row="7">
             <TextBlock FontSize="16" FlowDirection="LeftToRight" Text="Is ingeschreven lid?" Foreground="Black" />
         </CheckBox>
         <Grid  Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="9">
             <TextBlock Text="Medische details" Margin="4,-2,0,0" Foreground="Gray" VerticalAlignment="Top" />
-            <TextBox x:Name="txtMedicalDetails" Margin="0,18,0,0" FontSize="14" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.medicalsheet}" Background="Transparent"
+            <TextBox x:Name="txtMedicalDetails" Margin="0,18,0,0" FontSize="14" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.medicalSheet}" Background="Transparent"
               TextWrapping="Wrap" AcceptsReturn="True" VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto" />
         </Grid>
         <Grid Margin="5" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="11">
