@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JTO_DAL.Migrations
 {
     [DbContext(typeof(JTOContext))]
-    [Migration("20230530094915_InitialCreate")]
+    [Migration("20230607104412_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -46,15 +46,15 @@
                     <DropShadowEffect BlurRadius="1" ShadowDepth="1" Color="#FFACACAC" />
                 </Grid.Effect>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <TextBlock AutomationProperties.AutomationId="UserName" Text="{Binding User}" VerticalAlignment="Center" FontSize="16"/>
+                    <TextBlock AutomationProperties.AutomationId="UserName" Text="{Binding User}" VerticalAlignment="Center" FontSize="16" />
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Margin="5">
                             <StackPanel Width="150">
-                                <Button Content="Settings"/>
-                                <Button Content="Account"/>
-                                <Button Content="Help"/>
-                                <Separator/>
-                                <Button Content="Logout" Command="{Binding}" CommandParameter="Logout"/>
+                                <Button Content="Settings" />
+                                <Button Content="Account" />
+                                <Button Content="Help" />
+                                <Separator />
+                                <Button Content="Logout" Command="{Binding}" CommandParameter="Logout" />
                             </StackPanel>
                         </materialDesign:PopupBox>
                     </StackPanel>
@@ -110,6 +110,12 @@
                         <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="QuestionMark" Height="25" Width="25" Margin="10" />
                             <TextBlock Text="Themas" VerticalAlignment="Center" Margin="20 10" />
+                        </StackPanel>
+                    </Button>
+                    <Button Height="60" Command="{Binding}" CommandParameter="ShowPersons" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
+                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Person" Height="25" Width="25" Margin="10" />
+                            <TextBlock Text="Personen" VerticalAlignment="Center" Margin="20 10" />
                         </StackPanel>
                     </Button>
                 </StackPanel>
