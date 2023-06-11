@@ -31,6 +31,8 @@ namespace JTO_WPF.ViewModels
             GroupTour = groupTour;
             SelectedTheme = GroupTour.Theme;
             SelectedAgeCategory = GroupTour.AgeCategory;
+            SelectedResponsible = GroupTour.Responsible;
+            SelectedDestination = GroupTour.Destination;
             Themas = unit.ThemeRepo.Retrieve();
             AgeCategories = unit.AgeCategoryRepo.Retrieve();
             Responsibles = unit.PersonRepo.Retrieve();

@@ -32,7 +32,7 @@ namespace JTO_WPF.ViewModels
         public GroupTourViewModel(DashboardViewModel dVM)
         {
             this.DVM = dVM;
-            GroupTours = unit.GroupTourRepo.Retrieve(x => x.AgeCategory, x => x.Theme, x => x.Participants);
+            GroupTours = unit.GroupTourRepo.Retrieve(x => x.AgeCategory, x => x.Theme, x => x.Responsible, x => x.Destination, x => x.Participants);
         }
 
         public override bool CanExecute(object parameter)
