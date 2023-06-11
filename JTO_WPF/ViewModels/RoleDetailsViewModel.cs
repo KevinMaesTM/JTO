@@ -28,6 +28,18 @@ namespace JTO_WPF.ViewModels
             AvailableObjects.Add("Training");
         }
 
+        public RoleDetailsViewModel(DashboardViewModel dvm, Role role)
+        {
+            DVM = dvm;
+            Role = role;
+            AvailableObjects.Add("Groepsreizen");
+            AvailableObjects.Add("Training");
+            if (Role.AssignedObject == "GroupTour")
+                SelectedAssignedObject = "Groepsreizen";
+            else
+                SelectedAssignedObject = "Training";
+        }
+
         public override bool CanExecute(object parameter)
         {
             return true;
@@ -64,6 +76,13 @@ namespace JTO_WPF.ViewModels
                         DVM.Content = roV;
                         break;
                     }
+                    break;
+
+                case "Cancel":
+                    RoleOverviewViewModel roVM2 = new RoleOverviewViewModel(DVM);
+                    RoleOverviewView roV2 = new RoleOverviewView();
+                    roV2.DataContext = roVM2;
+                    DVM.Content = roV2;
                     break;
             }
         }

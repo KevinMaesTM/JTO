@@ -57,6 +57,13 @@ namespace JTO_WPF.ViewModels
                     rdV.DataContext = rdVM;
                     DVM.Content = rdV;
                     break;
+
+                case "ShowDetail":
+                    RoleDetailsViewModel rdVM2 = new RoleDetailsViewModel(DVM, SelectedRole);
+                    RoleDetailsView rdV2 = new RoleDetailsView();
+                    rdV2.DataContext = rdVM2;
+                    DVM.Content = rdV2;
+                    break;
             }
         }
     }
