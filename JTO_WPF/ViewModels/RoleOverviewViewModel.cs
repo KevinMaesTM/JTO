@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JTO_MODELS;
 using JTO_WPF.Views;
+using System.Windows;
 
 namespace JTO_WPF.ViewModels
 {
@@ -63,6 +64,22 @@ namespace JTO_WPF.ViewModels
                     RoleDetailsView rdV2 = new RoleDetailsView();
                     rdV2.DataContext = rdVM2;
                     DVM.Content = rdV2;
+                    break;
+
+                case "Delete":
+                    if (SelectedRole.Name == "Leerkracht" || SelectedRole.Name == "Monitor" || SelectedRole.Name == "Hoofdmonitor")
+                    {
+                        MessageBox.Show("Deze rol kan niet verwijderd worden!", "Opgelet!", MessageBoxButton.OK, MessageBoxImage.Information);
+                        break;
+                    }
+                    else
+                    {
+                        SelectedRole.IsActive = false;
+                        unit.RoleRepo.Update(SelectedRole);
+                        unit.Save();
+
+                        Roles = unit.RoleRepo.Retrieve(r => r.IsActive == null || r.IsActive == true);
+                    }
                     break;
             }
         }
