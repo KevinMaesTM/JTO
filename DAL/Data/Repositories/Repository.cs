@@ -30,7 +30,7 @@ namespace DAL.Data
 
         public IEnumerable<T> Retrieve()
         {
-            return Context.Set<T>().ToList();
+            return Context.Set<T>().AsNoTracking().ToList();
         }
 
         public void Update(T entity)

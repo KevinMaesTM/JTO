@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace JTO_MODELS
 {
     [Table("GroupTours")]
-    public class GroupTour
+    public partial class GroupTour
     {
         [ForeignKey("AgeCategoryID")]
         public AgeCategory? AgeCategory { get; set; }

@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JTO_WPF.Views;
-using System.Reflection.Metadata;
 
 namespace JTO_WPF.ViewModels
 {
@@ -24,21 +23,46 @@ namespace JTO_WPF.ViewModels
         public Person SelectedResponsible { get; set; }
         public IEnumerable<Destination> Destinations { get; set; }
         public Destination SelectedDestination { get; set; }
+        public string Mode { get; set; }
 
         public GroupTourDetailViewModel(GroupTour groupTour, DashboardViewModel dVM)
         {
             DVM = dVM;
             GroupTour = groupTour;
             SelectedTheme = GroupTour.Theme;
+            SelectedAgeCategory = GroupTour.AgeCategory;
             Themas = unit.ThemeRepo.Retrieve();
             AgeCategories = unit.AgeCategoryRepo.Retrieve();
             Responsibles = unit.PersonRepo.Retrieve();
             Destinations = unit.DestinationRepo.Retrieve();
+            Mode = "Wijzig";
+        }
+        public GroupTourDetailViewModel(DashboardViewModel dVM)
+        {
+            DVM = dVM;
+            GroupTour = new GroupTour();
+            Themas = unit.ThemeRepo.Retrieve();
+            AgeCategories = unit.AgeCategoryRepo.Retrieve();
+            Responsibles = unit.PersonRepo.Retrieve();
+            Destinations = unit.DestinationRepo.Retrieve();
+            Mode = "Voeg toe";
         }
 
         public override bool CanExecute(object parameter)
         {
-            return true;
+            switch (parameter.ToString())
+            {
+                case "AddParticipants":
+                    if(GroupTour.GroupTourID == 0)
+                    {
+                        return false;
+                    } else
+                    {
+                        return true;
+                    }
+                default:
+                    return true;
+            }
         }
 
         public override void Execute(object parameter)
@@ -52,7 +76,22 @@ namespace JTO_WPF.ViewModels
                     DVM.Content = gtview;
                     break;
                 case "Update":
-                    throw new NotImplementedException();
+                    if(Mode == "Voeg toe")
+                    {
+                        GroupTour newGt = new GroupTour(GroupTour.Name, GroupTour.Startdate, GroupTour.Enddate, GroupTour.Budget, GroupTour.Price, GroupTour.MaxParticipants, SelectedTheme.ThemeID, SelectedAgeCategory.AgeCategoryID, SelectedResponsible.PersonID, SelectedDestination.DestinationID);
+                        unit.GroupTourRepo.Create(newGt);
+                        unit.Save();
+                    }
+                    if(Mode == "Wijzig")
+                    {
+                        unit.GroupTourRepo.Update(GroupTour);
+                        unit.Save();
+                    }
+                    GroupTourViewModel gtvm2 = new GroupTourViewModel(DVM);
+                    GroupTripView gtview2 = new GroupTripView();
+                    gtview2.DataContext = gtvm2;
+                    DVM.Content = gtview2;
+                    break;
                 case "AddParticipants":
                     AddParticipantsViewModel apvm = new AddParticipantsViewModel(GroupTour, DVM);
                     AddParticipantsView apv = new AddParticipantsView();

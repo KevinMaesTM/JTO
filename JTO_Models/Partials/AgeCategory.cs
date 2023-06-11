@@ -18,5 +18,18 @@ namespace JTO_MODELS
         {
             return $"({MinAge} - {MaxAge})";
         }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as AgeCategory);
+        }
+
+        public bool Equals(AgeCategory other)
+        {
+            if (other == null)
+                return false;
+
+            return MinAge == other.MinAge && MaxAge == other.MaxAge;
+        }
     }
 }

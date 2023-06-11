@@ -37,7 +37,7 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <Button Margin="5" Grid.Column="0" Command="{Binding}" CommandParameter="Update">Wijzig</Button>
+                <Button Margin="5" Grid.Column="0" Command="{Binding}" CommandParameter="Update" Content="{Binding Mode}"></Button>
                 <Button Margin="5" Grid.Column="1" Command="{Binding}" CommandParameter="Cancel">Annuleer</Button>
             </Grid>
         </StackPanel>

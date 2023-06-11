@@ -57,6 +57,15 @@ namespace JTO_WPF.ViewModels
                     {
                         return true;
                     }
+                case "AddGroupTour":
+                    if (SelectedGroupTour == null)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 default:
                     return true;
             }
@@ -86,6 +95,13 @@ namespace JTO_WPF.ViewModels
                     unit.Save();
                     GroupTours = unit.GroupTourRepo.Retrieve(x => x.AgeCategory, x => x.Theme, x => x.Participants);
                     break;
+                case "AddGroupTour":
+                    GroupTourDetailViewModel gtdVm2 = new GroupTourDetailViewModel(DVM);
+                    GroupTourDetailView gtdv2 = new GroupTourDetailView();
+                    gtdv2.DataContext = gtdVm2;
+                    DVM.Content = gtdv2;
+                    break;
+
             }
         }
     }
