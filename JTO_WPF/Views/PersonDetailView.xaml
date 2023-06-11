@@ -64,7 +64,7 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button Margin="10" Grid.Column="0" Command="{Binding}" CommandParameter="Update">Wijzig</Button>
+            <Button Margin="10" Grid.Column="0" Command="{Binding}" CommandParameter="Save">Opslaan</Button>
             <Button Margin="10" Grid.Column="1" Command="{Binding}" CommandParameter="Cancel">Annuleer</Button>
         </Grid>
     </Grid>
