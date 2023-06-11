@@ -10,30 +10,62 @@
         Background="{x:Null}"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:BoolToGeslachtConverter x:Key="BoolToGeslachtConverter" />
+    </UserControl.Resources>
     <Grid x:Name="GridMain" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="585" Width="955">
         <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0.1*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0.1*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0.1*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0.1*"></RowDefinition>
+            <RowDefinition Height="2.6*"></RowDefinition>
+            <RowDefinition Height="0.1*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0.2*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.1*"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="0.1*"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="0.1*"></ColumnDefinition>
+            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+            <ColumnDefinition Width="0.1*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0">
-            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Naam" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.Name}" Background="Transparent" />
-            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Voornaam" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.Surname}" Background="Transparent" />
-            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Straat" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.Street}" Background="Transparent" />
-            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Nummer" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.Number}" Background="Transparent" />
-            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Stad" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.City}" Background="Transparent" />
-            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Land" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.Country}" Background="Transparent" />
-
-            <Grid Margin="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-
-                <Button Margin="5" Grid.Column="0" Command="{Binding}" CommandParameter="Update">Wijzig</Button>
-                <Button Margin="5" Grid.Column="1" Command="{Binding}" CommandParameter="Cancel">Annuleer</Button>
-            </Grid>
-        </StackPanel>
+        <TextBox Margin="0,10,0, 0" FontSize="14" materialDesign:HintAssist.Hint="Voornaam" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.Name}" Background="Transparent" Grid.Column="1" Grid.Row="1" />
+        <TextBox Margin="0,10,0, 0" FontSize="14" materialDesign:HintAssist.Hint="Famillienaam" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.Surname}" Background="Transparent" Grid.Column="3" Grid.Row="1" />
+        <ComboBox x:Name="cbRole" Grid.Row="1" Grid.Column="5" Width="150" Margin="0,10,0, 0" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14"
+                  BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Geslacht"
+                  ItemsSource="{Binding Sex, Converter={StaticResource BoolToGeslachtConverter}}"
+                  SelectedValue="{Binding SelectedSex}" />
+        <TextBox Margin="0,10,0, 0" FontSize="14" materialDesign:HintAssist.Hint="Land" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.Country}" Background="Transparent" Grid.Column="1" Grid.Row="3" />
+        <TextBox Margin="0,10,0, 0" FontSize="14" materialDesign:HintAssist.Hint="Straat" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.Street}" Background="Transparent" Grid.Column="3" Grid.Row="3" />
+        <TextBox Margin="0,10,0, 0" FontSize="14" materialDesign:HintAssist.Hint="Nummer" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.Number}" Background="Transparent" Grid.Column="5" Grid.Row="3" />
+        <TextBox Margin="0,10,0, 0" FontSize="14" materialDesign:HintAssist.Hint="Postcode" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.Zip}" Background="Transparent" Grid.Column="1" Grid.Row="5" />
+        <TextBox Margin="0,10,0, 0" FontSize="14" materialDesign:HintAssist.Hint="Stad" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.City}" Background="Transparent" Grid.Column="3" Grid.Row="5" />
+        <TextBox Margin="0,10,0, 0" FontSize="14" materialDesign:HintAssist.Hint="Email adres" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.Email}" Background="Transparent" Grid.Column="1" Grid.Row="7" />
+        <TextBox Margin="0,10,0, 0" FontSize="14" materialDesign:HintAssist.Hint="Telefoonnummer" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.Phone}" Background="Transparent" Grid.Column="3" Grid.Row="7" />
+        <CheckBox x:Name="cbIsMember" HorizontalAlignment="Center" FlowDirection="RightToLeft" Command="{Binding}" CommandParameter="ChangeToMemeber" IsChecked="{Binding MemberHealthInsurance}" Grid.Column="5" Grid.Row="7">
+            <TextBlock FontSize="16" FlowDirection="LeftToRight" Text="Is ingeschreven lid?" Foreground="Black" />
+        </CheckBox>
+        <Grid  Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="9">
+            <TextBlock Text="Medische details" Margin="4,-2,0,0" Foreground="Gray" VerticalAlignment="Top" />
+            <TextBox x:Name="txtMedicalDetails" Margin="0,18,0,0" FontSize="14" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Person.medicalsheet}" Background="Transparent"
+              TextWrapping="Wrap" AcceptsReturn="True" VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto" />
+        </Grid>
+        <Grid Margin="5" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="11">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Margin="10" Grid.Column="0" Command="{Binding}" CommandParameter="Update">Wijzig</Button>
+            <Button Margin="10" Grid.Column="1" Command="{Binding}" CommandParameter="Cancel">Annuleer</Button>
+        </Grid>
     </Grid>
 </UserControl>
