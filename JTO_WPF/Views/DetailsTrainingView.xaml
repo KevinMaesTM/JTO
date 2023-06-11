@@ -40,7 +40,7 @@
                   SelectedValue="{Binding SelectedRole}" />
 
         <TextBox Margin="0,10,0, 0" x:Name="txtNameTraining" FontSize="17" materialDesign:HintAssist.Hint="Naam" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Training.Name}" Grid.Row="1" Grid.Column="1" Background="Transparent" />
-        <DatePicker Margin="0,10,0, 0" x:Name="tpDateTraining" FontSize="17" materialDesign:HintAssist.Hint="Datum" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedDatePicker}" Text="{Binding Training.Date}"  SelectedDateFormat="Long" Grid.Row="1" Grid.Column="3" Background="Transparent"></DatePicker>
+        <TextBox Margin="0,10,0, 0" x:Name="txtDateTraining" FontSize="17" materialDesign:HintAssist.Hint="Datum" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Training.Date, StringFormat={}{0:dd/MM/yyyy}}" Grid.Row="1" Grid.Column="3" Background="Transparent" />
         <DataGrid IsReadOnly="True" Grid.Column="1" Grid.Row="4" Grid.RowSpan="4"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch"

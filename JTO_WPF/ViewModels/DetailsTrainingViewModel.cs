@@ -105,7 +105,7 @@ namespace JTO_WPF.ViewModels
                 case "SaveTraining":
                     // Checks the amount of trainees marked as trainer. Throw an error if the list
                     // contains less than 1 trainer
-                    if (SubscribedTrainees.Where(x => x.RoleID == 2).Count() <= 0)
+                    if (SubscribedTrainees.Count() >= 1 && SubscribedTrainees.Where(x => x.RoleID == 2).Count() <= 0)
                     {
                         ResultOutput = "Er moet teminste 1 persoon als trainer aangeduid worden";
                         break;

@@ -39,6 +39,7 @@ namespace JTO_WPF.ViewModels
                 case "ShowTrainings": ShowTrainings(); break;
                 case "ShowThemes": ShowThemes(); break;
                 case "ShowDestinations": ShowDestinations(); break;
+                case "ShowRoles": ShowRoles(); break;
                 case "Logout": Logout(); break;
             }
         }
@@ -75,6 +76,14 @@ namespace JTO_WPF.ViewModels
             var gtview = new GroupTripView();
             gtview.DataContext = gtvm;
             Content = gtview;
+        }
+
+        private void ShowRoles()
+        {
+            var roVM = new RoleOverviewViewModel(this);
+            var roV = new RoleOverviewView();
+            roV.DataContext = roVM;
+            Content = roV;
         }
 
         private void ShowThemes()
