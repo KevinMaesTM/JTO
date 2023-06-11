@@ -86,6 +86,7 @@ namespace JTO_WPF.ViewModels
             var roV = new RoleOverviewView();
             roV.DataContext = roVM;
             Content = roV;
+        }
 
         private void ShowPersons()
         {
