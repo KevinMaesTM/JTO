@@ -79,6 +79,13 @@ namespace JTO_WPF.ViewModels
             Content = gtview;
         }
 
+        private void ShowPersons()
+        {
+            var pvm = new PersonViewModel(this);
+            var pv = new PersonView();
+            pv.DataContext = pvm;
+            Content = pv;
+        }
 
         private void ShowRoles()
         {
@@ -86,14 +93,6 @@ namespace JTO_WPF.ViewModels
             var roV = new RoleOverviewView();
             roV.DataContext = roVM;
             Content = roV;
-
-        private void ShowPersons()
-        {
-            var pvm = new PersonViewModel(this);
-            var pv = new PersonView();
-            pv.DataContext = pvm;
-            Content = pv;
-
         }
 
         private void ShowThemes()

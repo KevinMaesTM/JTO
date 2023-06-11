@@ -22,9 +22,9 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="25*" Binding="{Binding Name}" Header="Naam"></DataGridTextColumn>
                     <DataGridTextColumn Width="25*" Binding="{Binding Surname}" Header="Voornaam"></DataGridTextColumn>
-                    <DataGridTextColumn Width="25*" Binding="{Binding DateOfBirth, StringFormat=\{0:dd.MM.yyyy\}}" Header="Geboortedatum"></DataGridTextColumn>
-                    <DataGridTextColumn Width="25*" Binding="{Binding Email}" Header="Email"></DataGridTextColumn>
-                    <DataGridTextColumn Width="25*" Binding="{Binding Sex, Converter={StaticResource BoolToGeslachtConverter}}" Header="Geslacht"></DataGridTextColumn>
+                    <DataGridTextColumn Width="15*" Binding="{Binding DateOfBirth, StringFormat=\{0:dd/MM/yyyy\}}" Header="Geboortedatum"></DataGridTextColumn>
+                    <DataGridTextColumn Width="30*" Binding="{Binding Email}" Header="Email"></DataGridTextColumn>
+                    <DataGridTextColumn Width="15*" Binding="{Binding Sex, Converter={StaticResource BoolToGeslachtConverter}}" Header="Geslacht"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
             <Grid>
