@@ -21,7 +21,7 @@ namespace JTO_WPF.ViewModels
         public AgeCategoryViewModel(DashboardViewModel dvm)
         {
             DVM = dvm;
-            AgeCategories = unit.AgeCategoryRepo.Retrieve();
+            AgeCategories = unit.AgeCategoryRepo.Retrieve(ac => ac.IsActive == true || ac.IsActive == null);
         }
 
         public override bool CanExecute(object parameter)
@@ -72,14 +72,15 @@ namespace JTO_WPF.ViewModels
                 case "Delete":
                     try
                     {
-                        unit.AgeCategoryRepo.Delete(SelectedAgeCategory);
+                        SelectedAgeCategory.IsActive = false;
+                        unit.AgeCategoryRepo.Update(SelectedAgeCategory);
                         unit.Save();
-                        AgeCategories = unit.AgeCategoryRepo.Retrieve();
+                        AgeCategories = unit.AgeCategoryRepo.Retrieve(ac => ac.IsActive == true || ac.IsActive == null);
                     }
                     catch (Exception ex)
                     {
                         unit.Reload(SelectedAgeCategory);
-                        MessageBox.Show("Er ging iets fout. Mogelijk wordt de geselecteerde leeftijdscategorie nog gebruikt.");
+                        MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.");
                     }
                     break;
             }

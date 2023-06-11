@@ -13,6 +13,9 @@
     <Compile Update="Views\AgeCategoryView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\CreateTrainingView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\DashboardView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -46,6 +49,12 @@
     <Compile Update="Views\RegisterView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\RoleDetailsView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\RoleOverviewView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\ThemeDetailView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -58,6 +67,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\AgeCategoryView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\CreateTrainingView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\DashboardView.xaml">
@@ -91,6 +103,12 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\RegisterView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\RoleDetailsView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\RoleOverviewView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\ThemeDetailView.xaml">

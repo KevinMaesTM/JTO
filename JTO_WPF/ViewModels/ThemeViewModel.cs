@@ -21,7 +21,7 @@ namespace JTO_WPF.ViewModels
         public ThemeViewModel(DashboardViewModel dvm)
         {
             DVM = dvm;
-            Themes = unit.ThemeRepo.Retrieve();
+            Themes = unit.ThemeRepo.Retrieve(t => t.IsActive == true || t.IsActive == null);
         }
 
         public override bool CanExecute(object parameter)
@@ -81,14 +81,15 @@ namespace JTO_WPF.ViewModels
                 case "Delete":
                     try
                     {
-                        unit.ThemeRepo.Delete(SelectedTheme);
+                        SelectedTheme.IsActive = false;
+                        unit.ThemeRepo.Update(SelectedTheme);
                         unit.Save();
-                        Themes = unit.ThemeRepo.Retrieve();
+                        Themes = unit.ThemeRepo.Retrieve(t => t.IsActive == true || t.IsActive == null);
                     }
                     catch (Exception ex)
                     {
                         unit.Reload(SelectedTheme);
-                        MessageBox.Show("Er ging iets fout. Mogelijk wordt het geselecteerde thema nog gebruikt.");
+                        MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.");
                     }
                     break;
             }

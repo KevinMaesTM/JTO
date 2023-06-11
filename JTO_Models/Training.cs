@@ -16,6 +16,8 @@ namespace JTO_MODELS
         [Required]
         public DateTime? Date { get; set; }
 
+        public bool? IsActive { get; set; } = true;
+
         [Required]
         public string? Name { get; set; }
 

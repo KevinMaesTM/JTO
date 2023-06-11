@@ -61,14 +61,16 @@ namespace JTO_WPF.ViewModels
                         {
                             unit.AgeCategoryRepo.Create(AgeCategory);
                             unit.Save();
-                            OutputResult = "Leeftijdscategorie is toegevoegd!";
                         }
                         else
                         {
                             unit.AgeCategoryRepo.Update(AgeCategory);
                             unit.Save();
-                            OutputResult = "Leeftijdscategorie is geupdate!";
                         }
+                        var acVM = new AgeCategoryViewModel(DVM);
+                        var acV = new AgeCategoryView();
+                        acV.DataContext = acVM;
+                        DVM.Content = acV;
                         break;
                     }
                     else
