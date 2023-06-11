@@ -21,7 +21,7 @@
                       SelectedItem="{Binding SelectedTraining}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="25*" Binding="{Binding Name}" Header="Naam"></DataGridTextColumn>
-                    <DataGridTextColumn Width="25*" Binding="{Binding Date, StringFormat={}{0:dd/MM/yyyy}}" Header="Datum"></DataGridTextColumn>
+                    <DataGridTextColumn Width="25*" Binding="{Binding Date, StringFormat=\{0:dd/MM/yyyy\}}" Header="Datum"></DataGridTextColumn>
                     <DataGridTextColumn Width="25*" Binding="{Binding Trainees, Converter={StaticResource TraineesCollectionToTrainerConverter}}" Header="Trainer"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
