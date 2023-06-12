@@ -15,15 +15,20 @@ namespace JTO_WPF.ViewModels
     {
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
         public IEnumerable<AgeCategory> AgeCategories { get; set; }
+        public decimal? BudgetTour { get; set; }
         public IEnumerable<Destination> Destinations { get; set; }
         public DashboardViewModel DVM { get; set; }
+        public DateTime? EndDateTour { get; set; }
         public GroupTour GroupTour { get; set; }
+        public int? MaxParticipantsTour { get; set; }
         public string Mode { get; set; }
+        public decimal? PriceTour { get; set; }
         public IEnumerable<Person> Responsibles { get; set; }
         public AgeCategory SelectedAgeCategory { get; set; }
         public Destination SelectedDestination { get; set; }
         public Person SelectedResponsible { get; set; }
         public Theme SelectedTheme { get; set; }
+        public DateTime? StartDateTour { get; set; }
         public IEnumerable<Theme> Themas { get; set; }
 
         public GroupTourDetailViewModel(GroupTour groupTour, DashboardViewModel dVM)
@@ -39,6 +44,11 @@ namespace JTO_WPF.ViewModels
             Responsibles = unit.PersonRepo.Retrieve();
             Destinations = unit.DestinationRepo.Retrieve();
             Mode = "Wijzig";
+            StartDateTour = GroupTour.Startdate;
+            EndDateTour = GroupTour.Enddate;
+            BudgetTour = GroupTour.Budget;
+            PriceTour = GroupTour.Price;
+            MaxParticipantsTour = GroupTour.MaxParticipants;
         }
 
         public GroupTourDetailViewModel(DashboardViewModel dVM)
@@ -131,7 +141,7 @@ namespace JTO_WPF.ViewModels
             else
             {
                 if (!DateTime.TryParse(GroupTour.Startdate.ToString("dd/MM/yyy"), out DateTime dateStart))
-                    result += "Startdatum heeft een ongeldig formaat: dd/MM/yyy." + Environment.NewLine;
+                    result += "Startdatum heeft een ongeldig formaat: dd/MM/yyyy." + Environment.NewLine;
                 else if (dateStart <= DateTime.Now)
                     result += "Startdatum moet in de toekomst liggen." + Environment.NewLine;
             }
@@ -143,7 +153,7 @@ namespace JTO_WPF.ViewModels
             else
             {
                 if (!DateTime.TryParse(GroupTour.Enddate.ToString("dd/MM/yyy"), out DateTime dateStart))
-                    result += "Einddatum heeft een ongeldig formaat: dd/MM/yyy." + Environment.NewLine;
+                    result += "Einddatum heeft een ongeldig formaat: dd/MM/yyyy." + Environment.NewLine;
                 else if (dateStart <= DateTime.Now)
                     result += "Einddatum moet in de toekomst liggen." + Environment.NewLine;
             }

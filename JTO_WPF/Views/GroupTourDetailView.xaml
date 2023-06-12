@@ -22,11 +22,11 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
             <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Naam" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding GroupTour.Name}" Background="Transparent" />
-            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Start datum" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding GroupTour.Startdate,StringFormat=\{0:dd.MM.yyyy HH:mm\}}" Background="Transparent" />
-            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Eind datum" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding GroupTour.Enddate, StringFormat=\{0:dd.MM.yyyy HH:mm\}}" Background="Transparent" />
-            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Budget" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding GroupTour.Budget}" Background="Transparent" />
-            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Prijs" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding GroupTour.Price}" Background="Transparent" />
-            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Maximum deelnemers" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding GroupTour.MaxParticipants}" Background="Transparent" />
+            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Start datum (dd/MM/yyyy)" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding StartDateTour,StringFormat=\{0:dd/MM/yyyy HH:mm\}}"  Background="Transparent" />
+            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Eind datum (dd/MM/yyyy)" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding EndDateTour, StringFormat=\{0:dd/MM/yyyy HH:mm\}}" Background="Transparent" />
+            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Budget (in €)" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding BudgetTour, StringFormat=\{0:N2\}}" Background="Transparent" />
+            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Prijs  (in €)" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding PriceTour, StringFormat=\{0:N2\}}" Background="Transparent" />
+            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Maximum deelnemers" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding MaxParticipantsTour}" Background="Transparent" />
             <ComboBox Margin="0,10,0, 0" Width="450" FontSize="14" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Thema"
             ItemsSource="{Binding Themas}"
             SelectedItem="{Binding SelectedTheme}" />
@@ -53,12 +53,12 @@
             <ComboBox Margin="0,10,0, 0" Width="450" FontSize="14" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Bestemming"
             ItemsSource="{Binding Destinations}"
             SelectedItem="{Binding SelectedDestination}" />
-            
-            <DataGrid Margin="5" Height="300" IsReadOnly="True" 
+
+            <DataGrid Margin="5" Height="300" IsReadOnly="True"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch"
-                      Name="dtgParticipants" 
-                      AutoGenerateColumns="False" 
+                      Name="dtgParticipants"
+                      AutoGenerateColumns="False"
                       ItemsSource="{Binding GroupTour.Participants}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding PersonID, Converter={StaticResource PersonIDToPersonConverter}}" Header="Deelnemer"></DataGridTextColumn>
