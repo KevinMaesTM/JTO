@@ -60,6 +60,11 @@ namespace JTO_WPF.ViewModels
             Responsibles = unit.PersonRepo.Retrieve();
             Destinations = unit.DestinationRepo.Retrieve();
             Mode = "Voeg toe";
+            StartDateTour = null;
+            EndDateTour = null;
+            BudgetTour = null;
+            PriceTour = null;
+            MaxParticipantsTour = null;
         }
 
         public override bool CanExecute(object parameter)
@@ -136,11 +141,11 @@ namespace JTO_WPF.ViewModels
 
             if (string.IsNullOrEmpty(GroupTour.Name))
                 result += "Naam van de reis is een verplicht veld!" + Environment.NewLine;
-            if (string.IsNullOrEmpty(GroupTour.Startdate.ToString("dd/MM/yyyy")))
+            if (string.IsNullOrEmpty(StartDateTour.ToString()))
                 result += "Startdatum is een verplicht veld!" + Environment.NewLine;
             else
             {
-                if (!DateTime.TryParse(GroupTour.Startdate.ToString("dd/MM/yyy"), out DateTime dateStart))
+                if (!DateTime.TryParse(StartDateTour.ToString(), out DateTime dateStart))
                     result += "Startdatum heeft een ongeldig formaat: dd/MM/yyyy." + Environment.NewLine;
                 else if (dateStart <= DateTime.Now)
                     result += "Startdatum moet in de toekomst liggen." + Environment.NewLine;
@@ -148,11 +153,11 @@ namespace JTO_WPF.ViewModels
             // Marks StartDate as valid, will be used for further validations!
             if (!result.Contains("Startdatum"))
                 startDateIsValid = true;
-            if (string.IsNullOrEmpty(GroupTour.Enddate.ToString("dd/MM/yyyy")))
+            if (string.IsNullOrEmpty(EndDateTour.ToString()))
                 result += "Einddatum is een verplicht veld!" + Environment.NewLine;
             else
             {
-                if (!DateTime.TryParse(GroupTour.Enddate.ToString("dd/MM/yyy"), out DateTime dateStart))
+                if (!DateTime.TryParse(EndDateTour.ToString(), out DateTime dateStart))
                     result += "Einddatum heeft een ongeldig formaat: dd/MM/yyyy." + Environment.NewLine;
                 else if (dateStart <= DateTime.Now)
                     result += "Einddatum moet in de toekomst liggen." + Environment.NewLine;
@@ -163,30 +168,30 @@ namespace JTO_WPF.ViewModels
             // If both dates are valid, checks if EndDate is after StartDate
             if (startDateIsValid && endDateIsValid)
             {
-                if (GroupTour.Enddate <= GroupTour.Startdate)
+                if (EndDateTour <= StartDateTour)
                     result += "Einddatum moet na de startdatum liggen." + Environment.NewLine;
             }
             // Validate Price on correct format, and if value > 0
-            if (string.IsNullOrEmpty(GroupTour.Price.ToString()))
+            if (string.IsNullOrEmpty(PriceTour.ToString()))
                 result += "Prijs is een verplicht veld!" + Environment.NewLine;
             else
             {
-                if (!decimal.TryParse(GroupTour.Price.ToString(), out decimal budget))
+                if (!decimal.TryParse(PriceTour.ToString(), out decimal budget))
                     result += "Prijs is verplicht numeriek." + Environment.NewLine;
                 else if (budget <= 0)
                     result += "Prijs mag niet kleiner of gelijk aan 0 zijn." + Environment.NewLine;
             }
             // Validate MaximumParticipants.
-            if (string.IsNullOrEmpty(GroupTour.MaxParticipants.ToString()))
+            if (string.IsNullOrEmpty(MaxParticipantsTour.ToString()))
                 result += "Aantal deelnemers is een verplicht veld!" + Environment.NewLine;
             else
             {
-                if (int.TryParse(GroupTour.MaxParticipants.ToString(), out int maxParticpants))
+                if (!int.TryParse(MaxParticipantsTour.ToString(), out int maxParticpants))
                     result += "Aantal deelnemers is verplicht numeriek." + Environment.NewLine;
                 else if (maxParticpants <= 0)
                     result += "Aantal deelnemers mag niet kleiner of gelijk aan 0 zijn." + Environment.NewLine;
                 // If all input is valid, check if the max amount of subscribed participants is exceeded
-                else if (GroupTour.Participants.Count > maxParticpants)
+                else if (GroupTour.Participants != null && GroupTour.Participants.Count > maxParticpants)
                     result += $"Er mogen niet meer dan {maxParticpants} deelnemers ingeschreven zijn." + Environment.NewLine;
             }
             // Check if an object is selected in the comboboxes
