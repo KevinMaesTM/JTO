@@ -104,6 +104,11 @@ namespace JTO_WPF.ViewModels
                         if (Mode == "Voeg toe")
                         {
                             GroupTour newGt = new GroupTour(GroupTour.Name, GroupTour.Startdate, GroupTour.Enddate, GroupTour.Budget, GroupTour.Price, GroupTour.MaxParticipants, SelectedTheme.ThemeID, SelectedAgeCategory.AgeCategoryID, SelectedResponsible.PersonID, SelectedDestination.DestinationID);
+                            newGt.Startdate = (DateTime)StartDateTour;
+                            newGt.Enddate = (DateTime)EndDateTour;
+                            newGt.Budget = (int)BudgetTour;
+                            newGt.Price = (int)PriceTour;
+                            newGt.MaxParticipants = (int)MaxParticipantsTour;
                             unit.GroupTourRepo.Create(newGt);
                             unit.Save();
                         }
