@@ -50,10 +50,8 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Margin="5">
                             <StackPanel Width="150">
-                                <Button Content="Settings" />
-                                <Button Content="Account" />
-                                <Separator />
                                 <Button Content="Logout" Command="{Binding}" CommandParameter="Logout" />
+                                <Separator />
                                 <Button Content="Sluiten" Command="{Binding}" CommandParameter="CloseApplication" />
                             </StackPanel>
                         </materialDesign:PopupBox>
