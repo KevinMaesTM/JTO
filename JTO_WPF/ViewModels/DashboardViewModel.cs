@@ -86,7 +86,6 @@ namespace JTO_WPF.ViewModels
             gtview.DataContext = gtvm;
             Content = gtview;
         }
-
         private void ShowPersons()
         {
             var pvm = new PersonViewModel(this);
