@@ -58,6 +58,11 @@
                             </StackPanel>
                         </materialDesign:PopupBox>
                     </StackPanel>
+                    <Button Height="60" Width="65"  Command="{Binding}" CommandParameter="CloseApplication" Style="{StaticResource MaterialDesignFlatMidBgButton}" Background="#FF673AB7">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <materialDesign:PackIcon Kind="Close" Height="25" Width="25" Margin="10" />
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">JTO</TextBlock>
             </Grid>
@@ -88,16 +93,10 @@
                             <TextBlock Text="Reizen" VerticalAlignment="Center" Margin="20 10" />
                         </StackPanel>
                     </Button>
-                    <Button Height="60" Command="{Binding}" CommandParameter="ShowAgeCategories" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
+                    <Button Height="60" Command="{Binding}" CommandParameter="ShowPersons" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
                         <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Numeric" Height="25" Width="25" Margin="10" />
-                            <TextBlock Text="Leeftijden" VerticalAlignment="Center" Margin="20 10" />
-                        </StackPanel>
-                    </Button>
-                    <Button Height="60" Command="{Binding}" CommandParameter="ShowTrainings" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
-                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Book" Height="25" Width="25" Margin="10" />
-                            <TextBlock Text="Opleidingen" VerticalAlignment="Center" Margin="20 10" />
+                            <materialDesign:PackIcon Kind="Person" Height="25" Width="25" Margin="10" />
+                            <TextBlock Text="Personen" VerticalAlignment="Center" Margin="20 10" />
                         </StackPanel>
                     </Button>
                     <Button Height="60" Command="{Binding}" CommandParameter="ShowDestinations" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
@@ -112,17 +111,22 @@
                             <TextBlock Text="Themas" VerticalAlignment="Center" Margin="20 10" />
                         </StackPanel>
                     </Button>
-
+                    <Button Height="60" Command="{Binding}" CommandParameter="ShowAgeCategories" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
+                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Numeric" Height="25" Width="25" Margin="10" />
+                            <TextBlock Text="Leeftijden" VerticalAlignment="Center" Margin="20 10" />
+                        </StackPanel>
+                    </Button>
+                    <Button Height="60" Command="{Binding}" CommandParameter="ShowTrainings" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
+                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Book" Height="25" Width="25" Margin="10" />
+                            <TextBlock Text="Opleidingen" VerticalAlignment="Center" Margin="20 10" />
+                        </StackPanel>
+                    </Button>
                     <Button Height="60" Command="{Binding}" CommandParameter="ShowRoles" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
                         <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Crown" Height="25" Width="25" Margin="10" />
                             <TextBlock Text="Rollen" VerticalAlignment="Center" Margin="20 10" />
-                        </StackPanel>
-                    </Button>
-                    <Button Height="60" Command="{Binding}" CommandParameter="ShowPersons" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
-                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Person" Height="25" Width="25" Margin="10" />
-                            <TextBlock Text="Personen" VerticalAlignment="Center" Margin="20 10" />
                         </StackPanel>
                     </Button>
                 </StackPanel>

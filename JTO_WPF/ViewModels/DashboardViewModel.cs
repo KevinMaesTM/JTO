@@ -42,7 +42,13 @@ namespace JTO_WPF.ViewModels
                 case "ShowRoles": ShowRoles(); break;
                 case "Logout": Logout(); break;
                 case "ShowPersons": ShowPersons(); break;
+                case "CloseApplication": CloseApplication(); break;
             }
+        }
+
+        private void CloseApplication()
+        {
+            Application.Current.Shutdown();
         }
 
         private void Logout()
