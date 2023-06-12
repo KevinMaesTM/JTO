@@ -67,12 +67,16 @@ namespace JTO_WPF.ViewModels
                         {
                             unit.PersonRepo.Create(Person);
                             unit.Save();
+
+                            DVM.SnackbarContent = $"Persoon '{Person.Name} {Person.Surname} is aangemaakt!";
                         }
                         else
                         {
                             Person.Name = Name;
                             unit.PersonRepo.Update(Person);
                             unit.Save();
+
+                            DVM.SnackbarContent = $"Gegevens voor '{Person.Name} {Person.Surname} zijn aangepast.";
                         }
                         var pvm = new PersonViewModel(DVM);
                         var pv = new PersonView();
@@ -82,7 +86,7 @@ namespace JTO_WPF.ViewModels
                     }
                     else
                     {
-                        MessageBox.Show(errors, "Oh no, errors!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(errors, "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
                         break;
                     }
 

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace JTO_WPF.ViewModels
 {
@@ -19,7 +20,6 @@ namespace JTO_WPF.ViewModels
         public DashboardViewModel DVM { get; set; }
         public string HouseNumber { get; set; }
         public string Name { get; set; }
-        public string OutputResult { get; set; }
         public string Streetname { get; set; }
         public string Zipcode { get; set; }
 
@@ -53,20 +53,27 @@ namespace JTO_WPF.ViewModels
                         {
                             unit.DestinationRepo.Create(Destination);
                             unit.Save();
+
+                            DVM.SnackbarContent = $"Bestemming '{Destination.Name}' aangemaakt.";
                         }
                         else
                         {
                             unit.DestinationRepo.Update(Destination);
                             unit.Save();
+
+                            DVM.SnackbarContent = $"Bestemming '{Destination.Name}' aangepast.";
                         }
                         var dVM = new DestinationViewModel(DVM);
                         var dV = new DestinationView();
                         dV.DataContext = dVM;
                         DVM.Content = dV;
+                        break;
                     }
                     else
-                        OutputResult = errors;
-                    break;
+                    {
+                        MessageBox.Show(errors, "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                    }
 
                 case "Cancel":
                     var dVM2 = new DestinationViewModel(DVM);

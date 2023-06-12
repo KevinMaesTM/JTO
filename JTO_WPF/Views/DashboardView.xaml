@@ -37,7 +37,6 @@
     </Window.Triggers>
     <materialDesign:Card UniformCornerRadius="5" Background="White" Margin="25">
         <Grid Background="White">
-
             <UserControl x:Name="MainContent" Content="{Binding Content}">
             </UserControl>
 

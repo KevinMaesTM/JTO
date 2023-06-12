@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,6 +15,7 @@ namespace JTO_WPF.ViewModels
     internal class DashboardViewModel : BaseViewModel
     {
         public UserControl Content { get; set; }
+        public string? SnackbarContent { get; set; }
         public User User { get; set; }
 
         public DashboardViewModel(User user)

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace JTO_WPF.ViewModels
 {
@@ -63,11 +64,15 @@ namespace JTO_WPF.ViewModels
                         {
                             unit.RoleRepo.Create(Role);
                             unit.Save();
+
+                            DVM.SnackbarContent = $"Niewe rol '{Role.Name}' aangemaakt.";
                         }
                         else
                         {
                             unit.RoleRepo.Update(Role);
                             unit.Save();
+
+                            DVM.SnackbarContent = $"Rol '{Role.Name}' aangepast.";
                         }
 
                         var roVM = new RoleOverviewViewModel(DVM);
@@ -76,7 +81,11 @@ namespace JTO_WPF.ViewModels
                         DVM.Content = roV;
                         break;
                     }
-                    break;
+                    else
+                    {
+                        MessageBox.Show(errors, "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                    }
 
                 case "Cancel":
                     RoleOverviewViewModel roVM2 = new RoleOverviewViewModel(DVM);
