@@ -52,17 +52,12 @@
                             <StackPanel Width="150">
                                 <Button Content="Settings" />
                                 <Button Content="Account" />
-                                <Button Content="Help" />
                                 <Separator />
                                 <Button Content="Logout" Command="{Binding}" CommandParameter="Logout" />
+                                <Button Content="Sluiten" Command="{Binding}" CommandParameter="CloseApplication" />
                             </StackPanel>
                         </materialDesign:PopupBox>
                     </StackPanel>
-                    <Button Height="60" Width="65"  Command="{Binding}" CommandParameter="CloseApplication" Style="{StaticResource MaterialDesignFlatMidBgButton}" Background="#FF673AB7">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <materialDesign:PackIcon Kind="Close" Height="25" Width="25" Margin="10" />
-                        </StackPanel>
-                    </Button>
                 </StackPanel>
                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">JTO</TextBlock>
             </Grid>
