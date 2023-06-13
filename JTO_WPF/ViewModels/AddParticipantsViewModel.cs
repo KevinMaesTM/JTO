@@ -27,7 +27,7 @@ namespace JTO_WPF.ViewModels
         {
             DVM = dVM;
             GroupTour = groupTour;
-            AllPersons = unit.PersonRepo.Retrieve();
+            AllPersons = unit.PersonRepo.RetrieveTracked();
             Participants = new ObservableCollection<Person>();
 
             foreach (var participant in GroupTour.Participants)

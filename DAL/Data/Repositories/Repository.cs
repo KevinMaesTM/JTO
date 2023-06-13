@@ -33,6 +33,11 @@ namespace DAL.Data
             return Context.Set<T>().AsNoTracking().ToList();
         }
 
+        public IEnumerable<T> RetrieveTracked()
+        {
+            return Context.Set<T>().ToList();
+        }
+
         public void Update(T entity)
         {
             Context.Set<T>().Update(entity);
