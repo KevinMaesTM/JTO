@@ -50,7 +50,7 @@ namespace JTO_WPF.ViewModels
 
         public void DeleteRole()
         {
-            if (!(SelectedRole.Name == "Leerkracht" || SelectedRole.Name == "Monitor" || SelectedRole.Name == "Hoofdmonitor"))
+            if (!(SelectedRole.RoleID == 1 || SelectedRole.RoleID == 2 || SelectedRole.RoleID == 3))
             {
                 SelectedRole.IsActive = false;
                 unit.RoleRepo.Update(SelectedRole);
