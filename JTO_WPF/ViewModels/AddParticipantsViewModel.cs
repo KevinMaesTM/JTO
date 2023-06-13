@@ -27,7 +27,7 @@ namespace JTO_WPF.ViewModels
         {
             DVM = dVM;
             GroupTour = groupTour;
-            AllPersons = unit.PersonRepo.Retrieve();
+            AllPersons = unit.PersonRepo.RetrieveTracked();
             Participants = new ObservableCollection<Person>();
 
             foreach (var participant in GroupTour.Participants)
@@ -82,7 +82,7 @@ namespace JTO_WPF.ViewModels
                     DVM.Content = gtdv;
                     break;
                 case "AddParticipant":
-                    Participant p = new Participant(GroupTour.GroupTourID, SelectedPerson.PersonID, 3);
+                    Participant p = new Participant(GroupTour.GroupTourID, SelectedPerson.PersonID, 4);
                     unit.ParticipantRepo.Create(p);
                     unit.Save();
 
