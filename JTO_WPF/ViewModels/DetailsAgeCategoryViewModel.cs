@@ -54,7 +54,7 @@ namespace JTO_WPF.ViewModels
                 unit.Save();
                 DVM.SnackbarContent = $"Niewe leeftijdscategorie '{AgeCategory.MinAge}j - {AgeCategory.MaxAge}j' aangemaakt.";
             }
-            catch   (Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
