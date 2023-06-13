@@ -18,7 +18,7 @@ namespace JTO_WPF.ViewModels
     {
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
         public IEnumerable<AgeCategory> AgeCategories { get; set; }
-        public decimal? BudgetTour { get; set; }
+        public string BudgetTour { get; set; }
         public IEnumerable<Destination> Destinations { get; set; }
         public DashboardViewModel DVM { get; set; }
         public DateTime? EndDateTour { get; set; }
@@ -40,6 +40,7 @@ namespace JTO_WPF.ViewModels
         public Person SelectedAvailableParticipant { get; set; }
         public Participant SelectedParticipant { get; set; }
         public Role SelectedRole { get; set; }
+        public decimal PriceMembers { get; set; }
 
 
 
@@ -58,14 +59,36 @@ namespace JTO_WPF.ViewModels
             Mode = "Wijzig";
             StartDateTour = GroupTour.Startdate;
             EndDateTour = GroupTour.Enddate;
-            BudgetTour = GroupTour.Budget;
             PriceTour = GroupTour.Price;
             MaxParticipantsTour = GroupTour.MaxParticipants;
             AvailableRoles = unit.RoleRepo.Retrieve(ar => ar.AssignedObject == "GroupTour").ToList();
             Participants = new ObservableCollection<Person>();
             AvailableParticipants = GetPossibleParticipants();
+            PriceMembers = GroupTour.Price * (decimal)0.9;
+            BudgetTour = CaluclateBudget();
         }
 
+        public string CaluclateBudget()
+        {
+            decimal budget = 0;
+            decimal subtotal = 0;
+            foreach(var p in GroupTour.Participants)
+            {
+                Person participant = unit.PersonRepo.Retrieve(x => x.PersonID == p.PersonID && p.GroupTourID == GroupTour.GroupTourID).FirstOrDefault();
+                if (p.RoleID == 1)
+                    continue;
+                else
+                {
+                    if (participant.MemberHealthInsurance == true)
+                        subtotal += (GroupTour.Price * (decimal)0.9);
+                    else
+                        subtotal += GroupTour.Price;
+                }
+            }
+            budget = subtotal * (decimal)0.05;
+
+            return budget.ToString("N2");
+        }
         public IEnumerable<Person> GetPossibleParticipants()
         {
             List<Person> possParticipants = new List<Person>();
@@ -156,6 +179,7 @@ namespace JTO_WPF.ViewModels
                 }
 
                 AvailableParticipants = GetPossibleParticipants();
+                BudgetTour = CaluclateBudget();
             }
         }
 
@@ -172,10 +196,11 @@ namespace JTO_WPF.ViewModels
             foreach (var participant in GroupTour.Participants)
             {
                 var person = unit.PersonRepo.Retrieve(x => x.PersonID == participant.PersonID).FirstOrDefault();
-                Participants.Add(person);
+                //Participants.Add(person);
             }
 
             AvailableParticipants = AllPersons.Except(Participants);
+            BudgetTour = CaluclateBudget();
         }
         public override void Execute(object parameter)
         {
@@ -218,7 +243,7 @@ namespace JTO_WPF.ViewModels
             GroupTour.Startdate = gt.Startdate;
             GroupTour.Enddate = gt.Enddate;
             GroupTour.MaxParticipants = gt.MaxParticipants;
-            GroupTour.Price = gt.MaxParticipants;
+            GroupTour.Price = gt.Price;
             GroupTour.AgeCategoryID = gt.AgeCategoryID;
             GroupTour.ThemeID = gt.ThemeID;
             GroupTour.ResponsibleID = gt.ResponsibleID;
