@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JTO_MODELS;
 using JTO_WPF.Views;
+using System.Windows;
 
 namespace JTO_WPF.ViewModels
 {
@@ -19,7 +20,6 @@ namespace JTO_WPF.ViewModels
         public DateTime Date { get; set; }
         public DashboardViewModel DVM { get; set; }
         public string Name { get; set; }
-        public string OutputResult { get; set; }
         public Training Training { get; set; }
 
         public CreateTrainingViewModel(DashboardViewModel dvm)
@@ -44,10 +44,12 @@ namespace JTO_WPF.ViewModels
                     {
                         unit.TrainingRepo.Create(Training);
                         unit.Save();
+
+                        DVM.SnackbarContent = $"Training '{Training.Name} is aangemaakt.";
                     }
                     else
                     {
-                        OutputResult = errors;
+                        MessageBox.Show(errors, "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
                         break;
                     }
                     TrainingViewModel tVM = new TrainingViewModel(DVM);

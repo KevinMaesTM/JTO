@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JTO_WPF.Views;
+using System.Windows;
 
 namespace JTO_WPF.ViewModels
 {
@@ -14,7 +15,6 @@ namespace JTO_WPF.ViewModels
     {
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
         public AgeCategory AgeCategory { get; set; }
-        public string OutputResult { get; set; }
         private DashboardViewModel DVM { get; set; }
 
         public DetailsAgeCategoryViewModel(DashboardViewModel dVM)
@@ -61,11 +61,15 @@ namespace JTO_WPF.ViewModels
                         {
                             unit.AgeCategoryRepo.Create(AgeCategory);
                             unit.Save();
+
+                            DVM.SnackbarContent = $"Niewe leeftijdscategorie '{AgeCategory.MinAge}j - {AgeCategory.MaxAge}j' aangemaakt.";
                         }
                         else
                         {
                             unit.AgeCategoryRepo.Update(AgeCategory);
                             unit.Save();
+
+                            DVM.SnackbarContent = $"Leeftijdscategorie '{AgeCategory.MinAge}j - {AgeCategory.MaxAge}j' aangepast.";
                         }
                         var acVM = new AgeCategoryViewModel(DVM);
                         var acV = new AgeCategoryView();
@@ -74,8 +78,10 @@ namespace JTO_WPF.ViewModels
                         break;
                     }
                     else
-                        OutputResult = errors;
-                    break;
+                    {
+                        MessageBox.Show(errors, "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                    }
 
                 case "Cancel":
                     var avm2 = new AgeCategoryViewModel(DVM);

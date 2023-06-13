@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,6 +15,7 @@ namespace JTO_WPF.ViewModels
     internal class DashboardViewModel : BaseViewModel
     {
         public UserControl Content { get; set; }
+        public string? SnackbarContent { get; set; }
         public User User { get; set; }
 
         public DashboardViewModel(User user)
@@ -42,7 +44,13 @@ namespace JTO_WPF.ViewModels
                 case "ShowRoles": ShowRoles(); break;
                 case "Logout": Logout(); break;
                 case "ShowPersons": ShowPersons(); break;
+                case "CloseApplication": CloseApplication(); break;
             }
+        }
+
+        private void CloseApplication()
+        {
+            Application.Current.Shutdown();
         }
 
         private void Logout()
@@ -78,7 +86,13 @@ namespace JTO_WPF.ViewModels
             gtview.DataContext = gtvm;
             Content = gtview;
         }
-
+        private void ShowPersons()
+        {
+            var pvm = new PersonViewModel(this);
+            var pv = new PersonView();
+            pv.DataContext = pvm;
+            Content = pv;
+        }
 
         private void ShowRoles()
         {
@@ -86,15 +100,6 @@ namespace JTO_WPF.ViewModels
             var roV = new RoleOverviewView();
             roV.DataContext = roVM;
             Content = roV;
-        }
-
-        private void ShowPersons()
-        {
-            var pvm = new PersonViewModel(this);
-            var pv = new PersonView();
-            pv.DataContext = pvm;
-            Content = pv;
-
         }
 
         private void ShowThemes()

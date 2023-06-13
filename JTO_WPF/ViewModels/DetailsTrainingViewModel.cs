@@ -12,17 +12,16 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace JTO_WPF.ViewModels
 {
     internal class DetailsTrainingViewModel : BaseViewModel
     {
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
-        private Snackbar _snackbar = new Snackbar();
         public IEnumerable<Role> AvailableRoles { get; set; }
         public IEnumerable<Person> AvailableTrainees { get; set; }
         public DashboardViewModel DVM { get; set; }
-        public string ResultOutput { get; set; }
         public Person SelectedAvailableTrainee { get; set; }
         public Role SelectedRole { get; set; }
         public Trainee SelectedSubscribedTrainee { get; set; }
@@ -91,7 +90,7 @@ namespace JTO_WPF.ViewModels
         public string Errors()
         {
             string error = "";
-            if (Training.Name == null)
+            if (string.IsNullOrEmpty(Training.Name))
                 error += "Training naam is verplicht!" + Environment.NewLine;
             if (DateTime.TryParse(Training.Date.ToString(), out DateTime dateTraining) == false)
                 error += "Datum heeft een ongeldig formaat: dd/MM/yyy" + Environment.NewLine;
@@ -100,24 +99,36 @@ namespace JTO_WPF.ViewModels
 
         public override void Execute(object parameter)
         {
+            string errors = "";
+
             switch (parameter.ToString())
             {
                 case "SaveTraining":
+                    errors = Errors();
                     // Checks the amount of trainees marked as trainer. Throw an error if the list
                     // contains less than 1 trainer
                     if (SubscribedTrainees.Count() >= 1 && SubscribedTrainees.Where(x => x.RoleID == 2).Count() <= 0)
                     {
-                        ResultOutput = "Er moet teminste 1 persoon als trainer aangeduid worden";
+                        MessageBox.Show("Er moet teminste 1 persoon als trainer aangeduid worden", "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
                         break;
                     }
-                    unit.TrainingRepo.Update(Training);
-                    unit.Save();
+                    if (string.IsNullOrEmpty(errors))
+                    {
+                        unit.TrainingRepo.Update(Training);
+                        unit.Save();
 
-                    var tVM = new TrainingViewModel(DVM);
-                    var tV = new TrainingView();
-                    tV.DataContext = tVM;
-                    DVM.Content = tV;
-                    break;
+                        DVM.SnackbarContent = $"Training '{Training.Name}' aangepast.";
+                        var tVM = new TrainingViewModel(DVM);
+                        var tV = new TrainingView();
+                        tV.DataContext = tVM;
+                        DVM.Content = tV;
+                        break;
+                    }
+                    else
+                    {
+                        MessageBox.Show(errors, "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                    }
 
                 case "AddTrainee":
                     Trainee trainee = new Trainee();
@@ -135,15 +146,14 @@ namespace JTO_WPF.ViewModels
                         }
                         else
                         {
-                            ResultOutput = Errors();
+                            MessageBox.Show(errors, "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
                             break;
                         }
                     }
 
                     if (SubscribedTrainees.Where(x => x.RoleID == 2).Count() >= 1 && trainee.RoleID == 2)
                     {
-                        ResultOutput = "Er mag maximum 1 trainer per opleiding toegewezen worden";
-                        _snackbar.MessageQueue.Enqueue(ResultOutput);
+                        MessageBox.Show("Er mag maximum 1 trainer per opleiding toegewezen worden", "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
                         break;
                     }
                     SubscribedTrainees.Add(trainee);
@@ -152,7 +162,6 @@ namespace JTO_WPF.ViewModels
 
                     SubscribedTraineesCollection.Add(unit.PersonRepo.Retrieve(p => p.PersonID == trainee.PersonID).FirstOrDefault());
                     AvailableTrainees = AvailableTrainees.Except(SubscribedTraineesCollection);
-                    ResultOutput = "Cursist/Trainer is toegevoegd.";
                     break;
 
                 case "RemoveTrainee":
@@ -163,8 +172,6 @@ namespace JTO_WPF.ViewModels
 
                     SubscribedTraineesCollection.Remove(unit.PersonRepo.Retrieve(p => p.PersonID == deletedTrainee.PersonID).FirstOrDefault());
                     AvailableTrainees = AvailableTrainees.Except(SubscribedTraineesCollection);
-                    ResultOutput = $"Cursist is verwijderd.";
-
                     break;
 
                 default:
