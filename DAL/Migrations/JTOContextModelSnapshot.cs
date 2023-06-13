@@ -33,10 +33,10 @@ namespace JTO_DAL.Migrations
                     b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("MaxAge")
+                    b.Property<int>("MaxAge")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MinAge")
+                    b.Property<int>("MinAge")
                         .HasColumnType("int");
 
                     b.HasKey("AgeCategoryID");

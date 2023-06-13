@@ -15,6 +15,8 @@ namespace JTO_WPF.ViewModels
     {
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
         public AgeCategory AgeCategory { get; set; }
+        public string MaxAge { get; set; }
+        public string MinAge { get; set; }
         private DashboardViewModel DVM { get; set; }
 
         public DetailsAgeCategoryViewModel(DashboardViewModel dVM)
@@ -26,6 +28,8 @@ namespace JTO_WPF.ViewModels
         public DetailsAgeCategoryViewModel(DashboardViewModel dVM, AgeCategory ageCategory)
         {
             AgeCategory = ageCategory;
+            MinAge = AgeCategory.MinAge.ToString();
+            MaxAge = AgeCategory.MaxAge.ToString();
             DVM = dVM;
         }
 
@@ -60,6 +64,13 @@ namespace JTO_WPF.ViewModels
                     errors = ValidateInput();
                     if (string.IsNullOrEmpty(errors))
                     {
+                        AgeCategory.MinAge = int.Parse(MinAge);
+                        AgeCategory.MaxAge = int.Parse(MaxAge);
+                        if (AgeCategory.MinAge >= AgeCategory.MaxAge)
+                        {
+                            MessageBox.Show("Minimum leeftijd moet kleiner zijn dan de maxium leeftijd!", "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
+                            break;
+                        }
                         // Check if it's a new AgeCategory
                         if (AgeCategory.AgeCategoryID == 0)
                             CreateAgeCategory();
@@ -97,19 +108,17 @@ namespace JTO_WPF.ViewModels
         {
             string result = "";
             // Check input value of MinAge
-            if (string.IsNullOrEmpty(AgeCategory.MinAge.ToString()))
+            if (string.IsNullOrEmpty(MinAge))
                 result += "Minimum leeftijd is een verplicht veld." + Environment.NewLine;
-            else if (!int.TryParse(AgeCategory.MinAge.ToString(), out int minAge))
+            else if (!int.TryParse(MinAge.ToString(), out int minAge))
                 result += "Minimum leeftijd is geen geldig getal!" + Environment.NewLine;
             // Check input value of MaxAge
-            if (string.IsNullOrEmpty(AgeCategory.MaxAge.ToString()))
+            if (string.IsNullOrEmpty(MaxAge))
                 result += "Maximum leeftijd is een verplicht veld." + Environment.NewLine;
-            else if (!int.TryParse(AgeCategory.MaxAge.ToString(), out int maxAge))
+            else if (!int.TryParse(MaxAge.ToString(), out int maxAge))
                 result += "Maximum leeftijd is geen geldig getal!" + Environment.NewLine;
 
             // Check if MinAge < MaxAge
-            if (AgeCategory.MinAge >= AgeCategory.MaxAge)
-                result += "Minimum leeftijd moet kleiner zijn dan de maxium leeftijd!" + Environment.NewLine;
 
             return result;
         }
