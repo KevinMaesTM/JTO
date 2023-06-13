@@ -105,10 +105,6 @@ namespace JTO_WPF.ViewModels
                         AddGroupTour();
                     if (Mode == "Wijzig")
                         UpdateGroupTour();
-                    GroupTourViewModel gtvm2 = new GroupTourViewModel(DVM);
-                    GroupTripView gtview2 = new GroupTripView();
-                    gtview2.DataContext = gtvm2;
-                    DVM.Content = gtview2;
                     break;
                 case "AddParticipants": AddParticipants(); break;
                 default: break;
@@ -124,6 +120,12 @@ namespace JTO_WPF.ViewModels
 
         public void UpdateGroupTour()
         {
+            GroupTour = unit.GroupTourRepo.RetrieveTracked().Where(x => x.GroupTourID == GroupTour.GroupTourID).FirstOrDefault();
+            GroupTour.AgeCategoryID = SelectedAgeCategory.AgeCategoryID;
+            GroupTour.ThemeID = SelectedTheme.ThemeID;
+            GroupTour.ResponsibleID = SelectedResponsible.PersonID;
+            GroupTour.DestinationID = SelectedDestination.DestinationID;
+
             unit.GroupTourRepo.Update(GroupTour);
             unit.Save();
             ShowGroupTours();
