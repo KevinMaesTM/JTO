@@ -88,14 +88,7 @@ namespace JTO_WPF.ViewModels
             switch (parameter.ToString())
             {
                 case "AddParticipants":
-                    if (GroupTour.GroupTourID == 0)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
+                    return (GroupTour.GroupTourID != 0);
                 default:
                     return true;
             }
@@ -106,36 +99,34 @@ namespace JTO_WPF.ViewModels
             string errors = "";
             switch (parameter.ToString())
             {
-                case "Cancel":
-                    GroupTourViewModel gtvm = new GroupTourViewModel(DVM);
-                    GroupTripView gtview = new GroupTripView();
-                    gtview.DataContext = gtvm;
-                    DVM.Content = gtview;
-                    break;
+                case "Cancel": ShowGroupTours(); break;
                 case "Update":
-                    if(Mode == "Voeg toe")
-                    {
-                        GroupTour newGt = new GroupTour(GroupTour.Name, GroupTour.Startdate, GroupTour.Enddate, GroupTour.Budget, GroupTour.Price, GroupTour.MaxParticipants, SelectedTheme.ThemeID, SelectedAgeCategory.AgeCategoryID, SelectedResponsible.PersonID, SelectedDestination.DestinationID);
-                        unit.GroupTourRepo.Create(newGt);
-                        unit.Save();
-                    }
-                    if(Mode == "Wijzig")
-                    {
-                        unit.GroupTourRepo.Update(GroupTour);
-                        unit.Save();
-                    }
+                    if (Mode == "Voeg toe")
+                        AddGroupTour();
+                    if (Mode == "Wijzig")
+                        UpdateGroupTour();
                     GroupTourViewModel gtvm2 = new GroupTourViewModel(DVM);
                     GroupTripView gtview2 = new GroupTripView();
                     gtview2.DataContext = gtvm2;
                     DVM.Content = gtview2;
                     break;
-                case "AddParticipants":
-                    AddParticipantsViewModel apvm = new AddParticipantsViewModel(GroupTour, DVM);
-                    AddParticipantsView apv = new AddParticipantsView();
-                    apv.DataContext = apvm;
-                    DVM.Content = apv;
-                    break;
+                case "AddParticipants": AddParticipants(); break;
+                default: break;
             }
+        }
+        public void ShowGroupTours()
+        {
+            GroupTourViewModel gtvm = new GroupTourViewModel(DVM);
+            GroupTripView gtview = new GroupTripView();
+            gtview.DataContext = gtvm;
+            DVM.Content = gtview;
+        }
+
+        public void UpdateGroupTour()
+        {
+            unit.GroupTourRepo.Update(GroupTour);
+            unit.Save();
+            ShowGroupTours();
         }
     }
 }
