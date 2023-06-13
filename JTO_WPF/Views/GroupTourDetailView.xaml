@@ -79,13 +79,14 @@
                       VerticalAlignment="Stretch"
                       Name="dtgAvailableParticipants"
                       AutoGenerateColumns="False"
-                      ItemsSource="{Binding AvailableParticipants}">
+                      ItemsSource="{Binding AvailableParticipants}"
+                       SelectedValue="{Binding SelectedAvailableParticipant}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding PersonID, Converter={StaticResource PersonIDToPersonConverter}}" Header="Beschikbare deelnemer"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
 
-            <Button Grid.Column="1" Grid.Row="1" Command="{Binding}" Height="45" CommandParameter="AddParticpant" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
+            <Button Grid.Column="1" Grid.Row="1" Command="{Binding}" Height="45" CommandParameter="AddParticipant" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
                 <StackPanel Orientation="Vertical">
                     <materialDesign:PackIcon Kind="ArrowDown" Height="25" Width="25" />
                 </StackPanel>
@@ -105,13 +106,16 @@
                       VerticalAlignment="Stretch"
                       Name="dtgParticipants"
                       AutoGenerateColumns="False"
-                      ItemsSource="{Binding GroupTour.Participants}">
+                      ItemsSource="{Binding GroupTour.Participants}"
+                      SelectedValue="{Binding SelectedParticipant}" >
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding PersonID, Converter={StaticResource PersonIDToPersonConverter}}" Header="Ingeschreven Deelnemer"></DataGridTextColumn>
                     <DataGridTextColumn Binding="{Binding RoleID, Converter={StaticResource RoleIDToRoleConverter}}" Header="Rol"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
+        <Button Margin="10" Grid.Column="3" Grid.Row="8" Height="45" Command="{Binding}" CommandParameter="Update" Content="{Binding Mode}"></Button>
+        <Button Margin="10" Grid.Column="4" Grid.Row="8" Height="45" Command="{Binding}" CommandParameter="Cancel">Annuleer</Button>
 
         <!--<StackPanel Grid.Column="0">
 
@@ -122,8 +126,6 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <Button Margin="5" Grid.Column="0" Command="{Binding}" CommandParameter="Update" Content="{Binding Mode}"></Button>
-                <Button Margin="5" Grid.Column="1" Command="{Binding}" CommandParameter="Cancel">Annuleer</Button>
             </Grid>
         </StackPanel>
         <StackPanel Grid.Column="1" Orientation="Vertical">

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JTO_WPF.Views;
 using System.Windows;
+using System.Collections.ObjectModel;
 
 namespace JTO_WPF.ViewModels
 {
@@ -31,6 +32,13 @@ namespace JTO_WPF.ViewModels
         public DateTime? StartDateTour { get; set; }
         public IEnumerable<Theme> Themas { get; set; }
         public IEnumerable<Role> AvailableRoles { get; set; }
+        public IEnumerable<Person> AvailableParticipants { get; set; }
+        public IEnumerable<Person> AllPersons { get; set; }
+        public ObservableCollection<Person> Participants { get; set; }
+        public Person SelectedAvailableParticipant { get; set; }
+        public Participant SelectedParticipant { get; set; }
+        public Role SelectedRole { get; set; }
+
 
 
         public GroupTourDetailViewModel(GroupTour groupTour, DashboardViewModel dVM)
@@ -52,6 +60,37 @@ namespace JTO_WPF.ViewModels
             PriceTour = GroupTour.Price;
             MaxParticipantsTour = GroupTour.MaxParticipants;
             AvailableRoles = unit.RoleRepo.Retrieve(ar => ar.AssignedObject == "GroupTour").ToList();
+            Participants = new ObservableCollection<Person>();
+            AvailableParticipants = GetPossibleParticipants();
+        }
+
+        public IEnumerable<Person> GetPossibleParticipants()
+        {
+            List<Person> possParticipants = new List<Person>();
+            IEnumerable<Person> listPersons = new List<Person>();
+            AllPersons = unit.PersonRepo.RetrieveTracked();
+            // Loops through all participants from GroupTour object and adds them in seperate ParticipantCollection (Essential for next step)
+            foreach(var p in GroupTour.Participants)
+            {
+                var person = unit.PersonRepo.Retrieve(x => x.PersonID == p.PersonID).FirstOrDefault();
+                Participants.Add(person);
+            }            
+            // Excludes existing participants from list of ALL people
+            listPersons = AllPersons.Except(Participants);
+
+            // Filters list of people further down to 3 criteria:
+            // 1) Person's age falls between min and max age
+            // 2) Person isn't already signed as the Tour responsible.
+            // 3) Person can join as monitor (despite age)
+            foreach (Person p in listPersons)
+            {
+                int age = DateTime.Today.Year - p.DateOfBirth.Year;
+                if ((age >= SelectedAgeCategory.MinAge && age <= SelectedAgeCategory.MaxAge) || (p.PersonID != SelectedResponsible.PersonID)
+                    || p.IsMoni == true)
+                    possParticipants.Add(p);
+            }
+
+            return possParticipants;
         }
 
         public GroupTourDetailViewModel(DashboardViewModel dVM)
@@ -80,30 +119,69 @@ namespace JTO_WPF.ViewModels
             ShowGroupTours();
         }
 
-        public void AddParticipants()
-        {
-            AddParticipantsViewModel apvm = new AddParticipantsViewModel(GroupTour, DVM);
-            AddParticipantsView apv = new AddParticipantsView();
-            apv.DataContext = apvm;
-            DVM.Content = apv;
-        }
-
         public override bool CanExecute(object parameter)
         {
             switch (parameter.ToString())
             {
-                case "AddParticipants":
-                    return (GroupTour.GroupTourID != 0);
+                case "AddParticipant":
+                    return (GroupTour.GroupTourID != 0 && SelectedAvailableParticipant != null && SelectedRole != null);
+                case "RemoveParticipant":
+                    return (GroupTour.GroupTourID != 0 && SelectedParticipant != null);
                 default:
                     return true;
             }
         }
 
+
+
+        public void AddParticipant()
+        {
+            if (SelectedRole.RoleID == 1 && SelectedAvailableParticipant.IsMoni == false)
+                MessageBox.Show("De geselecteerde persoon is niet geschikt voor monitor te zijn", "Persoon is geen monitor", MessageBoxButton.OK, MessageBoxImage.Information);
+            else
+            {
+                Participant p = new Participant(GroupTour.GroupTourID, SelectedAvailableParticipant.PersonID, SelectedRole.RoleID);
+                unit.ParticipantRepo.Create(p);
+                unit.Save();
+
+                GroupTour = unit.GroupTourRepo.Retrieve(x => x.GroupTourID == GroupTour.GroupTourID, x => x.Participants).FirstOrDefault();
+                Participants = new ObservableCollection<Person>();
+
+                foreach (var participant in GroupTour.Participants)
+                {
+                    var person = unit.PersonRepo.Retrieve(x => x.PersonID == participant.PersonID).FirstOrDefault();
+                    Participants.Add(person);
+                }
+
+                AvailableParticipants = GetPossibleParticipants();
+            }
+        }
+
+        public void RemoveParticipant()
+        {
+            var toBeDeleted = unit.ParticipantRepo.Retrieve(x => x.GroupTourID == GroupTour.GroupTourID && x.PersonID == SelectedParticipant.PersonID).FirstOrDefault();
+            unit.ParticipantRepo.Delete(toBeDeleted);
+            unit.Save();
+
+            GroupTour = unit.GroupTourRepo.Retrieve(x => x.GroupTourID == GroupTour.GroupTourID, x => x.Participants).FirstOrDefault();
+
+            Participants = new ObservableCollection<Person>();
+
+            foreach (var participant in GroupTour.Participants)
+            {
+                var person = unit.PersonRepo.Retrieve(x => x.PersonID == participant.PersonID).FirstOrDefault();
+                Participants.Add(person);
+            }
+
+            AvailableParticipants = AllPersons.Except(Participants);
+        }
         public override void Execute(object parameter)
         {
             string errors = "";
             switch (parameter.ToString())
             {
+                case "AddParticipant": AddParticipant(); break;
+                case "RemoveParticipant": RemoveParticipant(); break;
                 case "Cancel": ShowGroupTours(); break;
                 case "Update":
                     errors = ValidateInput();
@@ -117,7 +195,6 @@ namespace JTO_WPF.ViewModels
                     else
                         MessageBox.Show(errors, "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
                         break;
-                case "AddParticipants": AddParticipants(); break;
                 default: break;
             }
         }
