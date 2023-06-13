@@ -40,6 +40,14 @@ namespace JTO_WPF.ViewModels
             return true;
         }
 
+        public void CreateDestination()
+        {
+            unit.DestinationRepo.Create(Destination);
+            unit.Save();
+
+            DVM.SnackbarContent = $"Bestemming '{Destination.Name}' aangemaakt.";
+        }
+
         public override void Execute(object parameter)
         {
             string errors = "";
@@ -50,38 +58,36 @@ namespace JTO_WPF.ViewModels
                     if (string.IsNullOrEmpty(errors))
                     {
                         if (Destination.DestinationID == 0)
-                        {
-                            unit.DestinationRepo.Create(Destination);
-                            unit.Save();
-
-                            DVM.SnackbarContent = $"Bestemming '{Destination.Name}' aangemaakt.";
-                        }
+                            CreateDestination();
                         else
-                        {
-                            unit.DestinationRepo.Update(Destination);
-                            unit.Save();
+                            UpdateDestination();
 
-                            DVM.SnackbarContent = $"Bestemming '{Destination.Name}' aangepast.";
-                        }
-                        var dVM = new DestinationViewModel(DVM);
-                        var dV = new DestinationView();
-                        dV.DataContext = dVM;
-                        DVM.Content = dV;
+                        ShowDestinations();
                         break;
                     }
                     else
-                    {
                         MessageBox.Show(errors, "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
-                        break;
-                    }
-
-                case "Cancel":
-                    var dVM2 = new DestinationViewModel(DVM);
-                    var dV2 = new DestinationView();
-                    dV2.DataContext = dVM2;
-                    DVM.Content = dV2;
                     break;
+
+                case "Cancel": ShowDestinations(); break;
+                default: break;
             }
+        }
+
+        public void ShowDestinations()
+        {
+            var dVM = new DestinationViewModel(DVM);
+            var dV = new DestinationView();
+            dV.DataContext = dVM;
+            DVM.Content = dV;
+        }
+
+        public void UpdateDestination()
+        {
+            unit.DestinationRepo.Update(Destination);
+            unit.Save();
+
+            DVM.SnackbarContent = $"Bestemming '{Destination.Name}' aangepast.";
         }
 
         public string ValidateInput()
