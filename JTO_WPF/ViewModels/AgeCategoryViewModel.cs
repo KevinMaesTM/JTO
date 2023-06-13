@@ -29,16 +29,10 @@ namespace JTO_WPF.ViewModels
             switch (parameter.ToString())
             {
                 case "ShowDetail":
-                    if (SelectedAgeCategory == null)
-                        return false;
-                    else
-                        return true;
+                    return (SelectedAgeCategory != null);
 
                 case "Delete":
-                    if (SelectedAgeCategory == null)
-                        return false;
-                    else
-                        return true;
+                    return (SelectedAgeCategory != null);
 
                 default:
                     return true;
