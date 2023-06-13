@@ -82,7 +82,7 @@ namespace JTO_WPF.ViewModels
                     DVM.Content = gtdv;
                     break;
                 case "AddParticipant":
-                    Participant p = new Participant(GroupTour.GroupTourID, SelectedPerson.PersonID, 3);
+                    Participant p = new Participant(GroupTour.GroupTourID, SelectedPerson.PersonID, 4);
                     unit.ParticipantRepo.Create(p);
                     unit.Save();
 

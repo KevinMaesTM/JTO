@@ -12,6 +12,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:PersonIDToPersonConverter x:Key="PersonIDToPersonConverter" />
+        <converters:RoleIDToRoleConverter x:Key="RoleIDToRoleConverter" />
     </UserControl.Resources>
     <Grid x:Name="GridMain" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="585" Width="955">
         <Grid.RowDefinitions>
@@ -62,9 +63,13 @@
                       ItemsSource="{Binding GroupTour.Participants}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding PersonID, Converter={StaticResource PersonIDToPersonConverter}}" Header="Deelnemer"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding RoleID, Converter={StaticResource RoleIDToRoleConverter}}" Header="Rol"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <Button Margin="5" Width="200" Command="{Binding}" CommandParameter="AddParticipants">Deelnemers beheren</Button>
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="5" Width="200" Command="{Binding}" CommandParameter="AddParticipants">Deelnemers beheren</Button>
+                <Button Margin="5" Width="200">Monitoren beheren</Button>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>
