@@ -27,6 +27,9 @@ namespace JTO_MODELS
         [Required]
         public bool GroupTourResponsible { get; set; }
 
+        [Required]
+        public bool IsMoni { get; set; }
+
         public string? medicalSheet { get; set; }
 
         [Required]
