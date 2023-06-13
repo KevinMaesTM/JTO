@@ -30,12 +30,7 @@ namespace DAL.Data
 
         public IEnumerable<T> Retrieve()
         {
-            return Context.Set<T>().AsNoTracking().ToList();
-        }
-
-        public void Update(T entity)
-        {
-            Context.Set<T>().Update(entity);
+            return Context.Set<T>().ToList();
         }
 
         public IEnumerable<T> Retrieve(Expression<Func<T, bool>> voorwaarden,
@@ -66,5 +61,9 @@ namespace DAL.Data
             return Retrieve(null, includes).ToList();
         }
 
+        public void Update(T entity)
+        {
+            Context.Set<T>().Update(entity);
+        }
     }
 }

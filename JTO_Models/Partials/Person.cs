@@ -9,8 +9,8 @@ namespace JTO_MODELS
 {
     public partial class Person
     {
-        public Person()
-        { }
+        //public Person()
+        //{ }
 
         public override string ToString()
         {

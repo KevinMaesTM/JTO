@@ -63,8 +63,18 @@ namespace JTO_WPF.ViewModels
             AvailableRoles = unit.RoleRepo.Retrieve(ar => ar.AssignedObject == "Training").ToList();
         }
 
-        public void AddTraineeToTraining(Trainee trainee)
+        public void AddTrainee()
         {
+            Trainee trainee = new Trainee();
+
+            trainee.PersonID = SelectedAvailableTrainee.PersonID;
+            trainee.RoleID = SelectedRole.RoleID;
+            trainee.TrainingID = Training.TrainingID;
+            if (SubscribedTrainees.Where(x => x.RoleID == 2).Count() >= 1 && trainee.RoleID == 2)
+            {
+                MessageBox.Show("Er mag maximum 1 trainer per opleiding toegewezen worden", "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             SubscribedTrainees.Add(trainee);
             unit.TraineeRepo.Create(trainee);
             unit.Save();
@@ -128,22 +138,11 @@ namespace JTO_WPF.ViewModels
                         MessageBox.Show(errors, "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
 
-                case "AddTrainee":
-                    Trainee trainee = new Trainee();
-                    trainee.PersonID = SelectedAvailableTrainee.PersonID;
-                    trainee.RoleID = SelectedRole.RoleID;
-
-                    if (SubscribedTrainees.Where(x => x.RoleID == 2).Count() >= 1 && trainee.RoleID == 2)
-                    {
-                        MessageBox.Show("Er mag maximum 1 trainer per opleiding toegewezen worden", "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
-                        break;
-                    }
-                    AddTraineeToTraining(trainee);
-                    break;
-
+                case "AddTrainee": AddTrainee(); break;
                 case "RemoveTrainee": RemoveTrainee(); break;
                 case "Cancel": ShowTrainings(); break;
-                default: break;
+                default:
+                    break;
             }
         }
 
@@ -170,7 +169,7 @@ namespace JTO_WPF.ViewModels
         {
             unit.TrainingRepo.Update(Training);
             unit.Save();
-            DVM.SnackbarContent = $"Training '{Training.Name}' aangepast.";
+            DVM.SnackbarContent = $"Training '{Training.Name} ({Training.Date})' aangepast.";
 
             ShowTrainings();
         }
