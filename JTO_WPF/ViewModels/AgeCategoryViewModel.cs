@@ -30,24 +30,34 @@ namespace JTO_WPF.ViewModels
             {
                 case "ShowDetail":
                     if (SelectedAgeCategory == null)
-                    {
                         return false;
-                    }
                     else
-                    {
                         return true;
-                    }
+
                 case "Delete":
                     if (SelectedAgeCategory == null)
-                    {
                         return false;
-                    }
                     else
-                    {
                         return true;
-                    }
+
                 default:
                     return true;
+            }
+        }
+
+        public void DeleteAgeCategory()
+        {
+            try
+            {
+                SelectedAgeCategory.IsActive = false;
+                unit.AgeCategoryRepo.Update(SelectedAgeCategory);
+                unit.Save();
+                AgeCategories = unit.AgeCategoryRepo.Retrieve(ac => ac.IsActive == true || ac.IsActive == null);
+            }
+            catch (Exception ex)
+            {
+                unit.Reload(SelectedAgeCategory);
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.");
             }
         }
 
@@ -55,35 +65,27 @@ namespace JTO_WPF.ViewModels
         {
             switch (parameter.ToString())
             {
-                case "ShowDetail":
-                    DetailsAgeCategoryViewModel acVM = new DetailsAgeCategoryViewModel(DVM, SelectedAgeCategory);
-                    DetailsAgeCategoryView daV = new DetailsAgeCategoryView();
-                    daV.DataContext = acVM;
-                    DVM.Content = daV;
-                    break;
-
-                case "Add":
-                    DetailsAgeCategoryViewModel acVM2 = new DetailsAgeCategoryViewModel(DVM);
-                    DetailsAgeCategoryView daV2 = new DetailsAgeCategoryView();
-                    daV2.DataContext = acVM2;
-                    DVM.Content = daV2;
-                    break;
-
-                case "Delete":
-                    try
-                    {
-                        SelectedAgeCategory.IsActive = false;
-                        unit.AgeCategoryRepo.Update(SelectedAgeCategory);
-                        unit.Save();
-                        AgeCategories = unit.AgeCategoryRepo.Retrieve(ac => ac.IsActive == true || ac.IsActive == null);
-                    }
-                    catch (Exception ex)
-                    {
-                        unit.Reload(SelectedAgeCategory);
-                        MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.");
-                    }
-                    break;
+                case "ShowDetail": ShowAgeCategoryDetail(); break;
+                case "Add": ShowAddNewAgeCategory(); break;
+                case "Delete": DeleteAgeCategory(); break;
+                default: break;
             }
+        }
+
+        public void ShowAddNewAgeCategory()
+        {
+            DetailsAgeCategoryViewModel acVM2 = new DetailsAgeCategoryViewModel(DVM);
+            DetailsAgeCategoryView daV2 = new DetailsAgeCategoryView();
+            daV2.DataContext = acVM2;
+            DVM.Content = daV2;
+        }
+
+        public void ShowAgeCategoryDetail()
+        {
+            DetailsAgeCategoryViewModel acVM = new DetailsAgeCategoryViewModel(DVM, SelectedAgeCategory);
+            DetailsAgeCategoryView daV = new DetailsAgeCategoryView();
+            daV.DataContext = acVM;
+            DVM.Content = daV;
         }
     }
 }
