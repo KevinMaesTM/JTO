@@ -15,6 +15,8 @@ namespace DAL.Data
         void Delete(T entity);
 
         IEnumerable<T> Retrieve();
+        IEnumerable<T> RetrieveTracked();
+
         IEnumerable<T> Retrieve(Expression<Func<T, bool>> voorwaarden);
 
         IEnumerable<T> Retrieve(params Expression<Func<T, object>>[] includes);

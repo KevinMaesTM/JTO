@@ -1,10 +1,10 @@
 ﻿<UserControl x:Class="JTO_WPF.Views.GroupTripView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:JTO_WPF.Views"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid x:Name="GridMain" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="585" Width="955">
         <StackPanel>
@@ -13,16 +13,16 @@
                     <TextBlock FlowDirection="LeftToRight" Text="Enkel reizen in de toekomst" Foreground="Black" />
                 </CheckBox>
             </DockPanel>
-            <DataGrid Height="450" Margin="5" IsReadOnly="True" 
+            <DataGrid Height="450" Margin="5" IsReadOnly="True"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch"
-                      Name="dtgGroupTours" 
-                      AutoGenerateColumns="False" 
-                      ItemsSource="{Binding GroupTours}" 
+                      Name="dtgGroupTours"
+                      AutoGenerateColumns="False"
+                      ItemsSource="{Binding GroupTours}"
                       SelectedItem="{Binding SelectedGroupTour}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="25*" Binding="{Binding Name}" Header="Naam"></DataGridTextColumn>
-                    <DataGridTextColumn Width="25*" Binding="{Binding Startdate, StringFormat=\{0:dd.MM.yyyy HH:mm\}}" Header="Startdatum"></DataGridTextColumn>
+                    <DataGridTextColumn Width="25*" Binding="{Binding Startdate, StringFormat=\{0:dd/MM/yyyy\}}" Header="Startdatum"></DataGridTextColumn>
                     <DataGridTextColumn Width="25*" Binding="{Binding AgeCategory}" Header="Categorie"></DataGridTextColumn>
                     <DataGridTextColumn Width="25*" Binding="{Binding Theme}" Header="Thema"></DataGridTextColumn>
                 </DataGrid.Columns>

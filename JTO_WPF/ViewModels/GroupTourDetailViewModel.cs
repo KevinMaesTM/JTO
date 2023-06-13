@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JTO_WPF.Views;
+using System.Windows;
 
 namespace JTO_WPF.ViewModels
 {
@@ -14,15 +15,20 @@ namespace JTO_WPF.ViewModels
     {
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
         public IEnumerable<AgeCategory> AgeCategories { get; set; }
+        public decimal? BudgetTour { get; set; }
         public IEnumerable<Destination> Destinations { get; set; }
         public DashboardViewModel DVM { get; set; }
+        public DateTime? EndDateTour { get; set; }
         public GroupTour GroupTour { get; set; }
+        public int? MaxParticipantsTour { get; set; }
         public string Mode { get; set; }
+        public decimal? PriceTour { get; set; }
         public IEnumerable<Person> Responsibles { get; set; }
         public AgeCategory SelectedAgeCategory { get; set; }
         public Destination SelectedDestination { get; set; }
         public Person SelectedResponsible { get; set; }
         public Theme SelectedTheme { get; set; }
+        public DateTime? StartDateTour { get; set; }
         public IEnumerable<Theme> Themas { get; set; }
 
         public GroupTourDetailViewModel(GroupTour groupTour, DashboardViewModel dVM)
@@ -38,6 +44,11 @@ namespace JTO_WPF.ViewModels
             Responsibles = unit.PersonRepo.Retrieve();
             Destinations = unit.DestinationRepo.Retrieve();
             Mode = "Wijzig";
+            StartDateTour = GroupTour.Startdate;
+            EndDateTour = GroupTour.Enddate;
+            BudgetTour = GroupTour.Budget;
+            PriceTour = GroupTour.Price;
+            MaxParticipantsTour = GroupTour.MaxParticipants;
         }
 
         public GroupTourDetailViewModel(DashboardViewModel dVM)
@@ -49,6 +60,11 @@ namespace JTO_WPF.ViewModels
             Responsibles = unit.PersonRepo.Retrieve();
             Destinations = unit.DestinationRepo.Retrieve();
             Mode = "Voeg toe";
+            StartDateTour = null;
+            EndDateTour = null;
+            BudgetTour = null;
+            PriceTour = null;
+            MaxParticipantsTour = null;
         }
 
         public void AddGroupTour()
@@ -73,7 +89,6 @@ namespace JTO_WPF.ViewModels
             {
                 case "AddParticipants":
                     return (GroupTour.GroupTourID != 0);
-
                 default:
                     return true;
             }
@@ -81,6 +96,7 @@ namespace JTO_WPF.ViewModels
 
         public override void Execute(object parameter)
         {
+            string errors = "";
             switch (parameter.ToString())
             {
                 case "Cancel": ShowGroupTours(); break;
@@ -89,13 +105,15 @@ namespace JTO_WPF.ViewModels
                         AddGroupTour();
                     if (Mode == "Wijzig")
                         UpdateGroupTour();
+                    GroupTourViewModel gtvm2 = new GroupTourViewModel(DVM);
+                    GroupTripView gtview2 = new GroupTripView();
+                    gtview2.DataContext = gtvm2;
+                    DVM.Content = gtview2;
                     break;
-
                 case "AddParticipants": AddParticipants(); break;
                 default: break;
             }
         }
-
         public void ShowGroupTours()
         {
             GroupTourViewModel gtvm = new GroupTourViewModel(DVM);

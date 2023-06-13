@@ -8,15 +8,13 @@ namespace JTO_MODELS
 {
     public partial class AgeCategory
     {
-        public AgeCategory() { }    
-        public AgeCategory(int minAge, int maxAge) 
+        public AgeCategory()
+        { }
+
+        public AgeCategory(int minAge, int maxAge)
         {
             MinAge = minAge;
             MaxAge = maxAge;
-        }
-        public override string ToString()
-        {
-            return $"({MinAge} - {MaxAge})";
         }
 
         public override bool Equals(object obj)
@@ -30,6 +28,11 @@ namespace JTO_MODELS
                 return false;
 
             return MinAge == other.MinAge && MaxAge == other.MaxAge;
+        }
+
+        public override string ToString()
+        {
+            return $"{MinAge} - {MaxAge} jaar";
         }
     }
 }

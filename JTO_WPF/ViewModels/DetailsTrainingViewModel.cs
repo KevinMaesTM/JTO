@@ -45,7 +45,7 @@ namespace JTO_WPF.ViewModels
                 SubscribedTraineesCollection.Add(p);
             }
             // Retrieve list of all Person objects except subscribed trainees
-            AvailableTrainees = unit.PersonRepo.Retrieve().Except(SubscribedTraineesCollection);
+            AvailableTrainees = unit.PersonRepo.RetrieveTracked().Except(SubscribedTraineesCollection);
             AvailableRoles = unit.RoleRepo.Retrieve(ar => ar.AssignedObject == "Training").ToList();
         }
 
