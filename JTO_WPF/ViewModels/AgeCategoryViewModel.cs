@@ -65,7 +65,7 @@ namespace JTO_WPF.ViewModels
         {
             switch (parameter.ToString())
             {
-                case "ShowDetail": ShowAgeCategoryDetail(); break;
+                case "ShowDetail": ShowAgeCategoryDetails(); break;
                 case "Add": ShowAddNewAgeCategory(); break;
                 case "Delete": DeleteAgeCategory(); break;
                 default: break;
@@ -80,7 +80,7 @@ namespace JTO_WPF.ViewModels
             DVM.Content = daV2;
         }
 
-        public void ShowAgeCategoryDetail()
+        public void ShowAgeCategoryDetails()
         {
             DetailsAgeCategoryViewModel acVM = new DetailsAgeCategoryViewModel(DVM, SelectedAgeCategory);
             DetailsAgeCategoryView daV = new DetailsAgeCategoryView();
