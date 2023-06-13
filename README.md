@@ -17,3 +17,4 @@ Usercontrol
 Verdere uitbreiding van MaterialDesign
 Bepaalde EF functies (vb. RetrievedTracked)
 Encrypteren van data (vb. password voor users)
+Custom value converters
