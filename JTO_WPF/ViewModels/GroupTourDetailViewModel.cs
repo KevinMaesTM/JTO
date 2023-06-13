@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using JTO_WPF.Views;
 using System.Windows;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Xml.Linq;
 
 namespace JTO_WPF.ViewModels
 {
@@ -208,7 +210,19 @@ namespace JTO_WPF.ViewModels
 
         public void UpdateGroupTour()
         {
-            GroupTour = CastInputGroupTour();
+            var gt = CastInputGroupTour();
+
+            GroupTour = unit.GroupTourRepo.RetrieveTracked().Where(x => x.GroupTourID == GroupTour.GroupTourID).FirstOrDefault();
+
+            GroupTour.Name = gt.Name;
+            GroupTour.Startdate = gt.Startdate;
+            GroupTour.Enddate = gt.Enddate;
+            GroupTour.MaxParticipants = gt.MaxParticipants;
+            GroupTour.Price = gt.MaxParticipants;
+            GroupTour.AgeCategoryID = gt.AgeCategoryID;
+            GroupTour.ThemeID = gt.ThemeID;
+            GroupTour.ResponsibleID = gt.ResponsibleID;
+            GroupTour.DestinationID = gt.DestinationID;
 
             unit.GroupTourRepo.Update(GroupTour);
             unit.Save();
