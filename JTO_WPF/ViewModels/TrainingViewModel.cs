@@ -29,47 +29,47 @@ namespace JTO_WPF.ViewModels
             switch (parameter.ToString())
             {
                 case "ShowDetail":
-                    if (SelectedTraining == null)
-                        return false;
-                    else
-                        return true;
-
                 case "Delete":
-                    if (SelectedTraining == null)
-                        return false;
-                    else
-                        return true;
+                    return (SelectedTraining != null);
 
                 default:
                     return true;
             }
         }
 
+        public void DeleteTraining()
+        {
+            SelectedTraining.IsActive = false;
+            unit.TrainingRepo.Update(SelectedTraining);
+            unit.Save();
+            Trainings = unit.TrainingRepo.Retrieve(x => x.Trainees).Where(t => t.IsActive == true || t.IsActive == null);
+        }
+
         public override void Execute(object parameter)
         {
             switch (parameter.ToString())
             {
-                case "ShowDetail":
-                    DetailsTrainingViewModel dtVM = new DetailsTrainingViewModel(this.SelectedTraining, DVM);
-                    DetailsTrainingView dtV = new DetailsTrainingView();
-                    dtV.DataContext = dtVM;
-                    DVM.Content = dtV;
-                    break;
-
-                case "Add":
-                    CreateTrainingViewModel ctVM = new CreateTrainingViewModel(DVM);
-                    CreateTrainingView ctV = new CreateTrainingView();
-                    ctV.DataContext = ctVM;
-                    DVM.Content = ctV;
-                    break;
-
-                case "Delete":
-                    SelectedTraining.IsActive = false;
-                    unit.TrainingRepo.Update(SelectedTraining);
-                    unit.Save();
-                    Trainings = unit.TrainingRepo.Retrieve(x => x.Trainees).Where(t => t.IsActive == true || t.IsActive == null);
-                    break;
+                case "ShowDetail": ShowTrainingDetails(); break;
+                case "Add": ShowCreateTraining(); break;
+                case "Delete": DeleteTraining(); break;
+                default: break;
             }
+        }
+
+        public void ShowCreateTraining()
+        {
+            CreateTrainingViewModel ctVM = new CreateTrainingViewModel(DVM);
+            CreateTrainingView ctV = new CreateTrainingView();
+            ctV.DataContext = ctVM;
+            DVM.Content = ctV;
+        }
+
+        public void ShowTrainingDetails()
+        {
+            DetailsTrainingViewModel dtVM = new DetailsTrainingViewModel(this.SelectedTraining, DVM);
+            DetailsTrainingView dtV = new DetailsTrainingView();
+            dtV.DataContext = dtVM;
+            DVM.Content = dtV;
         }
     }
 }
