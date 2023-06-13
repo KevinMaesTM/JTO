@@ -15,20 +15,20 @@ namespace JTO_WPF.ViewModels
     {
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
         public IEnumerable<AgeCategory> AgeCategories { get; set; }
-        public decimal? BudgetTour { get; set; }
+        public string BudgetTour { get; set; }
         public IEnumerable<Destination> Destinations { get; set; }
         public DashboardViewModel DVM { get; set; }
-        public DateTime? EndDateTour { get; set; }
+        public string EndDateTour { get; set; }
         public GroupTour GroupTour { get; set; }
-        public int? MaxParticipantsTour { get; set; }
+        public string MaxParticipantsTour { get; set; }
         public string Mode { get; set; }
-        public decimal? PriceTour { get; set; }
+        public string PriceTour { get; set; }
         public IEnumerable<Person> Responsibles { get; set; }
         public AgeCategory SelectedAgeCategory { get; set; }
         public Destination SelectedDestination { get; set; }
         public Person SelectedResponsible { get; set; }
         public Theme SelectedTheme { get; set; }
-        public DateTime? StartDateTour { get; set; }
+        public string StartDateTour { get; set; }
         public IEnumerable<Theme> Themas { get; set; }
 
         public GroupTourDetailViewModel(GroupTour groupTour, DashboardViewModel dVM)
@@ -44,11 +44,11 @@ namespace JTO_WPF.ViewModels
             Responsibles = unit.PersonRepo.Retrieve();
             Destinations = unit.DestinationRepo.Retrieve();
             Mode = "Wijzig";
-            StartDateTour = GroupTour.Startdate;
-            EndDateTour = GroupTour.Enddate;
-            BudgetTour = GroupTour.Budget;
-            PriceTour = GroupTour.Price;
-            MaxParticipantsTour = GroupTour.MaxParticipants;
+            StartDateTour = GroupTour.Startdate.ToString("dd/MM/yyyy");
+            EndDateTour = GroupTour.Enddate.ToString("dd/MM/yyyy");
+            BudgetTour = GroupTour.Budget.ToString("N2");
+            PriceTour = GroupTour.Price.ToString("N2");
+            MaxParticipantsTour = GroupTour.MaxParticipants.ToString();
         }
 
         public GroupTourDetailViewModel(DashboardViewModel dVM)
@@ -125,7 +125,7 @@ namespace JTO_WPF.ViewModels
             GroupTour.ThemeID = SelectedTheme.ThemeID;
             GroupTour.ResponsibleID = SelectedResponsible.PersonID;
             GroupTour.DestinationID = SelectedDestination.DestinationID;
-
+            GroupTour.Startdate = DateTime.Parse(StartDateTour.ToString());
             unit.GroupTourRepo.Update(GroupTour);
             unit.Save();
             ShowGroupTours();
