@@ -163,7 +163,6 @@ namespace JTO_DAL.Migrations
                     GroupTourID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AgeCategoryID = table.Column<int>(type: "int", nullable: true),
-                    Budget = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DestinationID = table.Column<int>(type: "int", nullable: true),
                     Enddate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MaxParticipants = table.Column<int>(type: "int", nullable: false),

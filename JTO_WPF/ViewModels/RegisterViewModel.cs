@@ -63,8 +63,15 @@ namespace JTO_WPF.ViewModels
 
             string hashedPassword = ComputeSha256Hash(Password);
             User newUser = new User(UserName, hashedPassword);
-            unit.UserRepo.Create(newUser);
-            unit.Save();
+            try
+            {
+                unit.UserRepo.Create(newUser);
+                unit.Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
 
             var vm = new DashboardViewModel(newUser);
             var view = new DashboardView();

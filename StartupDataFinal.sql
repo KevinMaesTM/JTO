@@ -39,9 +39,9 @@ INSERT INTO JTOTest.dbo.Persons (City, Country, DateOfBirth, Email, IsMoni,Group
 INSERT INTO JTOTest.dbo.Persons (City, Country, DateOfBirth, Email, IsMoni,GroupTourResponsible, medicalSheet, MemberHealthInsurance, Name, Number, Phone, Sex, Street, Surname, Zip) VALUES ('Codeerstad', 'Belgie', '1998-03-08', 'csharpmaster@codecamp.co', 1, 1, null, 0, 'Joren', 5, null, 1, 'Frontend laan', 'Synaeve', '1010');
 
 -- Insert Grouptours
-INSERT INTO JTOTest.dbo.GroupTours (AgeCategoryID, Budget, DestinationID, Enddate, MaxParticipants, Name, Price, ResponsibleID, Startdate, ThemeID) VALUES (4, 500, 1, '2022-05-23 17:00:00', 8, 'Tekenen aan de zee', 20, 2, '2022-06-01 10:00:00', 5);
-INSERT INTO JTOTest.dbo.GroupTours (AgeCategoryID, Budget, DestinationID, Enddate, MaxParticipants, Name, Price, ResponsibleID, Startdate, ThemeID) VALUES (6, 850, 1, '2023-05-30 16:00:00', 10, 'Avontuur in de Waalse Ardennen', 20, 3, '2023-06-13 10:00:00', 1);
-INSERT INTO JTOTest.dbo.GroupTours (AgeCategoryID, Budget, DestinationID, Enddate, MaxParticipants, Name, Price, ResponsibleID, Startdate, ThemeID) VALUES (1, 100, 3, '2023-10-10 12:00:00', 12, 'Cultuur aan het MAS', 20, 1, '2023-10-10 10:00:00', 2);
+INSERT INTO JTOTest.dbo.GroupTours (AgeCategoryID,  DestinationID, Enddate, MaxParticipants, Name, Price, ResponsibleID, Startdate, ThemeID) VALUES (4,  1, '2022-05-23 17:00:00', 8, 'Tekenen aan de zee', 20, 2, '2022-06-01 10:00:00', 5);
+INSERT INTO JTOTest.dbo.GroupTours (AgeCategoryID,  DestinationID, Enddate, MaxParticipants, Name, Price, ResponsibleID, Startdate, ThemeID) VALUES (6,  1, '2023-05-30 16:00:00', 10, 'Avontuur in de Waalse Ardennen', 20, 3, '2023-06-13 10:00:00', 1);
+INSERT INTO JTOTest.dbo.GroupTours (AgeCategoryID,  DestinationID, Enddate, MaxParticipants, Name, Price, ResponsibleID, Startdate, ThemeID) VALUES (1,  3, '2023-10-10 12:00:00', 12, 'Cultuur aan het MAS', 20, 1, '2023-10-10 10:00:00', 2);
 
 -- Insert Trainings
 INSERT INTO JTOTest.dbo.Trainings (Name, Date, IsActive) VALUES ('Monitor', '2023-06-01', 1);

@@ -75,12 +75,18 @@ namespace JTO_WPF.ViewModels
                 MessageBox.Show("Er mag maximum 1 trainer per opleiding toegewezen worden", "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            SubscribedTrainees.Add(trainee);
-            unit.TraineeRepo.Create(trainee);
-            unit.Save();
-
-            SubscribedTraineesCollection.Add(unit.PersonRepo.Retrieve(p => p.PersonID == trainee.PersonID).FirstOrDefault());
-            AvailableTrainees = AvailableTrainees.Except(SubscribedTraineesCollection);
+            try
+            {
+                SubscribedTrainees.Add(trainee);
+                unit.TraineeRepo.Create(trainee);
+                unit.Save();
+                SubscribedTraineesCollection.Add(unit.PersonRepo.Retrieve(p => p.PersonID == trainee.PersonID).FirstOrDefault());
+                AvailableTrainees = AvailableTrainees.Except(SubscribedTraineesCollection);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
         public override bool CanExecute(object parameter)
@@ -119,19 +125,26 @@ namespace JTO_WPF.ViewModels
 
         public void ChangeHasPassedStatus()
         {
-            SelectedSubscribedTrainee.FinishedTraining = true;
-            unit.TraineeRepo.Update(SelectedSubscribedTrainee);
-            unit.Save();
+            try
+            {
+                SelectedSubscribedTrainee.FinishedTraining = true;
+                unit.TraineeRepo.Update(SelectedSubscribedTrainee);
+                unit.Save();
 
-            Person trainee = unit.PersonRepo.Retrieve(p => p.PersonID == SelectedSubscribedTrainee.PersonID).FirstOrDefault();
+                Person trainee = unit.PersonRepo.Retrieve(p => p.PersonID == SelectedSubscribedTrainee.PersonID).FirstOrDefault();
 
-            if (Training.Name == "Monitor")
-                trainee.IsMoni = true;
-            else if (Training.Name == "Hoofdmonitor")
-                trainee.GroupTourResponsible = true;
+                if (Training.Name == "Monitor")
+                    trainee.IsMoni = true;
+                else if (Training.Name == "Hoofdmonitor")
+                    trainee.GroupTourResponsible = true;
 
-            unit.PersonRepo.Update(trainee);
-            unit.Save();
+                unit.PersonRepo.Update(trainee);
+                unit.Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
         public override void Execute(object parameter)
@@ -167,10 +180,16 @@ namespace JTO_WPF.ViewModels
         public void RemoveTrainee()
         {
             Trainee deletedTrainee = SelectedSubscribedTrainee;
-            SubscribedTrainees.Remove(deletedTrainee);
-            unit.TraineeRepo.Delete(deletedTrainee);
-            unit.Save();
-
+            try
+            {
+                SubscribedTrainees.Remove(deletedTrainee);
+                unit.TraineeRepo.Delete(deletedTrainee);
+                unit.Save();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
             SubscribedTraineesCollection.Remove(unit.PersonRepo.Retrieve(p => p.PersonID == deletedTrainee.PersonID).FirstOrDefault());
             AvailableTrainees = AvailableTrainees.Except(SubscribedTraineesCollection);
         }
@@ -185,9 +204,16 @@ namespace JTO_WPF.ViewModels
 
         public void UpdateTraining()
         {
-            unit.TrainingRepo.Update(Training);
-            unit.Save();
-            DVM.SnackbarContent = $"Training '{Training.Name} ({Training.Date})' aangepast.";
+            try
+            {
+                unit.TrainingRepo.Update(Training);
+                unit.Save();
+                DVM.SnackbarContent = $"Training '{Training.Name} ({Training.Date})' aangepast.";
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
 
             ShowTrainings();
         }

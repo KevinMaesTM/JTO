@@ -50,10 +50,17 @@ namespace JTO_WPF.ViewModels
 
         public void CreatePerson()
         {
-            unit.PersonRepo.Create(Person);
-            unit.Save();
+            try
+            {
+                unit.PersonRepo.Create(Person);
+                unit.Save();
 
-            DVM.SnackbarContent = $"Persoon '{Person.Name} {Person.Surname} is aangemaakt!";
+                DVM.SnackbarContent = $"Persoon '{Person.Name} {Person.Surname} is aangemaakt!";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
             ShowPersons();
         }
 
@@ -96,11 +103,17 @@ namespace JTO_WPF.ViewModels
 
         public void UpdatePerson()
         {
-            //Person.Name = Name;
-            unit.PersonRepo.Update(Person);
-            unit.Save();
+            try
+            {
+                unit.PersonRepo.Update(Person);
+                unit.Save();
 
-            DVM.SnackbarContent = $"Gegevens voor '{Person.Name} {Person.Surname} zijn aangepast.";
+                DVM.SnackbarContent = $"Gegevens voor '{Person.Name} {Person.Surname} zijn aangepast.";
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
             ShowPersons();
         }
 

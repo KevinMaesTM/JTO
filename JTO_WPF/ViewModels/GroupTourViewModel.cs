@@ -9,6 +9,7 @@ using JTO_MODELS;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
 using JTO_WPF.Views;
+using System.Windows;
 
 namespace JTO_WPF.ViewModels
 {
@@ -66,9 +67,16 @@ namespace JTO_WPF.ViewModels
 
         public void DeleteGroupTour()
         {
-            unit.GroupTourRepo.Delete(SelectedGroupTour);
-            unit.Save();
-            GroupTours = unit.GroupTourRepo.Retrieve(x => x.AgeCategory, x => x.Theme, x => x.Participants);
+            try
+            {
+                unit.GroupTourRepo.Delete(SelectedGroupTour);
+                unit.Save();
+                GroupTours = unit.GroupTourRepo.Retrieve(x => x.AgeCategory, x => x.Theme, x => x.Participants);
+            }
+            catch
+            {
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
         public override void Execute(object parameter)
