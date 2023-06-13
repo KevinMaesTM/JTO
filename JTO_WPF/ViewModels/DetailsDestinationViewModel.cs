@@ -42,10 +42,17 @@ namespace JTO_WPF.ViewModels
 
         public void CreateDestination()
         {
-            unit.DestinationRepo.Create(Destination);
-            unit.Save();
+            try
+            {
+                unit.DestinationRepo.Create(Destination);
+                unit.Save();
 
-            DVM.SnackbarContent = $"Bestemming '{Destination.Name}' aangemaakt.";
+                DVM.SnackbarContent = $"Bestemming '{Destination.Name}' aangemaakt.";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
         public override void Execute(object parameter)
@@ -84,10 +91,17 @@ namespace JTO_WPF.ViewModels
 
         public void UpdateDestination()
         {
-            unit.DestinationRepo.Update(Destination);
-            unit.Save();
+            try
+            {
+                unit.DestinationRepo.Update(Destination);
+                unit.Save();
 
-            DVM.SnackbarContent = $"Bestemming '{Destination.Name}' aangepast.";
+                DVM.SnackbarContent = $"Bestemming '{Destination.Name}' aangepast.";
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
         public string ValidateInput()

@@ -50,7 +50,7 @@ namespace JTO_WPF.ViewModels
             catch (Exception ex)
             {
                 unit.Reload(SelectedDestination);
-                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.");
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
         }
 

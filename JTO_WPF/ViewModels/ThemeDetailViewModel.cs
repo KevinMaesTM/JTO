@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JTO_WPF.Views;
 using System.Reflection.Metadata;
+using System.Windows;
 
 namespace JTO_WPF.ViewModels
 {
@@ -42,10 +43,17 @@ namespace JTO_WPF.ViewModels
 
         public void CreateTheme()
         {
-            Theme t = new Theme(Name);
-            unit.ThemeRepo.Create(t);
-            unit.Save();
-            DVM.SnackbarContent = $"Nieuw thema '{Theme.Name}' aangemaakt!";
+            try
+            {
+                Theme t = new Theme(Name);
+                unit.ThemeRepo.Create(t);
+                unit.Save();
+                DVM.SnackbarContent = $"Nieuw thema '{Theme.Name}' aangemaakt!";
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
 
             ShowThemes();
         }
@@ -76,10 +84,17 @@ namespace JTO_WPF.ViewModels
 
         public void UpdateTheme()
         {
-            Theme.Name = Name;
-            unit.ThemeRepo.Update(Theme);
-            unit.Save();
-            DVM.SnackbarContent = $"Thema '{Theme.Name}' aangepast.";
+            try
+            {
+                Theme.Name = Name;
+                unit.ThemeRepo.Update(Theme);
+                unit.Save();
+                DVM.SnackbarContent = $"Thema '{Theme.Name}' aangepast.";
+            }
+            catch   (Exception ex)
+            {
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
 
             ShowThemes();
         }

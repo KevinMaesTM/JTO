@@ -137,10 +137,16 @@ namespace JTO_WPF.ViewModels
 
         public void AddGroupTour()
         {
-            GroupTour = CastInputGroupTour();
-            unit.GroupTourRepo.Create(GroupTour);
-            unit.Save();
-
+            try
+            {
+                GroupTour = CastInputGroupTour();
+                unit.GroupTourRepo.Create(GroupTour);
+                unit.Save();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
             ShowGroupTours();
         }
 
@@ -156,8 +162,6 @@ namespace JTO_WPF.ViewModels
                     return true;
             }
         }
-
-
 
         public void AddParticipant()
         {
@@ -186,8 +190,16 @@ namespace JTO_WPF.ViewModels
         public void RemoveParticipant()
         {
             var toBeDeleted = unit.ParticipantRepo.Retrieve(x => x.GroupTourID == GroupTour.GroupTourID && x.PersonID == SelectedParticipant.PersonID).FirstOrDefault();
-            unit.ParticipantRepo.Delete(toBeDeleted);
-            unit.Save();
+            try
+            {
+                unit.ParticipantRepo.Delete(toBeDeleted);
+                unit.Save();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+
 
             GroupTour = unit.GroupTourRepo.Retrieve(x => x.GroupTourID == GroupTour.GroupTourID, x => x.Participants).FirstOrDefault();
 
@@ -249,9 +261,16 @@ namespace JTO_WPF.ViewModels
             GroupTour.ResponsibleID = gt.ResponsibleID;
             GroupTour.DestinationID = gt.DestinationID;
 
-            unit.GroupTourRepo.Update(GroupTour);
-            unit.Save();
-            ShowGroupTours();
+            try
+            {
+                unit.GroupTourRepo.Update(GroupTour);
+                unit.Save();
+                ShowGroupTours();
+            }
+            catch
+            {
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
         public GroupTour CastInputGroupTour()

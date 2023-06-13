@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace JTO_WPF.ViewModels
 {
@@ -39,10 +40,17 @@ namespace JTO_WPF.ViewModels
 
         public void DeleteTraining()
         {
-            SelectedTraining.IsActive = false;
-            unit.TrainingRepo.Update(SelectedTraining);
-            unit.Save();
-            Trainings = unit.TrainingRepo.Retrieve(x => x.Trainees).Where(t => t.IsActive == true || t.IsActive == null);
+            try
+            {
+                SelectedTraining.IsActive = false;
+                unit.TrainingRepo.Update(SelectedTraining);
+                unit.Save();
+                Trainings = unit.TrainingRepo.Retrieve(x => x.Trainees).Where(t => t.IsActive == true || t.IsActive == null);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
         public override void Execute(object parameter)

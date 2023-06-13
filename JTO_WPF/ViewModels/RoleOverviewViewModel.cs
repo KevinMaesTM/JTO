@@ -50,12 +50,19 @@ namespace JTO_WPF.ViewModels
 
         public void DeleteRole()
         {
-            if (!(SelectedRole.RoleID == 1 || SelectedRole.RoleID == 2 || SelectedRole.RoleID == 3))
+            if (!(SelectedRole.RoleID == 1 || SelectedRole.RoleID == 2 || SelectedRole.RoleID == 3 || SelectedRole.RoleID == 4))
             {
                 SelectedRole.IsActive = false;
-                unit.RoleRepo.Update(SelectedRole);
-                unit.Save();
-                Roles = unit.RoleRepo.Retrieve(r => r.IsActive == null || r.IsActive == true);
+                try
+                {
+                    unit.RoleRepo.Update(SelectedRole);
+                    unit.Save();
+                    Roles = unit.RoleRepo.Retrieve(r => r.IsActive == null || r.IsActive == true);
+                }
+                catch
+                {
+                    MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
             }
             else
                 MessageBox.Show("Deze rol kan niet verwijderd worden!", "Opgelet!", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -74,10 +81,10 @@ namespace JTO_WPF.ViewModels
 
         public void ShowRoleDetails()
         {
-            RoleDetailsViewModel rdVM2 = new RoleDetailsViewModel(DVM, SelectedRole);
-            RoleDetailsView rdV2 = new RoleDetailsView();
-            rdV2.DataContext = rdVM2;
-            DVM.Content = rdV2;
+            RoleDetailsViewModel rdVM = new RoleDetailsViewModel(DVM, SelectedRole);
+            RoleDetailsView rdV = new RoleDetailsView();
+            rdV.DataContext = rdVM;
+            DVM.Content = rdV;
         }
     }
 }

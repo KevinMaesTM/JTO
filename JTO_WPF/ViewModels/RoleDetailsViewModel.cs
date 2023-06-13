@@ -48,10 +48,17 @@ namespace JTO_WPF.ViewModels
 
         public void CreateRole()
         {
-            unit.RoleRepo.Create(Role);
-            unit.Save();
+            try
+            {
+                unit.RoleRepo.Create(Role);
+                unit.Save();
 
-            DVM.SnackbarContent = $"Niewe rol '{Role.Name}' aangemaakt.";
+                DVM.SnackbarContent = $"Niewe rol '{Role.Name}' aangemaakt.";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
             ShowRoles();
         }
 
@@ -93,10 +100,17 @@ namespace JTO_WPF.ViewModels
 
         public void UpdateRole()
         {
-            unit.RoleRepo.Update(Role);
-            unit.Save();
+            try
+            {
+                unit.RoleRepo.Update(Role);
+                unit.Save();
 
-            DVM.SnackbarContent = $"Rol '{Role.Name}' aangepast.";
+                DVM.SnackbarContent = $"Rol '{Role.Name}' aangepast.";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
             ShowRoles();
         }
 

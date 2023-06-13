@@ -38,10 +38,18 @@ namespace JTO_WPF.ViewModels
             errors = ValidateInput();
             if (string.IsNullOrEmpty(errors))
             {
-                unit.TrainingRepo.Create(Training);
-                unit.Save();
+                try
+                {
+                    unit.TrainingRepo.Create(Training);
+                    unit.Save();
 
-                DVM.SnackbarContent = $"Training '{Training.Name} is aangemaakt.";
+                    DVM.SnackbarContent = $"Training '{Training.Name} is aangemaakt.";
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
             }
             else
             {
