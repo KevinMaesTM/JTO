@@ -99,8 +99,12 @@ namespace JTO_WPF.ViewModels
                 result += "Straatnaam is een verplicht veld!" + Environment.NewLine;
             if (string.IsNullOrEmpty(Destination.Number))
                 result += "Huisnummer is een verplicht veld!" + Environment.NewLine;
+            else if (!Destination.Number.Any(char.IsDigit))
+                result += "Huisnummer moet minstens één nummer (0-9) bevatten!" + Environment.NewLine;
             if (string.IsNullOrEmpty(Destination.Zip))
                 result += "Postcode is een verplicht veld!" + Environment.NewLine;
+            else if (!Destination.Zip.Any(char.IsDigit))
+                result += "Postcode moet minstens één nummer (0-9) bevatten!" + Environment.NewLine;
             if (string.IsNullOrEmpty(Destination.City))
                 result += "Stad is een verplicht veld!" + Environment.NewLine;
             if (string.IsNullOrEmpty(Destination.Country))
