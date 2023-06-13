@@ -33,38 +33,41 @@ namespace JTO_WPF.ViewModels
             return true;
         }
 
+        public void CreateTraining(string errors)
+        {
+            errors = ValidateInput();
+            if (string.IsNullOrEmpty(errors))
+            {
+                unit.TrainingRepo.Create(Training);
+                unit.Save();
+
+                DVM.SnackbarContent = $"Training '{Training.Name} is aangemaakt.";
+            }
+            else
+            {
+                MessageBox.Show(errors, "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            ShowTrainings();
+        }
+
         public override void Execute(object parameter)
         {
             string errors = "";
             switch (parameter.ToString())
             {
-                case "CreateTraining":
-                    errors = ValidateInput();
-                    if (string.IsNullOrEmpty(errors))
-                    {
-                        unit.TrainingRepo.Create(Training);
-                        unit.Save();
-
-                        DVM.SnackbarContent = $"Training '{Training.Name} is aangemaakt.";
-                    }
-                    else
-                    {
-                        MessageBox.Show(errors, "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
-                        break;
-                    }
-                    TrainingViewModel tVM = new TrainingViewModel(DVM);
-                    TrainingView tV = new TrainingView();
-                    tV.DataContext = tVM;
-                    DVM.Content = tV;
-                    break;
-
-                case "Cancel":
-                    TrainingViewModel tVM2 = new TrainingViewModel(DVM);
-                    TrainingView tV2 = new TrainingView();
-                    tV2.DataContext = tVM2;
-                    DVM.Content = tV2;
-                    break;
+                case "CreateTraining": CreateTraining(errors); break;
+                case "Cancel": ShowTrainings(); break;
+                default: break;
             }
+        }
+
+        public void ShowTrainings()
+        {
+            TrainingViewModel tVM = new TrainingViewModel(DVM);
+            TrainingView tV = new TrainingView();
+            tV.DataContext = tVM;
+            DVM.Content = tV;
         }
 
         public string ValidateInput()
