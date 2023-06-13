@@ -114,6 +114,9 @@ namespace JTO_WPF.ViewModels
                         }
                         if (Mode == "Wijzig")
                         {
+                            GroupTour.Enddate = (DateTime)EndDateTour;
+                            GroupTour.Startdate = (DateTime)StartDateTour;
+
                             unit.GroupTourRepo.Update(GroupTour);
                             unit.Save();
                         }
