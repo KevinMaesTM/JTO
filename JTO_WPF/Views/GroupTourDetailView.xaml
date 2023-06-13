@@ -16,21 +16,105 @@
     </UserControl.Resources>
     <Grid x:Name="GridMain" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="585" Width="955">
         <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0.2*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="0.06*"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0">
-            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Naam" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding GroupTour.Name}" Background="Transparent" />
-            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Start datum (dd/MM/yyyy)" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding StartDateTour, ConverterCulture=nl-BE ,StringFormat=\{0:dd/MM/yyyy\}}"  Background="Transparent" />
-            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Eind datum (dd/MM/yyyy)" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding EndDateTour, ConverterCulture=nl-BE, StringFormat=\{0:dd/MM/yyyy\}}" Background="Transparent" />
-            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Budget (in €)" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding BudgetTour, StringFormat=\{0:N2\}}" Background="Transparent" />
-            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Prijs (in €)" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding PriceTour, StringFormat=\{0:N2\}}" Background="Transparent" />
-            <TextBox Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Maximum deelnemers" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding MaxParticipantsTour}" Background="Transparent" />
-            <ComboBox Margin="0,10,0, 0" Width="450" FontSize="14" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Thema"
+            <TextBox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Naam" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding GroupTour.Name}" Background="Transparent" />
+            <TextBox  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Start datum (dd/MM/yyyy)" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding StartDateTour, ConverterCulture=nl-BE ,StringFormat=\{0:dd/MM/yyyy\}}"  Background="Transparent" />
+            <TextBox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Margin="0,10,0, 0" Width="450" FontSize="14" materialDesign:HintAssist.Hint="Eind datum (dd/MM/yyyy)" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding EndDateTour, ConverterCulture=nl-BE, StringFormat=\{0:dd/MM/yyyy\}}" Background="Transparent" />
+        <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Width="450">
+            <Grid.RowDefinitions></Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBox Margin="0,10,10, 0" Width="215" HorizontalAlignment="Left" Grid.Column="0" FontSize="14" materialDesign:HintAssist.Hint="Prijs niet-leden (in €)" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding PriceTour, StringFormat=\{0:N2\}}" Background="Transparent" />
+            <TextBox Margin="10,10,0, 0" Width="215" HorizontalAlignment="Right" Grid.Column="1" FontSize="14" materialDesign:HintAssist.Hint="Prijs leden (in €)" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding PriceTour, StringFormat=\{0:N2\}}" Background="Transparent" />
+        </Grid>
+        <TextBox Grid.Column="0" Grid.Row="4" Margin="10,10,0, 0" HorizontalAlignment="Left" Width="215" FontSize="14" materialDesign:HintAssist.Hint="Budget (in €)" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding BudgetTour, StringFormat=\{0:N2\}}" Background="Transparent" />
+        <TextBox Grid.Column="1" Grid.Row="4" Margin="0,10,10, 0" HorizontalAlignment="Right" Width="215" FontSize="14" materialDesign:HintAssist.Hint="Maximum deelnemers" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding MaxParticipantsTour}" Background="Transparent" />
+        <ComboBox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5" Margin="0,10,0, 0" Width="450" FontSize="14" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Thema"
             ItemsSource="{Binding Themas}"
             SelectedItem="{Binding SelectedTheme}" />
+        <ComboBox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" Margin="0,10,0, 0" Width="450" FontSize="14" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Leeftijds categorie"
+            ItemsSource="{Binding AgeCategories}"
+            SelectedItem="{Binding SelectedAgeCategory}" />
+        <ComboBox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" Margin="0,10,0, 0" Width="450" FontSize="14" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Verantwoordelijke"
+            ItemsSource="{Binding Responsibles}"
+            SelectedItem="{Binding SelectedResponsible}" />
+        <ComboBox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="8" Margin="0,10,0, 0" Width="450" FontSize="14" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Bestemming"
+            ItemsSource="{Binding Destinations}"
+            SelectedItem="{Binding SelectedDestination}" />
+        <Grid Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                <ColumnDefinition Width="5*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*"></RowDefinition>
+                <RowDefinition Height="1.5*"></RowDefinition>
+                <RowDefinition Height="5*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" IsReadOnly="True"
+                      Margin="10"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      Name="dtgAvailableParticipants"
+                      AutoGenerateColumns="False"
+                      ItemsSource="{Binding AvailableParticipants}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding PersonID, Converter={StaticResource PersonIDToPersonConverter}}" Header="Beschikbare deelnemer"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Button Grid.Column="1" Grid.Row="1" Command="{Binding}" Height="45" CommandParameter="AddParticpant" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
+                <StackPanel Orientation="Vertical">
+                    <materialDesign:PackIcon Kind="ArrowDown" Height="25" Width="25" />
+                </StackPanel>
+            </Button>
+            <Button Grid.Column="3" Grid.Row="1" Command="{Binding}" Height="45" CommandParameter="RemoveParticipant" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Background="#FF673AB7">
+                <StackPanel Orientation="Vertical">
+                    <materialDesign:PackIcon Kind="ArrowUp" Height="25" Width="25" />
+                </StackPanel>
+            </Button>
+            <ComboBox x:Name="cbRole" Grid.Column="4" Grid.Row="1" Width="225" HorizontalAlignment="Center" VerticalAlignment="Center"
+                  BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Rol toewijzen"
+                  ItemsSource="{Binding AvailableRoles}"
+                  SelectedValue="{Binding SelectedRole}" />
+            <DataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" IsReadOnly="True"
+                      Margin="10"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      Name="dtgParticipants"
+                      AutoGenerateColumns="False"
+                      ItemsSource="{Binding GroupTour.Participants}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding PersonID, Converter={StaticResource PersonIDToPersonConverter}}" Header="Ingeschreven Deelnemer"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding RoleID, Converter={StaticResource RoleIDToRoleConverter}}" Header="Rol"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <!--<StackPanel Grid.Column="0">
+
 
             <Grid Margin="10">
                 <Grid.ColumnDefinitions>
@@ -70,6 +154,6 @@
                 <Button Margin="5" Width="200" Command="{Binding}" CommandParameter="AddParticipants">Deelnemers beheren</Button>
                 <Button Margin="5" Width="200">Monitoren beheren</Button>
             </StackPanel>
-        </StackPanel>
+        </StackPanel>-->
     </Grid>
 </UserControl>

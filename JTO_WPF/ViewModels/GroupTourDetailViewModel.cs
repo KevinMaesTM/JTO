@@ -30,6 +30,8 @@ namespace JTO_WPF.ViewModels
         public Theme SelectedTheme { get; set; }
         public DateTime? StartDateTour { get; set; }
         public IEnumerable<Theme> Themas { get; set; }
+        public IEnumerable<Role> AvailableRoles { get; set; }
+
 
         public GroupTourDetailViewModel(GroupTour groupTour, DashboardViewModel dVM)
         {
@@ -49,6 +51,7 @@ namespace JTO_WPF.ViewModels
             BudgetTour = GroupTour.Budget;
             PriceTour = GroupTour.Price;
             MaxParticipantsTour = GroupTour.MaxParticipants;
+            AvailableRoles = unit.RoleRepo.Retrieve(ar => ar.AssignedObject == "GroupTour").ToList();
         }
 
         public GroupTourDetailViewModel(DashboardViewModel dVM)
@@ -65,6 +68,7 @@ namespace JTO_WPF.ViewModels
             BudgetTour = null;
             PriceTour = null;
             MaxParticipantsTour = null;
+            AvailableRoles = unit.RoleRepo.Retrieve(ar => ar.AssignedObject == "GroupTour").ToList();
         }
 
         public void AddGroupTour()
