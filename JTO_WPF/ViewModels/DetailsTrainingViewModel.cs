@@ -63,6 +63,16 @@ namespace JTO_WPF.ViewModels
             AvailableRoles = unit.RoleRepo.Retrieve(ar => ar.AssignedObject == "Training").ToList();
         }
 
+        public void AddTraineeToTraining(Trainee trainee)
+        {
+            SubscribedTrainees.Add(trainee);
+            unit.TraineeRepo.Create(trainee);
+            unit.Save();
+
+            SubscribedTraineesCollection.Add(unit.PersonRepo.Retrieve(p => p.PersonID == trainee.PersonID).FirstOrDefault());
+            AvailableTrainees = AvailableTrainees.Except(SubscribedTraineesCollection);
+        }
+
         public override bool CanExecute(object parameter)
         {
             switch (parameter.ToString())
@@ -113,70 +123,56 @@ namespace JTO_WPF.ViewModels
                         break;
                     }
                     if (string.IsNullOrEmpty(errors))
-                    {
-                        unit.TrainingRepo.Update(Training);
-                        unit.Save();
-
-                        DVM.SnackbarContent = $"Training '{Training.Name}' aangepast.";
-                        var tVM = new TrainingViewModel(DVM);
-                        var tV = new TrainingView();
-                        tV.DataContext = tVM;
-                        DVM.Content = tV;
-                        break;
-                    }
+                        UpdateTraining();
                     else
-                    {
                         MessageBox.Show(errors, "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
-                        break;
-                    }
+                    break;
 
                 case "AddTrainee":
                     Trainee trainee = new Trainee();
-
                     trainee.PersonID = SelectedAvailableTrainee.PersonID;
                     trainee.RoleID = SelectedRole.RoleID;
-                    if (Training.TrainingID != 0)
-                        trainee.TrainingID = Training.TrainingID;
-                    else
-                    {
-                        if (string.IsNullOrEmpty(Errors()))
-                        {
-                            unit.TrainingRepo.Create(Training);
-                            unit.Save();
-                        }
-                        else
-                        {
-                            MessageBox.Show(errors, "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
-                            break;
-                        }
-                    }
 
                     if (SubscribedTrainees.Where(x => x.RoleID == 2).Count() >= 1 && trainee.RoleID == 2)
                     {
                         MessageBox.Show("Er mag maximum 1 trainer per opleiding toegewezen worden", "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
                         break;
                     }
-                    SubscribedTrainees.Add(trainee);
-                    unit.TraineeRepo.Create(trainee);
-                    unit.Save();
-
-                    SubscribedTraineesCollection.Add(unit.PersonRepo.Retrieve(p => p.PersonID == trainee.PersonID).FirstOrDefault());
-                    AvailableTrainees = AvailableTrainees.Except(SubscribedTraineesCollection);
+                    AddTraineeToTraining(trainee);
                     break;
 
-                case "RemoveTrainee":
-                    Trainee deletedTrainee = SelectedSubscribedTrainee;
-                    SubscribedTrainees.Remove(deletedTrainee);
-                    unit.TraineeRepo.Delete(deletedTrainee);
-                    unit.Save();
-
-                    SubscribedTraineesCollection.Remove(unit.PersonRepo.Retrieve(p => p.PersonID == deletedTrainee.PersonID).FirstOrDefault());
-                    AvailableTrainees = AvailableTrainees.Except(SubscribedTraineesCollection);
-                    break;
-
-                default:
-                    break;
+                case "RemoveTrainee": RemoveTrainee(); break;
+                case "Cancel": ShowTrainings(); break;
+                default: break;
             }
+        }
+
+        public void RemoveTrainee()
+        {
+            Trainee deletedTrainee = SelectedSubscribedTrainee;
+            SubscribedTrainees.Remove(deletedTrainee);
+            unit.TraineeRepo.Delete(deletedTrainee);
+            unit.Save();
+
+            SubscribedTraineesCollection.Remove(unit.PersonRepo.Retrieve(p => p.PersonID == deletedTrainee.PersonID).FirstOrDefault());
+            AvailableTrainees = AvailableTrainees.Except(SubscribedTraineesCollection);
+        }
+
+        public void ShowTrainings()
+        {
+            var tVM = new TrainingViewModel(DVM);
+            var tV = new TrainingView();
+            tV.DataContext = tVM;
+            DVM.Content = tV;
+        }
+
+        public void UpdateTraining()
+        {
+            unit.TrainingRepo.Update(Training);
+            unit.Save();
+            DVM.SnackbarContent = $"Training '{Training.Name}' aangepast.";
+
+            ShowTrainings();
         }
     }
 }
