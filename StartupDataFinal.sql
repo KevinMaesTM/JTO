@@ -24,11 +24,11 @@ INSERT INTO JTOTest.dbo.Themes (Name, IsActive) VALUES ('Sport', 1);
 INSERT INTO JTOTest.dbo.Themes (Name, IsActive) VALUES ('Kunst en artistiek', 1);
 
 -- Insert Roles
-INSERT INTO JTOTest.dbo.Roles (Name, IsActive) VALUES ('Monitor', 1);
-INSERT INTO JTOTest.dbo.Roles (Name, IsActive) VALUES ('Leerkracht', 1);
-INSERT INTO JTOTest.dbo.Roles (Name, IsActive) VALUES ('Hoofdmonitor', 1);
-INSERT INTO JTOTest.dbo.Roles (Name, IsActive) VALUES ('Deelnemer', 1);
-INSERT INTO JTOTest.dbo.Roles (Name, IsActive) VALUES ('Cursist', 1);
+INSERT INTO JTOTest.dbo.Roles (Name, IsActive, AssignedObject) VALUES ('Monitor', 1, 'GroupTour');
+INSERT INTO JTOTest.dbo.Roles (Name, IsActive, AssignedObject) VALUES ('Leerkracht', 1, 'Training');
+INSERT INTO JTOTest.dbo.Roles (Name, IsActive, AssignedObject) VALUES ('Hoofdmonitor', 1, 'GroupTour');
+INSERT INTO JTOTest.dbo.Roles (Name, IsActive, AssignedObject) VALUES ('Deelnemer', 1, 'GroupTour');
+INSERT INTO JTOTest.dbo.Roles (Name, IsActive, AssignedObject) VALUES ('Cursist', 1,'Training');
 
 -- Insert Persons
 INSERT INTO JTOTest.dbo.Persons (City, Country, DateOfBirth, Email, IsMoni, GroupTourResponsible, medicalSheet, MemberHealthInsurance, Name, Number, Phone, Sex, Street, Surname, Zip) VALUES ('Weelde', 'Belgie', '1994-10-10 00:00:00', 'kevin.maes@gmail.com', 0, 1, null, 1, 'Kevin', 60, null, 1, 'Lange Wijkstraat', 'Maes', '2381');
