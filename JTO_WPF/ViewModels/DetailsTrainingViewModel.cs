@@ -97,6 +97,9 @@ namespace JTO_WPF.ViewModels
 
                 case "RemoveTrainee":
                     return (SelectedSubscribedTrainee != null);
+                    // Disables button if no subscribed trainee is selected AND the course date falls before the current date
+                case "StudentPassed":
+                    return (SelectedSubscribedTrainee != null && DateTime.Now >= Training.Date);
 
                 default:
                     return true;
@@ -112,6 +115,23 @@ namespace JTO_WPF.ViewModels
             if (DateTime.TryParse(Training.Date.ToString(), out DateTime dateTraining) == false)
                 error += "Datum heeft een ongeldig formaat: dd/MM/yyy" + Environment.NewLine;
             return error;
+        }
+
+        public void ChangeHasPassedStatus()
+        {
+            SelectedSubscribedTrainee.FinishedTraining = true;
+            unit.TraineeRepo.Update(SelectedSubscribedTrainee);
+            unit.Save();
+
+            Person trainee = unit.PersonRepo.Retrieve(p => p.PersonID == SelectedSubscribedTrainee.PersonID).FirstOrDefault();
+
+            if (Training.Name == "Monitor")
+                trainee.IsMoni = true;
+            else if (Training.Name == "Hoofdmonitor")
+                trainee.GroupTourResponsible = true;
+
+            unit.PersonRepo.Update(trainee);
+            unit.Save();
         }
 
         public override void Execute(object parameter)
@@ -137,6 +157,7 @@ namespace JTO_WPF.ViewModels
 
                 case "AddTrainee": AddTrainee(); break;
                 case "RemoveTrainee": RemoveTrainee(); break;
+                case "StudentPassed": ChangeHasPassedStatus(); break;
                 case "Cancel": ShowTrainings(); break;
                 default:
                     break;

@@ -85,6 +85,7 @@ namespace JTO_DAL.Migrations
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GroupTourResponsible = table.Column<bool>(type: "bit", nullable: false),
+                    IsMoni = table.Column<bool>(type: "bit", nullable: false),
                     medicalSheet = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MemberHealthInsurance = table.Column<bool>(type: "bit", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
