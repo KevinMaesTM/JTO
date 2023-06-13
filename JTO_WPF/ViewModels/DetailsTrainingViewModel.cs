@@ -96,10 +96,7 @@ namespace JTO_WPF.ViewModels
                         return true;
 
                 case "RemoveTrainee":
-                    if (SelectedSubscribedTrainee == null)
-                        return false;
-                    else
-                        return true;
+                    return (SelectedSubscribedTrainee != null);
 
                 default:
                     return true;
