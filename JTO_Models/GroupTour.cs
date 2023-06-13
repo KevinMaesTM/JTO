@@ -17,9 +17,6 @@ namespace JTO_MODELS
 
         public int? AgeCategoryID { get; set; }
 
-        [Required]
-        public decimal Budget { get; set; }
-
         [ForeignKey("DestinationID")]
         public Destination? Destination { get; set; }
 

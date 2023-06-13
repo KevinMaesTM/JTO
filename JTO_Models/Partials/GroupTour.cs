@@ -14,7 +14,6 @@ namespace JTO_MODELS
             Name = naam;
             Startdate = startDate;
             Enddate = enddate;
-            Budget = budget;
             Price = price;
             MaxParticipants = maxParticipants;
             ThemeID = themeId;
