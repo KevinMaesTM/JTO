@@ -48,10 +48,16 @@ namespace JTO_WPF.ViewModels
 
         public void CreateAgeCategory()
         {
-            unit.AgeCategoryRepo.Create(AgeCategory);
-            unit.Save();
-
-            DVM.SnackbarContent = $"Niewe leeftijdscategorie '{AgeCategory.MinAge}j - {AgeCategory.MaxAge}j' aangemaakt.";
+            try
+            {
+                unit.AgeCategoryRepo.Create(AgeCategory);
+                unit.Save();
+                DVM.SnackbarContent = $"Niewe leeftijdscategorie '{AgeCategory.MinAge}j - {AgeCategory.MaxAge}j' aangemaakt.";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
         public override void Execute(object parameter)
@@ -98,10 +104,16 @@ namespace JTO_WPF.ViewModels
 
         public void UpdateAgeCategory()
         {
-            unit.AgeCategoryRepo.Update(AgeCategory);
-            unit.Save();
-
-            DVM.SnackbarContent = $"Leeftijdscategorie '{AgeCategory.MinAge}j - {AgeCategory.MaxAge}j' aangepast.";
+            try
+            {
+                unit.AgeCategoryRepo.Update(AgeCategory);
+                unit.Save();
+                DVM.SnackbarContent = $"Leeftijdscategorie '{AgeCategory.MinAge}j - {AgeCategory.MaxAge}j' aangepast.";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.", "Er is een fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
         public string ValidateInput()

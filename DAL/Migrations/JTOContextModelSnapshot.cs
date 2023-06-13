@@ -180,9 +180,6 @@ namespace JTO_DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("CourseResponsible")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
@@ -191,6 +188,9 @@ namespace JTO_DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("GroupTourResponsible")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsMoni")
                         .HasColumnType("bit");
 
                     b.Property<bool>("MemberHealthInsurance")
