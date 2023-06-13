@@ -24,30 +24,41 @@ namespace JTO_WPF.ViewModels
             Persons = unit.PersonRepo.Retrieve();
         }
 
+        public void AddPerson()
+        {
+            PersonDetailViewModel pdvm2 = new PersonDetailViewModel(DVM);
+            PersonDetailView pdv2 = new PersonDetailView();
+            pdv2.DataContext = pdvm2;
+            DVM.Content = pdv2;
+        }
+
         public override bool CanExecute(object parameter)
         {
             switch (parameter.ToString())
             {
                 case "ShowDetail":
-                    if (SelectedPerson == null)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
+                    return (SelectedPerson != null);
+
                 case "Delete":
-                    if (SelectedPerson == null)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
+                    return (SelectedPerson != null);
+
                 default:
                     return true;
+            }
+        }
+
+        public void DeletePerson()
+        {
+            try
+            {
+                unit.PersonRepo.Delete(SelectedPerson);
+                unit.Save();
+                Persons = unit.PersonRepo.Retrieve();
+            }
+            catch (Exception ex)
+            {
+                unit.Reload(SelectedPerson);
+                MessageBox.Show("Er ging iets fout. Mogelijk wordt de geselecteerde persoon nog gebruikt.");
             }
         }
 
@@ -55,34 +66,19 @@ namespace JTO_WPF.ViewModels
         {
             switch (parameter.ToString())
             {
-                case "ShowDetail":
-                    PersonDetailViewModel pdvm = new PersonDetailViewModel(DVM, SelectedPerson);
-                    PersonDetailView pdv = new PersonDetailView();
-                    pdv.DataContext = pdvm;
-                    DVM.Content = pdv;
-                    break;
-
-                case "Add":
-                    PersonDetailViewModel pdvm2 = new PersonDetailViewModel(DVM);
-                    PersonDetailView pdv2 = new PersonDetailView();
-                    pdv2.DataContext = pdvm2;
-                    DVM.Content = pdv2;
-                    break;
-
-                case "Delete":
-                    try
-                    {
-                        unit.PersonRepo.Delete(SelectedPerson);
-                        unit.Save();
-                        Persons = unit.PersonRepo.Retrieve();
-                    }
-                    catch (Exception ex)
-                    {
-                        unit.Reload(SelectedPerson);
-                        MessageBox.Show("Er ging iets fout. Mogelijk wordt de geselecteerde persoon nog gebruikt.");
-                    }
-                    break;
+                case "ShowDetail": ShowPersonDetails(); break;
+                case "Add": AddPerson(); break;
+                case "Delete": DeletePerson(); break;
+                default: break;
             }
+        }
+
+        public void ShowPersonDetails()
+        {
+            PersonDetailViewModel pdvm = new PersonDetailViewModel(DVM, SelectedPerson);
+            PersonDetailView pdv = new PersonDetailView();
+            pdv.DataContext = pdvm;
+            DVM.Content = pdv;
         }
     }
 }

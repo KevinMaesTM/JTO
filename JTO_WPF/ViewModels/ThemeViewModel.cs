@@ -24,39 +24,43 @@ namespace JTO_WPF.ViewModels
             Themes = unit.ThemeRepo.Retrieve(t => t.IsActive == true || t.IsActive == null);
         }
 
+        public void AddTheme()
+        {
+            ThemeDetailViewModel tdvm = new ThemeDetailViewModel(DVM);
+            ThemeDetailView tdv = new ThemeDetailView();
+            tdv.DataContext = tdvm;
+            DVM.Content = tdv;
+        }
+
         public override bool CanExecute(object parameter)
         {
             switch (parameter.ToString())
             {
                 case "ShowDetail":
-                    if (SelectedTheme == null)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                case "Add":
-                    if (SelectedTheme == null)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
                 case "Delete":
-                    if (SelectedTheme == null)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
+                    return (SelectedTheme != null);
+
+                case "Add":
+                    return (SelectedTheme == null);
+
                 default:
                     return true;
+            }
+        }
+
+        public void DeleteTheme()
+        {
+            try
+            {
+                SelectedTheme.IsActive = false;
+                unit.ThemeRepo.Update(SelectedTheme);
+                unit.Save();
+                Themes = unit.ThemeRepo.Retrieve(t => t.IsActive == true || t.IsActive == null);
+            }
+            catch (Exception ex)
+            {
+                unit.Reload(SelectedTheme);
+                MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.");
             }
         }
 
@@ -64,35 +68,19 @@ namespace JTO_WPF.ViewModels
         {
             switch (parameter.ToString())
             {
-                case "ShowDetail":
-                    ThemeDetailViewModel tdvm = new ThemeDetailViewModel(DVM, SelectedTheme);
-                    ThemeDetailView tdv = new ThemeDetailView();
-                    tdv.DataContext = tdvm;
-                    DVM.Content = tdv;
-                    break;
-
-                case "Add":
-                    ThemeDetailViewModel tdvm2 = new ThemeDetailViewModel(DVM);
-                    ThemeDetailView tdv2 = new ThemeDetailView();
-                    tdv2.DataContext = tdvm2;
-                    DVM.Content = tdv2;
-                    break;
-
-                case "Delete":
-                    try
-                    {
-                        SelectedTheme.IsActive = false;
-                        unit.ThemeRepo.Update(SelectedTheme);
-                        unit.Save();
-                        Themes = unit.ThemeRepo.Retrieve(t => t.IsActive == true || t.IsActive == null);
-                    }
-                    catch (Exception ex)
-                    {
-                        unit.Reload(SelectedTheme);
-                        MessageBox.Show("Er ging iets fout. Gelieve de pagina te herladen.");
-                    }
-                    break;
+                case "ShowDetail": ShowThemeDetails(); break;
+                case "Add": AddTheme(); break;
+                case "Delete": DeleteTheme(); break;
+                default: break;
             }
+        }
+
+        public void ShowThemeDetails()
+        {
+            ThemeDetailViewModel tdvm = new ThemeDetailViewModel(DVM, SelectedTheme);
+            ThemeDetailView tdv = new ThemeDetailView();
+            tdv.DataContext = tdvm;
+            DVM.Content = tdv;
         }
     }
 }

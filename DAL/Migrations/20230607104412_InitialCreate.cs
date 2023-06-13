@@ -7,6 +7,39 @@ namespace JTO_DAL.Migrations
 {
     public partial class InitialCreate : Migration
     {
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "Participants");
+
+            migrationBuilder.DropTable(
+                name: "Trainees");
+
+            migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "GroupTours");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "Trainings");
+
+            migrationBuilder.DropTable(
+                name: "AgeCategories");
+
+            migrationBuilder.DropTable(
+                name: "Destinations");
+
+            migrationBuilder.DropTable(
+                name: "Persons");
+
+            migrationBuilder.DropTable(
+                name: "Themes");
+        }
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -15,8 +48,8 @@ namespace JTO_DAL.Migrations
                 {
                     AgeCategoryID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MaxAge = table.Column<int>(type: "int", nullable: true),
-                    MinAge = table.Column<int>(type: "int", nullable: true)
+                    MaxAge = table.Column<int>(type: "int", nullable: false),
+                    MinAge = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -49,7 +82,6 @@ namespace JTO_DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CourseResponsible = table.Column<bool>(type: "bit", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GroupTourResponsible = table.Column<bool>(type: "bit", nullable: false),
@@ -281,39 +313,6 @@ namespace JTO_DAL.Migrations
                 name: "IX_Trainees_TrainingID",
                 table: "Trainees",
                 column: "TrainingID");
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropTable(
-                name: "Participants");
-
-            migrationBuilder.DropTable(
-                name: "Trainees");
-
-            migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "GroupTours");
-
-            migrationBuilder.DropTable(
-                name: "Roles");
-
-            migrationBuilder.DropTable(
-                name: "Trainings");
-
-            migrationBuilder.DropTable(
-                name: "AgeCategories");
-
-            migrationBuilder.DropTable(
-                name: "Destinations");
-
-            migrationBuilder.DropTable(
-                name: "Persons");
-
-            migrationBuilder.DropTable(
-                name: "Themes");
         }
     }
 }

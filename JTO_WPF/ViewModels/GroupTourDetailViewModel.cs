@@ -13,17 +13,17 @@ namespace JTO_WPF.ViewModels
     internal class GroupTourDetailViewModel : BaseViewModel
     {
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
+        public IEnumerable<AgeCategory> AgeCategories { get; set; }
+        public IEnumerable<Destination> Destinations { get; set; }
         public DashboardViewModel DVM { get; set; }
         public GroupTour GroupTour { get; set; }
-        public IEnumerable<Theme> Themas { get; set; }
-        public Theme SelectedTheme { get; set; }
-        public IEnumerable<AgeCategory> AgeCategories { get; set; }
-        public AgeCategory SelectedAgeCategory { get; set; }
-        public IEnumerable<Person> Responsibles { get; set; }
-        public Person SelectedResponsible { get; set; }
-        public IEnumerable<Destination> Destinations { get; set; }
-        public Destination SelectedDestination { get; set; }
         public string Mode { get; set; }
+        public IEnumerable<Person> Responsibles { get; set; }
+        public AgeCategory SelectedAgeCategory { get; set; }
+        public Destination SelectedDestination { get; set; }
+        public Person SelectedResponsible { get; set; }
+        public Theme SelectedTheme { get; set; }
+        public IEnumerable<Theme> Themas { get; set; }
 
         public GroupTourDetailViewModel(GroupTour groupTour, DashboardViewModel dVM)
         {
@@ -39,6 +39,7 @@ namespace JTO_WPF.ViewModels
             Destinations = unit.DestinationRepo.Retrieve();
             Mode = "Wijzig";
         }
+
         public GroupTourDetailViewModel(DashboardViewModel dVM)
         {
             DVM = dVM;
@@ -50,18 +51,29 @@ namespace JTO_WPF.ViewModels
             Mode = "Voeg toe";
         }
 
+        public void AddGroupTour()
+        {
+            GroupTour newGt = new GroupTour(GroupTour.Name, GroupTour.Startdate, GroupTour.Enddate, GroupTour.Budget, GroupTour.Price, GroupTour.MaxParticipants, SelectedTheme.ThemeID, SelectedAgeCategory.AgeCategoryID, SelectedResponsible.PersonID, SelectedDestination.DestinationID);
+            unit.GroupTourRepo.Create(newGt);
+            unit.Save();
+            ShowGroupTours();
+        }
+
+        public void AddParticipants()
+        {
+            AddParticipantsViewModel apvm = new AddParticipantsViewModel(GroupTour, DVM);
+            AddParticipantsView apv = new AddParticipantsView();
+            apv.DataContext = apvm;
+            DVM.Content = apv;
+        }
+
         public override bool CanExecute(object parameter)
         {
             switch (parameter.ToString())
             {
                 case "AddParticipants":
-                    if(GroupTour.GroupTourID == 0)
-                    {
-                        return false;
-                    } else
-                    {
-                        return true;
-                    }
+                    return (GroupTour.GroupTourID != 0);
+
                 default:
                     return true;
             }
@@ -71,36 +83,32 @@ namespace JTO_WPF.ViewModels
         {
             switch (parameter.ToString())
             {
-                case "Cancel":
-                    GroupTourViewModel gtvm = new GroupTourViewModel(DVM);
-                    GroupTripView gtview = new GroupTripView();
-                    gtview.DataContext = gtvm;
-                    DVM.Content = gtview;
-                    break;
+                case "Cancel": ShowGroupTours(); break;
                 case "Update":
-                    if(Mode == "Voeg toe")
-                    {
-                        GroupTour newGt = new GroupTour(GroupTour.Name, GroupTour.Startdate, GroupTour.Enddate, GroupTour.Budget, GroupTour.Price, GroupTour.MaxParticipants, SelectedTheme.ThemeID, SelectedAgeCategory.AgeCategoryID, SelectedResponsible.PersonID, SelectedDestination.DestinationID);
-                        unit.GroupTourRepo.Create(newGt);
-                        unit.Save();
-                    }
-                    if(Mode == "Wijzig")
-                    {
-                        unit.GroupTourRepo.Update(GroupTour);
-                        unit.Save();
-                    }
-                    GroupTourViewModel gtvm2 = new GroupTourViewModel(DVM);
-                    GroupTripView gtview2 = new GroupTripView();
-                    gtview2.DataContext = gtvm2;
-                    DVM.Content = gtview2;
+                    if (Mode == "Voeg toe")
+                        AddGroupTour();
+                    if (Mode == "Wijzig")
+                        UpdateGroupTour();
                     break;
-                case "AddParticipants":
-                    AddParticipantsViewModel apvm = new AddParticipantsViewModel(GroupTour, DVM);
-                    AddParticipantsView apv = new AddParticipantsView();
-                    apv.DataContext = apvm;
-                    DVM.Content = apv;
-                    break;
+
+                case "AddParticipants": AddParticipants(); break;
+                default: break;
             }
+        }
+
+        public void ShowGroupTours()
+        {
+            GroupTourViewModel gtvm = new GroupTourViewModel(DVM);
+            GroupTripView gtview = new GroupTripView();
+            gtview.DataContext = gtvm;
+            DVM.Content = gtview;
+        }
+
+        public void UpdateGroupTour()
+        {
+            unit.GroupTourRepo.Update(GroupTour);
+            unit.Save();
+            ShowGroupTours();
         }
     }
 }

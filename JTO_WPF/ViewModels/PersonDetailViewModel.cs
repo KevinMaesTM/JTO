@@ -35,7 +35,7 @@ namespace JTO_WPF.ViewModels
         {
             DVM = dvm;
             Person = person;
-            Name = Person.Name;
+            //Name = Person.Name;
             DateOfBirth = Person.DateOfBirth.ToString("dd/MM/yyyy");
             if (Person.Sex == true)
                 SelectedSex = "Man";
@@ -46,6 +46,15 @@ namespace JTO_WPF.ViewModels
         public override bool CanExecute(object parameter)
         {
             return true;
+        }
+
+        public void CreatePerson()
+        {
+            unit.PersonRepo.Create(Person);
+            unit.Save();
+
+            DVM.SnackbarContent = $"Persoon '{Person.Name} {Person.Surname} is aangemaakt!";
+            ShowPersons();
         }
 
         public override void Execute(object parameter)
@@ -64,39 +73,35 @@ namespace JTO_WPF.ViewModels
                             Person.Sex = false;
 
                         if (Person.PersonID == 0)
-                        {
-                            unit.PersonRepo.Create(Person);
-                            unit.Save();
-
-                            DVM.SnackbarContent = $"Persoon '{Person.Name} {Person.Surname} is aangemaakt!";
-                        }
+                            CreatePerson();
                         else
-                        {
-                            Person.Name = Name;
-                            unit.PersonRepo.Update(Person);
-                            unit.Save();
-
-                            DVM.SnackbarContent = $"Gegevens voor '{Person.Name} {Person.Surname} zijn aangepast.";
-                        }
-                        var pvm = new PersonViewModel(DVM);
-                        var pv = new PersonView();
-                        pv.DataContext = pvm;
-                        DVM.Content = pv;
-                        break;
+                            UpdatePerson();
                     }
                     else
-                    {
                         MessageBox.Show(errors, "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
-                        break;
-                    }
-
-                case "Cancel":
-                    var pvm2 = new PersonViewModel(DVM);
-                    var pv2 = new PersonView();
-                    pv2.DataContext = pvm2;
-                    DVM.Content = pv2;
                     break;
+
+                case "Cancel": ShowPersons(); break;
+                default: break;
             }
+        }
+
+        public void ShowPersons()
+        {
+            var pvm = new PersonViewModel(DVM);
+            var pv = new PersonView();
+            pv.DataContext = pvm;
+            DVM.Content = pv;
+        }
+
+        public void UpdatePerson()
+        {
+            //Person.Name = Name;
+            unit.PersonRepo.Update(Person);
+            unit.Save();
+
+            DVM.SnackbarContent = $"Gegevens voor '{Person.Name} {Person.Surname} zijn aangepast.";
+            ShowPersons();
         }
 
         public string ValidateInput()

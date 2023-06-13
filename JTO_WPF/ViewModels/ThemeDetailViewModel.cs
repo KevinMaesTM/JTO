@@ -37,17 +37,17 @@ namespace JTO_WPF.ViewModels
 
         public override bool CanExecute(object parameter)
         {
-            switch (parameter.ToString())
-            {
-                case "Add":
-                    return true;
+            return true;
+        }
 
-                case "Cancel":
-                    return true;
+        public void CreateTheme()
+        {
+            Theme t = new Theme(Name);
+            unit.ThemeRepo.Create(t);
+            unit.Save();
+            DVM.SnackbarContent = $"Nieuw thema '{Theme.Name}' aangemaakt!";
 
-                default:
-                    return false;
-            }
+            ShowThemes();
         }
 
         public override void Execute(object parameter)
@@ -55,31 +55,33 @@ namespace JTO_WPF.ViewModels
             switch (parameter.ToString())
             {
                 case "Add":
-                    if (Theme.Name == null)
-                    {
-                        Theme t = new Theme(Name);
-                        unit.ThemeRepo.Create(t);
-                        unit.Save();
-                    }
+                    if (Theme.ThemeID == 0)
+                        CreateTheme();
                     else
-                    {
-                        Theme.Name = Name;
-                        unit.ThemeRepo.Update(Theme);
-                        unit.Save();
-                    }
-                    var tvm = new ThemeViewModel(DVM);
-                    var tv = new ThemeView();
-                    tv.DataContext = tvm;
-                    DVM.Content = tv;
+                        UpdateTheme();
                     break;
 
-                case "Cancel":
-                    var tvm2 = new ThemeViewModel(DVM);
-                    var tv2 = new ThemeView();
-                    tv2.DataContext = tvm2;
-                    DVM.Content = tv2;
-                    break;
+                case "Cancel": ShowThemes(); break;
+                default: break;
             }
+        }
+
+        public void ShowThemes()
+        {
+            var tvm = new ThemeViewModel(DVM);
+            var tv = new ThemeView();
+            tv.DataContext = tvm;
+            DVM.Content = tv;
+        }
+
+        public void UpdateTheme()
+        {
+            Theme.Name = Name;
+            unit.ThemeRepo.Update(Theme);
+            unit.Save();
+            DVM.SnackbarContent = $"Thema '{Theme.Name}' aangepast.";
+
+            ShowThemes();
         }
     }
 }
