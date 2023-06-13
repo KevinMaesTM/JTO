@@ -12,17 +12,16 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace JTO_WPF.ViewModels
 {
     internal class DetailsTrainingViewModel : BaseViewModel
     {
         public UnitOfWork unit = new UnitOfWork(new JTOContext());
-        private Snackbar _snackbar = new Snackbar();
         public IEnumerable<Role> AvailableRoles { get; set; }
         public IEnumerable<Person> AvailableTrainees { get; set; }
         public DashboardViewModel DVM { get; set; }
-        public string ResultOutput { get; set; }
         public Person SelectedAvailableTrainee { get; set; }
         public Role SelectedRole { get; set; }
         public Trainee SelectedSubscribedTrainee { get; set; }
@@ -64,6 +63,26 @@ namespace JTO_WPF.ViewModels
             AvailableRoles = unit.RoleRepo.Retrieve(ar => ar.AssignedObject == "Training").ToList();
         }
 
+        public void AddTrainee()
+        {
+            Trainee trainee = new Trainee();
+
+            trainee.PersonID = SelectedAvailableTrainee.PersonID;
+            trainee.RoleID = SelectedRole.RoleID;
+            trainee.TrainingID = Training.TrainingID;
+            if (SubscribedTrainees.Where(x => x.RoleID == 2).Count() >= 1 && trainee.RoleID == 2)
+            {
+                MessageBox.Show("Er mag maximum 1 trainer per opleiding toegewezen worden", "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            SubscribedTrainees.Add(trainee);
+            unit.TraineeRepo.Create(trainee);
+            unit.Save();
+
+            SubscribedTraineesCollection.Add(unit.PersonRepo.Retrieve(p => p.PersonID == trainee.PersonID).FirstOrDefault());
+            AvailableTrainees = AvailableTrainees.Except(SubscribedTraineesCollection);
+        }
+
         public override bool CanExecute(object parameter)
         {
             switch (parameter.ToString())
@@ -77,10 +96,7 @@ namespace JTO_WPF.ViewModels
                         return true;
 
                 case "RemoveTrainee":
-                    if (SelectedSubscribedTrainee == null)
-                        return false;
-                    else
-                        return true;
+                    return (SelectedSubscribedTrainee != null);
 
                 default:
                     return true;
@@ -91,7 +107,7 @@ namespace JTO_WPF.ViewModels
         public string Errors()
         {
             string error = "";
-            if (Training.Name == null)
+            if (string.IsNullOrEmpty(Training.Name))
                 error += "Training naam is verplicht!" + Environment.NewLine;
             if (DateTime.TryParse(Training.Date.ToString(), out DateTime dateTraining) == false)
                 error += "Datum heeft een ongeldig formaat: dd/MM/yyy" + Environment.NewLine;
@@ -100,76 +116,59 @@ namespace JTO_WPF.ViewModels
 
         public override void Execute(object parameter)
         {
+            string errors = "";
+
             switch (parameter.ToString())
             {
                 case "SaveTraining":
+                    errors = Errors();
                     // Checks the amount of trainees marked as trainer. Throw an error if the list
                     // contains less than 1 trainer
                     if (SubscribedTrainees.Count() >= 1 && SubscribedTrainees.Where(x => x.RoleID == 2).Count() <= 0)
                     {
-                        ResultOutput = "Er moet teminste 1 persoon als trainer aangeduid worden";
+                        MessageBox.Show("Er moet teminste 1 persoon als trainer aangeduid worden", "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
                         break;
                     }
-                    unit.TrainingRepo.Update(Training);
-                    unit.Save();
-
-                    var tVM = new TrainingViewModel(DVM);
-                    var tV = new TrainingView();
-                    tV.DataContext = tVM;
-                    DVM.Content = tV;
-                    break;
-
-                case "AddTrainee":
-                    Trainee trainee = new Trainee();
-
-                    trainee.PersonID = SelectedAvailableTrainee.PersonID;
-                    trainee.RoleID = SelectedRole.RoleID;
-                    if (Training.TrainingID != 0)
-                        trainee.TrainingID = Training.TrainingID;
+                    if (string.IsNullOrEmpty(errors))
+                        UpdateTraining();
                     else
-                    {
-                        if (string.IsNullOrEmpty(Errors()))
-                        {
-                            unit.TrainingRepo.Create(Training);
-                            unit.Save();
-                        }
-                        else
-                        {
-                            ResultOutput = Errors();
-                            break;
-                        }
-                    }
-
-                    if (SubscribedTrainees.Where(x => x.RoleID == 2).Count() >= 1 && trainee.RoleID == 2)
-                    {
-                        ResultOutput = "Er mag maximum 1 trainer per opleiding toegewezen worden";
-                        _snackbar.MessageQueue.Enqueue(ResultOutput);
-                        break;
-                    }
-                    SubscribedTrainees.Add(trainee);
-                    unit.TraineeRepo.Create(trainee);
-                    unit.Save();
-
-                    SubscribedTraineesCollection.Add(unit.PersonRepo.Retrieve(p => p.PersonID == trainee.PersonID).FirstOrDefault());
-                    AvailableTrainees = AvailableTrainees.Except(SubscribedTraineesCollection);
-                    ResultOutput = "Cursist/Trainer is toegevoegd.";
+                        MessageBox.Show(errors, "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
 
-                case "RemoveTrainee":
-                    Trainee deletedTrainee = SelectedSubscribedTrainee;
-                    SubscribedTrainees.Remove(deletedTrainee);
-                    unit.TraineeRepo.Delete(deletedTrainee);
-                    unit.Save();
-
-                    SubscribedTraineesCollection.Remove(unit.PersonRepo.Retrieve(p => p.PersonID == deletedTrainee.PersonID).FirstOrDefault());
-                    AvailableTrainees = AvailableTrainees.Except(SubscribedTraineesCollection);
-                    ResultOutput = $"Cursist is verwijderd.";
-
-                    break;
-
+                case "AddTrainee": AddTrainee(); break;
+                case "RemoveTrainee": RemoveTrainee(); break;
+                case "Cancel": ShowTrainings(); break;
                 default:
                     break;
             }
+        }
+
+        public void RemoveTrainee()
+        {
+            Trainee deletedTrainee = SelectedSubscribedTrainee;
+            SubscribedTrainees.Remove(deletedTrainee);
+            unit.TraineeRepo.Delete(deletedTrainee);
+            unit.Save();
+
+            SubscribedTraineesCollection.Remove(unit.PersonRepo.Retrieve(p => p.PersonID == deletedTrainee.PersonID).FirstOrDefault());
+            AvailableTrainees = AvailableTrainees.Except(SubscribedTraineesCollection);
+        }
+
+        public void ShowTrainings()
+        {
+            var tVM = new TrainingViewModel(DVM);
+            var tV = new TrainingView();
+            tV.DataContext = tVM;
+            DVM.Content = tV;
+        }
+
+        public void UpdateTraining()
+        {
+            unit.TrainingRepo.Update(Training);
+            unit.Save();
+            DVM.SnackbarContent = $"Training '{Training.Name} ({Training.Date})' aangepast.";
+
+            ShowTrainings();
         }
     }
 }

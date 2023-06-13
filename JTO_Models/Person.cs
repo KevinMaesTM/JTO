@@ -15,10 +15,8 @@ namespace JTO_MODELS
     {
         [Required]
         public string City { get; set; }
-        public string Country { get; set; }
 
-        [Required]
-        public bool CourseResponsible { get; set; }
+        public string Country { get; set; }
 
         [Required]
         public DateTime DateOfBirth { get; set; }

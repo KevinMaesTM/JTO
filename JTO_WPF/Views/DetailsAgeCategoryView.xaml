@@ -22,8 +22,8 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TextBox Margin="0,10,0, 0" x:Name="txtMinAge" Width="450" FontSize="18" materialDesign:HintAssist.Hint="Minimum leeftijd" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding AgeCategory.MinAge}" Grid.Row="1" Grid.ColumnSpan="2" Background="Transparent" />
-        <TextBox Margin="0,10,0, 0" x:Name="txtMaxAge" Width="450" FontSize="18" materialDesign:HintAssist.Hint="Maximum Leeftijd" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding AgeCategory.MaxAge}" Grid.Row="2" Grid.ColumnSpan="2" Background="Transparent" />
+        <TextBox Margin="0,10,0, 0" x:Name="txtMinAge" Width="450" FontSize="18" materialDesign:HintAssist.Hint="Minimum leeftijd" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding MinAge}" Grid.Row="1" Grid.ColumnSpan="2" Background="Transparent" />
+        <TextBox Margin="0,10,0, 0" x:Name="txtMaxAge" Width="450" FontSize="18" materialDesign:HintAssist.Hint="Maximum Leeftijd" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding MaxAge}" Grid.Row="2" Grid.ColumnSpan="2" Background="Transparent" />
         <Label Margin="10" x:Name="lblErrors" Width="750" FontSize="18" Style="{StaticResource MaterialDesignLabel}" Content="{Binding Path=OutputResult}" Grid.Row="3" Grid.ColumnSpan="2" HorizontalContentAlignment="Center"></Label>
         <Button Grid.Column="0" Margin="80, 5, 80, 5" Command="{Binding}" CommandParameter="Save" Grid.Row="4">Opslaan</Button>
         <Button Grid.Column="1" Margin="100, 5, 100, 5" Command="{Binding}" CommandParameter="Cancel" Grid.Row="4" >Annuleren</Button>

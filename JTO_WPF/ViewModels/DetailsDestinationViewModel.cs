@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace JTO_WPF.ViewModels
 {
@@ -19,7 +20,6 @@ namespace JTO_WPF.ViewModels
         public DashboardViewModel DVM { get; set; }
         public string HouseNumber { get; set; }
         public string Name { get; set; }
-        public string OutputResult { get; set; }
         public string Streetname { get; set; }
         public string Zipcode { get; set; }
 
@@ -40,6 +40,14 @@ namespace JTO_WPF.ViewModels
             return true;
         }
 
+        public void CreateDestination()
+        {
+            unit.DestinationRepo.Create(Destination);
+            unit.Save();
+
+            DVM.SnackbarContent = $"Bestemming '{Destination.Name}' aangemaakt.";
+        }
+
         public override void Execute(object parameter)
         {
             string errors = "";
@@ -50,31 +58,36 @@ namespace JTO_WPF.ViewModels
                     if (string.IsNullOrEmpty(errors))
                     {
                         if (Destination.DestinationID == 0)
-                        {
-                            unit.DestinationRepo.Create(Destination);
-                            unit.Save();
-                        }
+                            CreateDestination();
                         else
-                        {
-                            unit.DestinationRepo.Update(Destination);
-                            unit.Save();
-                        }
-                        var dVM = new DestinationViewModel(DVM);
-                        var dV = new DestinationView();
-                        dV.DataContext = dVM;
-                        DVM.Content = dV;
+                            UpdateDestination();
+
+                        ShowDestinations();
+                        break;
                     }
                     else
-                        OutputResult = errors;
+                        MessageBox.Show(errors, "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
 
-                case "Cancel":
-                    var dVM2 = new DestinationViewModel(DVM);
-                    var dV2 = new DestinationView();
-                    dV2.DataContext = dVM2;
-                    DVM.Content = dV2;
-                    break;
+                case "Cancel": ShowDestinations(); break;
+                default: break;
             }
+        }
+
+        public void ShowDestinations()
+        {
+            var dVM = new DestinationViewModel(DVM);
+            var dV = new DestinationView();
+            dV.DataContext = dVM;
+            DVM.Content = dV;
+        }
+
+        public void UpdateDestination()
+        {
+            unit.DestinationRepo.Update(Destination);
+            unit.Save();
+
+            DVM.SnackbarContent = $"Bestemming '{Destination.Name}' aangepast.";
         }
 
         public string ValidateInput()
@@ -86,8 +99,12 @@ namespace JTO_WPF.ViewModels
                 result += "Straatnaam is een verplicht veld!" + Environment.NewLine;
             if (string.IsNullOrEmpty(Destination.Number))
                 result += "Huisnummer is een verplicht veld!" + Environment.NewLine;
+            else if (!Destination.Number.Any(char.IsDigit))
+                result += "Huisnummer moet minstens één nummer (0-9) bevatten!" + Environment.NewLine;
             if (string.IsNullOrEmpty(Destination.Zip))
                 result += "Postcode is een verplicht veld!" + Environment.NewLine;
+            else if (!Destination.Zip.Any(char.IsDigit))
+                result += "Postcode moet minstens één nummer (0-9) bevatten!" + Environment.NewLine;
             if (string.IsNullOrEmpty(Destination.City))
                 result += "Stad is een verplicht veld!" + Environment.NewLine;
             if (string.IsNullOrEmpty(Destination.Country))

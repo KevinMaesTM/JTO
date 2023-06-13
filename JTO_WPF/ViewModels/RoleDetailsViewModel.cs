@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace JTO_WPF.ViewModels
 {
@@ -45,6 +46,15 @@ namespace JTO_WPF.ViewModels
             return true;
         }
 
+        public void CreateRole()
+        {
+            unit.RoleRepo.Create(Role);
+            unit.Save();
+
+            DVM.SnackbarContent = $"Niewe rol '{Role.Name}' aangemaakt.";
+            ShowRoles();
+        }
+
         public override void Execute(object parameter)
         {
             string errors = "";
@@ -60,31 +70,34 @@ namespace JTO_WPF.ViewModels
                             Role.AssignedObject = "Training";
 
                         if (Role.RoleID == 0)
-                        {
-                            unit.RoleRepo.Create(Role);
-                            unit.Save();
-                        }
+                            CreateRole();
                         else
-                        {
-                            unit.RoleRepo.Update(Role);
-                            unit.Save();
-                        }
-
-                        var roVM = new RoleOverviewViewModel(DVM);
-                        var roV = new RoleOverviewView();
-                        roV.DataContext = roVM;
-                        DVM.Content = roV;
-                        break;
+                            UpdateRole();
                     }
+                    else
+                        MessageBox.Show(errors, "Errors!", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
 
-                case "Cancel":
-                    RoleOverviewViewModel roVM2 = new RoleOverviewViewModel(DVM);
-                    RoleOverviewView roV2 = new RoleOverviewView();
-                    roV2.DataContext = roVM2;
-                    DVM.Content = roV2;
-                    break;
+                case "Cancel": ShowRoles(); break;
+                default: break;
             }
+        }
+
+        public void ShowRoles()
+        {
+            var roVM = new RoleOverviewViewModel(DVM);
+            var roV = new RoleOverviewView();
+            roV.DataContext = roVM;
+            DVM.Content = roV;
+        }
+
+        public void UpdateRole()
+        {
+            unit.RoleRepo.Update(Role);
+            unit.Save();
+
+            DVM.SnackbarContent = $"Rol '{Role.Name}' aangepast.";
+            ShowRoles();
         }
 
         public string ValidateInput()
