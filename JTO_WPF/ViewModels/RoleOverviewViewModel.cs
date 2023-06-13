@@ -24,64 +24,60 @@ namespace JTO_WPF.ViewModels
             Roles = unit.RoleRepo.Retrieve(r => r.IsActive == null || r.IsActive == true);
         }
 
+        public void AddRole()
+        {
+            RoleDetailsViewModel rdVM = new RoleDetailsViewModel(DVM);
+            RoleDetailsView rdV = new RoleDetailsView();
+            rdV.DataContext = rdVM;
+            DVM.Content = rdV;
+        }
+
         public override bool CanExecute(object parameter)
         {
             switch (parameter.ToString())
             {
-                case "Add":
-                    return true;
-
                 case "ShowDetail":
-                    if (SelectedRole == null)
-                        return false;
-                    else
-                        return true;
+                    return (SelectedRole != null);
 
                 case "Delete":
-                    if (SelectedRole == null)
-                        return false;
-                    else
-                        return true;
+                    return (SelectedRole != null);
 
+                case "Add":
                 default:
-                    return false;
+                    return true;
             }
+        }
+
+        public void DeleteRole()
+        {
+            if (!(SelectedRole.Name == "Leerkracht" || SelectedRole.Name == "Monitor" || SelectedRole.Name == "Hoofdmonitor"))
+            {
+                SelectedRole.IsActive = false;
+                unit.RoleRepo.Update(SelectedRole);
+                unit.Save();
+                Roles = unit.RoleRepo.Retrieve(r => r.IsActive == null || r.IsActive == true);
+            }
+            else
+                MessageBox.Show("Deze rol kan niet verwijderd worden!", "Opgelet!", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public override void Execute(object parameter)
         {
             switch (parameter.ToString())
             {
-                case "Add":
-                    RoleDetailsViewModel rdVM = new RoleDetailsViewModel(DVM);
-                    RoleDetailsView rdV = new RoleDetailsView();
-                    rdV.DataContext = rdVM;
-                    DVM.Content = rdV;
-                    break;
-
-                case "ShowDetail":
-                    RoleDetailsViewModel rdVM2 = new RoleDetailsViewModel(DVM, SelectedRole);
-                    RoleDetailsView rdV2 = new RoleDetailsView();
-                    rdV2.DataContext = rdVM2;
-                    DVM.Content = rdV2;
-                    break;
-
-                case "Delete":
-                    if (SelectedRole.Name == "Leerkracht" || SelectedRole.Name == "Monitor" || SelectedRole.Name == "Hoofdmonitor")
-                    {
-                        MessageBox.Show("Deze rol kan niet verwijderd worden!", "Opgelet!", MessageBoxButton.OK, MessageBoxImage.Information);
-                        break;
-                    }
-                    else
-                    {
-                        SelectedRole.IsActive = false;
-                        unit.RoleRepo.Update(SelectedRole);
-                        unit.Save();
-
-                        Roles = unit.RoleRepo.Retrieve(r => r.IsActive == null || r.IsActive == true);
-                    }
-                    break;
+                case "Add": AddRole(); break;
+                case "ShowDetail": ShowRoleDetails(); break;
+                case "Delete": DeleteRole(); break;
+                default: break;
             }
+        }
+
+        public void ShowRoleDetails()
+        {
+            RoleDetailsViewModel rdVM2 = new RoleDetailsViewModel(DVM, SelectedRole);
+            RoleDetailsView rdV2 = new RoleDetailsView();
+            rdV2.DataContext = rdVM2;
+            DVM.Content = rdV2;
         }
     }
 }
